@@ -75,8 +75,8 @@ export default function GamesArcade() {
   useEffect(() => {
     if (seconds === 0 && mode && !finished) {
       setFinished(true)
-      if (mode === 'hangman') void saveGame('forca_palavras', hangmanWon ? 1 : 0, 1)
-      else void saveGame(mode === 'accent' ? 'acentuacao' : mode === 'complete' ? 'complete_word' : 'build_sentence', score, 5)
+      if (mode === 'hangman') void saveGame('forca-palavras', hangmanWon ? 1 : 0, 1)
+      else void saveGame(mode === 'accent' ? 'acentuacao' : mode === 'complete' ? 'complete-word' : 'build-sentence', score, 5)
     }
   }, [seconds, mode, finished])
 
@@ -115,7 +115,7 @@ export default function GamesArcade() {
   function next() {
     if (round === 4) {
       setFinished(true)
-      void saveGame(mode === 'accent' ? 'acentuacao' : mode === 'complete' ? 'complete_word' : 'build_sentence', score + (mode === 'sentence' ? (sentenceOrder.join(' ') === challenge?.answer ? 1 : 0) : choice === challenge?.answer ? 1 : 0), 5)
+      void saveGame(mode === 'accent' ? 'acentuacao' : mode === 'complete' ? 'complete-word' : 'build-sentence', score + (mode === 'sentence' ? (sentenceOrder.join(' ') === challenge?.answer ? 1 : 0) : choice === challenge?.answer ? 1 : 0), 5)
       return
     }
     setRound(value => value + 1); setChoice(''); setChecked(false)
@@ -129,7 +129,7 @@ export default function GamesArcade() {
 
   function finishHangman() {
     setFinished(true)
-    void saveGame('forca_palavras', hangmanWon ? 1 : 0, 1)
+    void saveGame('forca-palavras', hangmanWon ? 1 : 0, 1)
   }
 
   function resetHome() {
