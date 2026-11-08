@@ -556,3 +556,13 @@
 .game-mode .arena-game-card.is-locked:hover{transform:translateY(-2px);border-color:#66749a}
 .game-mode .arena-game-card.is-locked .arena-game-art:after{content:"";position:absolute;inset:0;background:#111a3d65;z-index:1}
 .arena-lock-icon{position:absolute;z-index:2;top:50%;left:50%;transform:translate(-50%,-50%);font-size:32px;color:#fff;text-shadow:0 3px 12px #0009}
+
+
+.arena-match-drop{max-width:570px;min-height:105px;margin:18px auto;padding:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;border:2px dashed #9badd2;border-radius:17px;background:linear-gradient(145deg,#f4f7ff,#e9effb);color:#40578e;text-align:center;transition:background .2s,border-color .2s,transform .2s}
+.arena-match-drop:active{background:#e3edff;border-color:#5c7bc3;transform:scale(.99)}
+.arena-match-drop small{font-size:8px;letter-spacing:1.4px;color:#8a99b7;font-weight:900}
+.arena-match-drop b{font:850 14px Manrope}
+.arena-match-drop span{font-size:9px;color:#8794ad}
+.arena-match-lines button.chosen{border-color:#7892ce;background:#eef3ff;color:#344d91;transform:translateY(-2px)}
+.arena-match-lines button[draggable=true]{cursor:grab;touch-action:pan-y}
+@media(max-width:600px){.arena-match-drop{min-height:95px;padding:13px}.arena-match-drop b{font-size:12px}}
