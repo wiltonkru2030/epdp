@@ -1,0 +1,2 @@
+-- Aplicada no projeto Supabase: progressão persistente, moedas e conquistas da Game Arena.
+-- Consulte o commit para o SQL completo executado no banco.
