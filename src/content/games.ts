@@ -249,5 +249,5 @@ games.forEach(game=>{const rounds=finalRoundsByGame[game.id];if(rounds)game.chal
 
 export const gridLetters=['L','I','V','R','O','X','X','X','V','E','R','B','O','X','X','X','T','E','X','T','O','X','X','X','C','A','S','A','X','X','X','X','M','E','S','A','X','X','X','X','E','S','C','O','L','A','X','X','L','E','I','T','U','R','A','X','F','R','A','S','E','X','X','X']
 export const gridPaths:Record<string,number[]>={LIVRO:[0,1,2,3,4],VERBO:[8,9,10,11,12],TEXTO:[16,17,18,19,20],CASA:[24,25,26,27],MESA:[32,33,34,35],ESCOLA:[40,41,42,43,44,45],LEITURA:[48,49,50,51,52,53,54],FRASE:[56,57,58,59,60]}
-export const shuffle=<T,>(items:T[])=>[...items].sort(()=>Math.random()-.5)
+export const shuffle=<T,>(items:T[])=>{const copy=[...items];for(let i=copy.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[copy[i],copy[j]]=[copy[j],copy[i]]}return copy}
 export const normalize=(value:string)=>value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase()
