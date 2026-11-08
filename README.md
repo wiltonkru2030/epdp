@@ -62,29 +62,31 @@ O projeto possui manifesto web, ícone vetorial e service worker registrados som
 
 ## Estado da EPDP GAME ARENA
 
-A central reúne 20 jogos de português com seis desafios por partida (120 desafios no total). Cada jogo tem uma identidade de cenário e utiliza um motor de interação adequado ao desafio: tabuleiro de letras, forca, peças de ortografia, sílabas, ordenação de frases, sequência, associação por arrastar/soltar ou toque, interpretação e perguntas de gramática.
+A central reúne **20 jogos de português com oito desafios por partida: 160 desafios no total**. As fases extras foram criadas por jogo, com respostas e explicações próprias. O caça-palavras agora usa um tabuleiro 8×8 com oito palavras.
 
 ### Experiência de jogo
-- Sessões em tela imersiva, com controles grandes, resposta visual imediata, transições entre fases e animações de vitória.
-- Coruja mascote com estados visuais de pensamento, acerto, erro e comemoração.
-- Música de fundo procedural com Web Audio durante a partida; efeitos diferentes para início, acerto, erro, troca de fase, recompensa e conclusão. O botão de som permite silenciar.
-- Vibração tátil com `navigator.vibrate` em navegadores/dispositivos que oferecem suporte. A vibração não é garantida em todos os aparelhos, especialmente em navegadores iOS.
-- Layout responsivo com controles de toque e alternativas por clique/teclado; suporte a `prefers-reduced-motion`.
+- Sessões em tela imersiva, com 240 segundos nos jogos cronometrados, resposta visual imediata e transições entre as oito fases.
+- Três personagens ilustrados — coruja, raposa e tartaruga — associados aos jogos; a coruja também tem expressões para pensamento, acerto e erro.
+- Cada jogo possui uma sequência musical procedural própria, gerada por Web Audio. Há efeitos separados para início, acerto, erro, troca de fase, recompensa e conclusão.
+- Vibração tátil por `navigator.vibrate` em navegadores/dispositivos compatíveis. Não é garantida em todos os aparelhos, especialmente em navegadores iOS.
+- Teclado da forca sem teclas duplicadas para letras acentuadas; acentos são tratados na comparação da palavra.
+- Layout responsivo, controles de toque, áreas de resposta com tamanho adaptável, contraste reforçado e suporte a `prefers-reduced-motion`.
+- Jogos da mesma categoria ainda podem compartilhar um motor de interação, mas têm conteúdo, trilha sonora, personagem e cenário próprios.
 
 ### Progressão e dados
-- Para usuários autenticados, o Supabase valida as seis respostas no servidor e calcula a pontuação; a aplicação não envia uma pontuação escolhida pelo navegador.
+- O Supabase mantém **160 gabaritos privados (20 jogos × 8 fases)**. A função `private.record_game_attempt` exige as oito respostas, valida cada índice e calcula pontuação e recompensas no servidor.
 - Histórico de partidas, XP acumulado, moedas, total de partidas, melhor pontuação e conquistas são persistidos no Supabase.
 - Conquistas novas aparecem em uma celebração em tela cheia, com recompensas e sequência para múltiplas conquistas.
 - Os jogos são desbloqueados progressivamente por XP. Visitantes podem jogar, mas seus resultados não são gravados.
-- Os gabaritos ficam em um esquema privado do banco, sem leitura direta pelo cliente.
+- Os gabaritos ficam no esquema privado do banco, sem leitura direta pelo cliente.
+- O avanço da fase dentro de uma partida é sequencial; a posição da fase por jogo ainda não é guardada entre sessões.
 
 ### Verificações automatizadas
-- `npm run test:games`: verifica os 20 jogos, as 120 fases, respostas, peças de montagem, caminhos do caça-palavras, breakpoints móveis, áudio e vibração.
+- `npm run test:games`: verifica os 20 jogos, as 160 fases, respostas, peças de montagem, caminhos do tabuleiro 8×8, trilhas por jogo, teclado da forca, layout móvel, áudio e vibração.
 - `npm run build`: verifica TypeScript e gera a versão de produção.
 - O GitHub Actions executa os dois comandos em cada atualização da branch principal.
 
-Os testes automatizados verificam dados, estrutura e compilação. Eles não substituem testes manuais em aparelhos físicos, navegadores diferentes, permissões de áudio/vibração ou testes completos de ponta a ponta. Antes de produção, valide esses fluxos em celulares e computadores reais, além das políticas RLS e da instalação PWA.
-
+A execução mais recente do GitHub Actions passou nos testes de conteúdo/estrutura e no build de produção. Esses testes não substituem testes manuais em aparelhos físicos, navegadores diferentes, permissões de áudio/vibração ou testes completos de ponta a ponta. Antes de produção, valide esses fluxos em celulares e computadores reais, além das políticas RLS e da instalação PWA.
 
 ## Avaliações e reforço
 
@@ -95,4 +97,4 @@ Os testes automatizados verificam dados, estrutura e compilação. Eles não sub
 - Quando o aproveitamento de um assunto fica abaixo de 70%, a função registra uma recomendação individual na tabela `study_recommendations`.
 - As vinte modalidades registram as partidas por meio de `record_game_attempt` quando o estudante está autenticado. Visitantes podem jogar, mas não salvam recordes.
 
-As recomendações são criadas a partir de tentativas reais. O catálogo de aulas de reforço ainda precisa ser ampliado. O progresso de jogos salvo hoje registra tentativas e pontuação; a persistência de XP, medalhas e desbloqueio de fases ainda precisa ser desenvolvida.
+As recomendações são criadas a partir de tentativas reais. O catálogo de aulas de reforço ainda precisa ser ampliado. Na Game Arena, XP, moedas, partidas, melhor pontuação e conquistas já são persistidos; o avanço de fase por jogo ainda não é retomado entre sessões.
