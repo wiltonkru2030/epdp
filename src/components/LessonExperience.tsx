@@ -19,7 +19,7 @@ function questionsFor(title: string): Question[] {
     { prompt: 'Qual palavra é proparoxítona?', options: ['café', 'fácil', 'médico', 'também'], answer: 2, explanation: '“Médico” tem a antepenúltima sílaba tônica. Todas as proparoxítonas recebem acento.' },
     { prompt: 'Na frase “Ontem ele não pôde vir”, “pôde” indica:', options: ['Presente', 'Futuro', 'Passado', 'Ordem'], answer: 2, explanation: '“Pôde” (com circunflexo) é a forma do passado; “pode” indica presente.' },
   ]
-  if (t.includes('pontua')) return [
+  if (t.includes('pontua') && !t.includes('crase')) return [
     { prompt: 'Qual frase usa corretamente a vírgula para separar o vocativo?', options: ['Pedro venha estudar.', 'Pedro, venha estudar.', 'Pedro venha, estudar.', 'Pedro venha estudar,'], answer: 1, explanation: 'O vocativo “Pedro” deve ser isolado por vírgula.' },
     { prompt: 'Em “Os estudantes revisaram a matéria”, o sujeito é:', options: ['revisaram', 'a matéria', 'Os estudantes', 'a matéria revisaram'], answer: 2, explanation: '“Os estudantes” é o termo sobre o qual se declara algo.' },
     { prompt: 'Qual conectivo expressa oposição?', options: ['portanto', 'porque', 'mas', 'logo'], answer: 2, explanation: '“Mas” é uma conjunção adversativa e indica oposição.' },
