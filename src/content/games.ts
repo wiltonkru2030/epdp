@@ -83,7 +83,69 @@ export const games:Game[] = [
 {prompt:'Em “Precisa-se de funcionários”, o sujeito é…',answer:'Indeterminado',options:['Simples','Composto','Indeterminado'],hint:'O verbo está na terceira pessoa do singular com índice de indeterminação do sujeito.',explanation:'Com verbo transitivo indireto acompanhado de se, o sujeito é indeterminado.',category:'Sintaxe'},
 {prompt:'Qual conectivo expressa oposição?',answer:'Entretanto',options:['Portanto','Além disso','Entretanto'],hint:'Tem sentido semelhante a “porém”.',explanation:'Entretanto é conjunção coordenativa adversativa e expressa oposição.',category:'Coesão'}]}
 ]
-export const gridLetters=['L','I','V','R','O','V','T','B','C','D','E','E','G','E','I','J','K','R','V','E','X','B','O','B','T','E','X','T','O','O','P','Q','R','S','O','U']
-export const gridPaths:Record<string,number[]>={LIVRO:[0,1,2,3,4],VERBO:[5,11,17,23,29],TEXTO:[6,13,20,27,34]}
+
+type ExtraChallenge = Challenge
+const extraByKind:Record<Kind,ExtraChallenge[]> = {
+grid:[
+{prompt:'Encontre a palavra CASA no tabuleiro.',answer:'CASA',options:[],hint:'Lugar onde as pessoas moram.',explanation:'Casa é um substantivo que nomeia uma construção destinada à moradia.',category:'Vocabulário'},
+{prompt:'Encontre a palavra MESA no tabuleiro.',answer:'MESA',options:[],hint:'Móvel usado para apoiar objetos e refeições.',explanation:'Mesa é um substantivo concreto.',category:'Vocabulário'},
+{prompt:'Encontre a palavra ESCOLA no tabuleiro.',answer:'ESCOLA',options:[],hint:'Lugar onde estudamos.',explanation:'Escola é um substantivo que nomeia uma instituição de ensino.',category:'Vocabulário'}],
+hangman:[
+{prompt:'Classe gramatical que indica ação, estado ou fenômeno.',answer:'VERBO',options:[],hint:'Exemplo: correr, ser, chover.',explanation:'Verbo é a classe que expressa ação, estado ou fenômeno da natureza.',category:'Gramática'},
+{prompt:'Sinal gráfico usado para marcar a sílaba tônica em algumas palavras.',answer:'ACENTO',options:[],hint:'Pode ser agudo ou circunflexo.',explanation:'O acento gráfico indica a tonicidade ou timbre em determinadas palavras.',category:'Ortografia'},
+{prompt:'Relação de sentido oposto entre palavras.',answer:'ANTONIMO',options:[],hint:'O contrário de sinônimo.',explanation:'Antônimos são palavras que apresentam sentidos opostos.',category:'Semântica'}],
+tiles:[
+{prompt:'Complete: exce__ente',answer:'L',options:['L','U','R'],hint:'A palavra significa muito bom.',explanation:'Excelente é escrito com l.',category:'Ortografia'},
+{prompt:'Complete: pa__agem',answer:'SS',options:['S','SS','Ç'],hint:'É o ato ou efeito de passar.',explanation:'Passagem é escrita com ss.',category:'Ortografia'},
+{prompt:'Complete: via__em',answer:'G',options:['J','G','GU'],hint:'Pode significar deslocamento para outro lugar.',explanation:'Viagem, substantivo, é escrita com g.',category:'Ortografia'}],
+choice:[
+{prompt:'Em “As crianças brincavam”, qual é o sujeito?',answer:'As crianças',options:['As crianças','brincavam','crianças brincavam'],hint:'Identifique de quem se declara algo.',explanation:'As crianças é o sujeito da oração.',category:'Sintaxe'},
+{prompt:'Qual palavra exige crase: “Vou ___ escola”?',answer:'à',options:['a','à','há'],hint:'O verbo ir pede a preposição a e escola admite artigo a.',explanation:'Ocorre a fusão da preposição a com o artigo a: vou à escola.',category:'Crase'},
+{prompt:'Qual frase apresenta concordância correta?',answer:'Faz dois anos que estudo.',options:['Faz dois anos que estudo.','Fazem dois anos que estudo.','Fazem dois ano que estudo.'],hint:'O verbo fazer indicando tempo decorrido é impessoal.',explanation:'Fazer indicando tempo decorrido fica na terceira pessoa do singular.',category:'Concordância'}],
+syllables:[
+{prompt:'Organize as sílabas para formar BIBLIOTECA.',answer:'BI-BLI-O-TE-CA',options:['TE','BI','CA','BLI','O'],hint:'É um lugar com livros para consulta e leitura.',explanation:'Biblioteca separa-se em bi-bli-o-te-ca.',category:'Separação silábica'},
+{prompt:'Organize as sílabas para formar PORTUGUÊS.',answer:'POR-TU-GUÊS',options:['GUÊS','POR','TU'],hint:'É o idioma que estamos estudando.',explanation:'Português separa-se em por-tu-guês.',category:'Separação silábica'},
+{prompt:'Organize as sílabas para formar APRENDER.',answer:'A-PREN-DER',options:['DER','A','PREN'],hint:'Significa adquirir conhecimento.',explanation:'Aprender separa-se em a-pren-der.',category:'Separação silábica'}],
+sort:[
+{prompt:'Classifique o substantivo “amizade”.',answer:'Abstrato',options:['Concreto','Abstrato','Próprio'],hint:'Nomeia um sentimento ou relação.',explanation:'Amizade é substantivo abstrato.',category:'Substantivos'},
+{prompt:'Classifique “enxame”.',answer:'Coletivo',options:['Coletivo','Próprio','Abstrato'],hint:'Nomeia um conjunto de abelhas.',explanation:'Enxame é substantivo coletivo.',category:'Substantivos'},
+{prompt:'Classifique “Amazonas” como nome de estado.',answer:'Próprio',options:['Comum','Próprio','Abstrato'],hint:'Identifica um lugar específico.',explanation:'Amazonas é substantivo próprio.',category:'Substantivos'}],
+match:[
+{prompt:'Qual palavra é um adjetivo em “O céu azul encantou a turma”?',answer:'Azul',options:['Céu','Azul','Encantou'],hint:'É a palavra que caracteriza o céu.',explanation:'Azul é adjetivo e caracteriza o substantivo céu.',category:'Adjetivos'},
+{prompt:'Associe “rápido” ao seu antônimo.',answer:'Lento',options:['Ágil','Lento','Veloz'],hint:'Procure o sentido contrário.',explanation:'Lento é antônimo de rápido.',category:'Semântica'},
+{prompt:'Qual pronome substitui “João e Ana”?',answer:'Eles',options:['Ele','Ela','Eles'],hint:'O referente é masculino plural ou grupo misto.',explanation:'Eles é pronome pessoal da terceira pessoa do plural.',category:'Pronomes'}],
+machine:[
+{prompt:'Conjugue “partir” para eu no presente do indicativo.',answer:'Eu parto',options:['Eu parto','Eu partirei','Eu partia'],hint:'A ação acontece agora.',explanation:'Parto é a forma da primeira pessoa do singular no presente.',category:'Verbos'},
+{prompt:'Identifique o modo verbal em “Talvez ele estude”.',answer:'Subjuntivo',options:['Indicativo','Subjuntivo','Imperativo'],hint:'A frase expressa possibilidade.',explanation:'Estude está no presente do subjuntivo.',category:'Modos verbais'},
+{prompt:'Qual é o plural correto de “cidadão”?',answer:'Cidadãos',options:['Cidadões','Cidadães','Cidadãos'],hint:'É a forma consagrada no uso padrão.',explanation:'O plural de cidadão é cidadãos.',category:'Morfologia'}],
+race:[
+{prompt:'“Nós viajaremos amanhã” está em qual tempo?',answer:'Futuro do presente',options:['Presente','Pretérito perfeito','Futuro do presente'],hint:'A ação ainda vai acontecer.',explanation:'Viajaremos está no futuro do presente do indicativo.',category:'Tempos verbais'},
+{prompt:'Qual conectivo indica conclusão?',answer:'Portanto',options:['Embora','Porém','Portanto'],hint:'Pode ser substituído por “logo”.',explanation:'Portanto é conectivo conclusivo.',category:'Coesão'},
+{prompt:'Qual frase usa corretamente a vírgula no vocativo?',answer:'Maria, venha aqui.',options:['Maria venha, aqui.','Maria, venha aqui.','Maria venha aqui,'],hint:'O nome da pessoa chamada fica isolado.',explanation:'O vocativo Maria deve ser separado por vírgula.',category:'Pontuação'}],
+order:[
+{prompt:'Organize as palavras para formar uma frase correta.',answer:'Os estudantes resolveram a questão.',options:['questão.','Os','resolveram','a','estudantes'],hint:'Comece pelo sujeito.',explanation:'Os estudantes é o sujeito; resolveram a questão é o predicado.',category:'Sintaxe'},
+{prompt:'Organize as palavras para formar uma frase correta.',answer:'A gramática organiza a língua.',options:['língua.','organiza','A','língua','gramática'],hint:'Comece pelo sujeito “A gramática”.',explanation:'A gramática é o sujeito e organiza a língua é o predicado.',category:'Sintaxe'},
+{prompt:'Organize as palavras para formar uma frase correta.',answer:'Ler diariamente amplia o vocabulário.',options:['vocabulário.','Ler','amplia','diariamente','o'],hint:'O verbo no infinitivo pode funcionar como sujeito.',explanation:'Ler diariamente é o sujeito; amplia o vocabulário é o predicado.',category:'Sintaxe'}],
+sequence:[
+{prompt:'Organize a frase: “A prática fortalece a aprendizagem.”',answer:'A prática fortalece a aprendizagem.',options:['aprendizagem.','A','fortalece','prática','a'],hint:'Comece pelo sujeito.',explanation:'A prática é o sujeito e fortalece a aprendizagem é o predicado.',category:'Organização textual'},
+{prompt:'Organize: “As palavras constroem sentidos.”',answer:'As palavras constroem sentidos.',options:['sentidos.','constroem','As','palavras'],hint:'O sujeito está no início.',explanation:'As palavras é o sujeito da oração.',category:'Sintaxe'},
+{prompt:'Organize: “O contexto transforma a interpretação.”',answer:'O contexto transforma a interpretação.',options:['interpretação.','transforma','O','contexto','a'],hint:'Comece pelo sujeito.',explanation:'O contexto é o sujeito e transforma a interpretação é o predicado.',category:'Interpretação'}],
+story:[
+{prompt:'Qual é a mensagem central do texto?',answer:'A prática constante contribui para a aprendizagem.',options:['A prática constante contribui para a aprendizagem.','Aprender depende apenas de decorar.','Errar impede qualquer progresso.'],hint:'Observe a relação entre tentativa, revisão e aprendizagem.',explanation:'O texto mostra que praticar, revisar e tentar novamente fortalece a aprendizagem.',category:'Interpretação',passage:'Aprender exige participação. Quando uma pessoa pratica, identifica dificuldades e revisa seus erros, transforma cada tentativa em uma oportunidade de avançar.'},
+{prompt:'O que a expressão “cada tentativa” sugere?',answer:'O processo de aprendizagem acontece gradualmente.',options:['O processo de aprendizagem acontece gradualmente.','O resultado surge sem esforço.','A revisão não é necessária.'],hint:'Pense na repetição como parte do processo.',explanation:'A expressão destaca que o avanço ocorre ao longo de várias tentativas.',category:'Inferência',passage:'Aprender exige participação. Quando uma pessoa pratica, identifica dificuldades e revisa seus erros, transforma cada tentativa em uma oportunidade de avançar.'},
+{prompt:'Segundo o texto, o erro pode ser…',answer:'Uma oportunidade de avançar.',options:['Uma oportunidade de avançar.','Uma razão para desistir.','Um sinal de que não é possível aprender.'],hint:'Observe a última parte do texto.',explanation:'O texto apresenta o erro como oportunidade de revisão e progresso.',category:'Compreensão',passage:'Aprender exige participação. Quando uma pessoa pratica, identifica dificuldades e revisa seus erros, transforma cada tentativa em uma oportunidade de avançar.'}],
+spot:[
+{prompt:'Na frase “As menina chegaram”, toque na palavra que precisa concordar com o artigo.',answer:'menina',options:['As','menina','chegaram'],hint:'O artigo está no plural.',explanation:'O correto é “As meninas chegaram”. Menina deve ir para o plural.',category:'Concordância'},
+{prompt:'Na frase “Nós estudou ontem”, toque na palavra que apresenta erro.',answer:'estudou',options:['Nós','estudou','ontem'],hint:'O sujeito está na primeira pessoa do plural.',explanation:'O correto é “Nós estudamos ontem”.',category:'Concordância'},
+{prompt:'Na frase “Houveram problemas”, toque no verbo inadequado.',answer:'Houveram',options:['Houveram','problemas','não há erro'],hint:'Haver com sentido de existir é impessoal.',explanation:'O correto é “Houve problemas”, com verbo no singular.',category:'Concordância'}],
+boss:[
+{prompt:'Qual oração apresenta sujeito composto?',answer:'Pedro e Ana chegaram.',options:['Pedro chegou.','Pedro e Ana chegaram.','Chegamos cedo.'],hint:'Procure dois núcleos no sujeito.',explanation:'Pedro e Ana é sujeito composto, com dois núcleos.',category:'Sintaxe'},
+{prompt:'Qual alternativa está corretamente acentuada?',answer:'Pôde',options:['Póde','Pode','Pôde'],hint:'A forma do passado se distingue da forma do presente.',explanation:'Pôde, com circunflexo, indica pretérito perfeito; pode é presente.',category:'Acentuação'},
+{prompt:'Qual conectivo expressa causa?',answer:'Porque',options:['Entretanto','Porque','Portanto'],hint:'Introduz a razão de um fato.',explanation:'Porque pode introduzir uma oração causal ou explicativa.',category:'Coesão'}]
+}
+games.forEach(game=>{const additions=extraByKind[game.kind]??[];game.challenges.push(...additions)})
+
+export const gridLetters=['L','I','V','R','O','X','V','E','R','B','O','X','T','E','X','T','O','X','C','A','S','A','X','X','M','E','S','A','X','X','E','S','C','O','L','A']
+export const gridPaths:Record<string,number[]>={LIVRO:[0,1,2,3,4],VERBO:[6,7,8,9,10],TEXTO:[12,13,14,15,16],CASA:[18,19,20,21],MESA:[24,25,26,27],ESCOLA:[30,31,32,33,34,35]}
 export const shuffle=<T,>(items:T[])=>[...items].sort(()=>Math.random()-.5)
 export const normalize=(value:string)=>value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase()
