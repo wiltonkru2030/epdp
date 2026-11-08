@@ -83,9 +83,22 @@ function questionsFor(title: string): Question[] {
 
 function Illustration({ title }: { title: string }) {
   const t = title.toLowerCase()
-  const label = t.includes('interpreta') ? 'LEITURA' : t.includes('ortografia') || t.includes('acentua') ? 'ESCRITA' : t.includes('pontua') ? 'FRASES' : 'LINGUAGEM'
-  const words = t.includes('interpreta') ? ['TEXTO', 'PISTAS', 'SENTIDO'] : t.includes('ortografia') ? ['LETRA', 'SÍLABA', 'ACENTO'] : t.includes('pontua') ? ['FRASE', 'PAUSA', 'IDEIA'] : ['LETRAS', 'SONS', 'PALAVRAS']
-  return <div className="lesson-illustration" role="img" aria-label={'Ilustração educativa sobre ' + title}>
+  let theme = 'language'
+  let label = 'LINGUAGEM'
+  let words = ['LETRAS', 'SONS', 'PALAVRAS']
+  if (t.includes('interpreta')) { theme = 'reading'; label = 'LEITURA'; words = ['TEXTO', 'PISTAS', 'SENTIDO'] }
+  else if (t.includes('semântica')) { theme = 'meaning'; label = 'SENTIDO'; words = ['PALAVRA', 'CONTEXTO', 'SIGNIFICADO'] }
+  else if (t.includes('organização textual')) { theme = 'text'; label = 'TEXTO'; words = ['COESÃO', 'COERÊNCIA', 'CONECTIVOS'] }
+  else if (t.includes('fonética') || t.includes('fonologia')) { theme = 'sounds'; label = 'SONS'; words = ['LETRA', 'FONEMA', 'SÍLABA'] }
+  else if (t.includes('ortografia') || t.includes('acentua')) { theme = 'writing'; label = 'ESCRITA'; words = ['LETRA', 'SÍLABA', 'ACENTO'] }
+  else if (t.includes('classes gramaticais')) { theme = 'grammar'; label = 'GRAMÁTICA'; words = ['NOME', 'VERBO', 'ADJETIVO'] }
+  else if (t.includes('morfologia')) { theme = 'morphology'; label = 'PALAVRAS'; words = ['RADICAL', 'PREFIXO', 'SUFIXO'] }
+  else if (t.includes('sintaxe')) { theme = 'syntax'; label = 'SINTAXE'; words = ['SUJEITO', 'VERBO', 'PREDICADO'] }
+  else if (t.includes('crase')) { theme = 'punctuation'; label = 'PONTUAÇÃO'; words = ['VÍRGULA', 'CRASE', 'PAUSA'] }
+  else if (t.includes('pontua')) { theme = 'punctuation'; label = 'FRASES'; words = ['FRASE', 'PAUSA', 'IDEIA'] }
+  else if (t.includes('figuras de linguagem')) { theme = 'figures'; label = 'EXPRESSÃO'; words = ['METÁFORA', 'IRONIA', 'HIPÉRBOLE'] }
+  else if (t.includes('reescrita')) { theme = 'rewrite'; label = 'REVISÃO'; words = ['SENTIDO', 'CONECTIVO', 'FRASE'] }
+  return <div className={'lesson-illustration theme-' + theme} role="img" aria-label={'Ilustração educativa sobre ' + title}>
     <div className="lesson-illustration-orbit orbit-one" /><div className="lesson-illustration-orbit orbit-two" />
     <div className="lesson-illustration-book"><span>{label}</span><strong>Aa</strong><small>EPDP · APRENDER</small></div>
     <div className="lesson-illustration-word word-one">{words[0]}</div><div className="lesson-illustration-word word-two">{words[1]}</div><div className="lesson-illustration-word word-three">{words[2]}</div>
