@@ -91,6 +91,10 @@ drop policy if exists "Update own profile" on public.profiles;
 create policy "Update own profile" on public.profiles for update to authenticated
 using ((select auth.uid()) = id) with check ((select auth.uid()) = id);
 
+drop policy if exists "Read public published lessons" on public.lessons;
+create policy "Read public published lessons" on public.lessons for select to anon
+using (published = true);
+
 drop policy if exists "Read published lessons" on public.lessons;
 create policy "Read published lessons" on public.lessons for select to authenticated
 using (published = true or exists (
@@ -118,7 +122,7 @@ with check ((select auth.uid()) = user_id);
 -- Expose only the operations needed by signed-in students through the Data API.
 grant usage on schema public to authenticated;
 grant select, update on public.profiles to authenticated;
-grant select on public.lessons to authenticated;
+grant select on public.lessons to anon, authenticated;
 grant select, insert, update on public.user_progress to authenticated;
 grant select, insert on public.assessment_attempts to authenticated;
 
