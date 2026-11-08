@@ -63,6 +63,19 @@ assert.equal(new Set(keyboard).size, keyboard.length, 'Hangman keyboard keys mus
 assert.ok(!/[KWY]/.test(keyboard), 'This Portuguese-only vocabulary keyboard must omit unused K, W and Y keys')
 for (const game of games.filter(item => item.kind === 'hangman')) for (const letter of normalize(game.challenges.map(c => c.answer).join(''))) assert.ok(!/[A-Z]/.test(letter) || keyboard.includes(letter), game.id + ' contains a letter missing from the hangman keyboard')
 assert.match(component, /arena-achievement-celebration/, 'Achievement celebration must be rendered')
+assert.match(component, /hangman-friend-stage/, 'Hangman must render the redesigned friendly character')
+assert.match(component, /mistakes>=6/, 'Hangman character must complete after six wrong guesses')
+assert.match(component, /Uhuuu! Palavra descoberta!/, 'Hangman must celebrate a correct answer')
+assert.match(component, /Quase! A palavra era:/, 'Hangman must reveal the correct word after a loss')
+assert.match(component, /kind==='laugh'/, 'Correct answers must have a dedicated celebration sound')
+assert.match(css, /@keyframes friendVictory/, 'Hangman character must animate on victory')
+assert.match(css, /@keyframes friendPartPop/, 'Hangman character parts must animate into view')
+assert.doesNotMatch(component, /arena-gallows/, 'Hangman must not use the old gallows drawing')
+for (const file of ['owl-mascot.svg','owl-happy.svg','owl-thinking.svg','owl-worried.svg','fox-friend.svg','turtle-friend.svg']) {
+  const svg = await readFile(new URL('../public/arcade/' + file, import.meta.url), 'utf8')
+  assert.match(svg, /animateTransform/, file + ' must have character motion')
+  assert.match(svg, /attributeName="ry"/, file + ' must blink')
+}
 
 assert.equal(new Set(games.map(game => game.id)).size, 20, 'All game IDs must remain unique')
 for (const id of ['caca-palavras','forca-palavras','complete-word','acentuacao','separacao-silabica','classificacao-substantivos','identifique-adjetivos','desafio-pronomes','conjugacao-verbos','corrida-tempos-verbais','monte-frase','organize-palavras','encontre-erro','sinonimos-antonimos','homonimos-paronimos','interpretacao','figuras-linguagem','pontuacao','concordancia','batalha-conhecimentos']) assert.ok(games.some(game => game.id === id), 'Missing expected game ' + id)
