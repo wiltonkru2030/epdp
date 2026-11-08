@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useAuth } from './contexts/AuthContext'
 import { supabase } from './lib/supabase'
 import AuthModal from './components/AuthModal'
-import AccentGame from './components/AccentGame'
+import GamesArcade from './components/GamesArcade'
 import AssessmentCenter from './components/AssessmentCenter'
 import ReinforcementCenter from './components/ReinforcementCenter'
 
@@ -16,12 +16,6 @@ type Lesson = {
   position: number
 }
 const pages: Page[] = ['Início', 'Meu curso', 'Avaliações', 'Jogos educativos', 'Reforço', 'Meu perfil']
-const games = [
-  ['Caça-palavras', 'Encontre palavras e amplie seu vocabulário.', 'Vocabulário'],
-  ['Acentuação em foco', 'Treine a escrita correta das palavras.', 'Ortografia'],
-  ['Monte a frase', 'Organize palavras e construa frases.', 'Gramática'],
-]
-
 
 function LessonBody({ content }: { content: string }) {
   const normalized = content.replace(/\\\\n/g, '\n').replace(/\\n/g, '\n').replace(/\\r/g, '')
@@ -116,7 +110,7 @@ export default function App() {
   }
 
   const content = () => {
-    if (page === 'Jogos educativos') return <><div className="intro"><small>APRENDER BRINCANDO</small><h2>Jogos educativos</h2><p>Atividades com regras, pontuação e explicação das respostas.</p></div><AccentGame /><div className="games">{games.filter(([name]) => name !== 'Acentuação em foco').map(([name, desc, tag]) => <article className="card game" key={name}><span className="symbol">Aa</span><small className="tag">{tag}</small><h3>{name}</h3><p>{desc}</p><span className="coming-soon">Em desenvolvimento</span></article>)}</div></>
+    if (page === 'Jogos educativos') return <GamesArcade />
     if (page === 'Meu curso') return <>
       {selectedLesson ? <section className="lesson-page">
         <button className="back-course" onClick={() => setSelectedLesson(null)}>← Voltar para o curso</button>
