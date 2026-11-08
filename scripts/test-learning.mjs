@@ -16,7 +16,9 @@ const lessonIndexMigration = await readFile(new URL('../supabase/migrations/2026
 const courseModulesMigration = await readFile(new URL('../supabase/migrations/20261108081335_seed_portuguese_advanced_course_modules.sql', import.meta.url), 'utf8')
 
 assert.match(app, /if \(authLoading\) return/, 'App must wait for Supabase session resolution')
-assert.match(app, /if \(!user\) return .*AuthModal required/s, 'App must block all pages when there is no authenticated user')
+assert.match(app, /if \(!user\) return <div className="public-site"/, 'Visitors must see the public institutional landing page before signing in')
+assert.match(app, /initialMode=\{signup \? 'signup' : 'login'\}/, 'The public landing page must open the requested login or registration form')
+assert.match(app, /if \(page === 'Meu curso'\)/, 'The course catalog must remain inside the authenticated application')
 assert.match(app, /if \(!user\) \{\s*setLessons\(\[\]\)/, 'Course data must not load for unauthenticated visitors')
 assert.match(app, /learning_objective/, 'Course lessons must show their learning objective')
 assert.match(app, /estimated_minutes/, 'Course lessons must show their estimated study time')
@@ -54,7 +56,7 @@ assert.match(app, /ProfileCenter/, 'Student profile must use the profile managem
 
 
 assert.match(app, /LessonExperience/, 'Course pages must use the interactive lesson experience')
-assert.match(app, /courseModules\.map/, 'The course must group lessons into modules')
+assert.match(app, /courseModules\.map|grouped\.map/, 'The course must group lessons into modules')
 assert.match(lessonExperience, /speechSynthesis/, 'Lessons must support browser text-to-speech')
 assert.match(lessonExperience, /Corrigir minhas respostas/, 'Lessons must include interactive practice')
 assert.match(lessonExperience, /lesson_study_tools/, 'Lesson favorites and notes must persist in Supabase')
@@ -65,4 +67,4 @@ assert.match(lessonToolsMigration, /auth\.uid\(\).*user_id/i, 'Lesson notes and 
 assert.match(lessonIndexMigration, /lesson_study_tools_lesson_id_idx/, 'Lesson study tools must index the lesson foreign key')
 assert.match(courseModulesMigration, /Reescrita e concursos/, 'The complete Portuguese learning path must be seeded')
 
-console.log('EPDP learning checks passed: mandatory authentication, anonymous database lockout, protected answer key, timed assessments, history, course objectives, real dashboard and secure profile.')
+console.log('EPDP learning checks passed: public institutional landing, authenticated student area, anonymous database lockout, protected answer key, timed assessments, history, course objectives, interactive lessons, real dashboard and secure profile.')
