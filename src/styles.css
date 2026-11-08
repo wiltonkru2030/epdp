@@ -20,3 +20,52 @@
 .lesson-reader>button:disabled{opacity:.65;cursor:default}
 .course-login-note{font-size:11px;color:#8791a5;margin-top:14px}
 @media(max-width:620px){.lesson{align-items:flex-start}.lesson>div{min-width:calc(100% - 55px)}.lesson>button{margin-left:50px}.lesson-content{padding:14px;font-size:12px}}
+
+/* Aulas: experiência visual de estudo */
+.lesson-page{animation:lessonEnter .45s ease both}
+@keyframes lessonEnter{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.back-course{border:0;background:transparent;color:#56658d;font-weight:700;font-size:12px;padding:0 0 16px}
+.lesson-cover{position:relative;isolation:isolate;overflow:hidden;min-height:245px;border-radius:22px;padding:34px 38px;background:linear-gradient(115deg,#202f68 0%,#394f9d 62%,#6678bd 100%);color:#fff;display:flex;align-items:center;justify-content:space-between;box-shadow:0 16px 38px #263b7c20}
+.lesson-cover:before,.lesson-cover:after{content:"";position:absolute;border:1px solid #ffffff20;border-radius:50%;z-index:-1}
+.lesson-cover:before{width:330px;height:330px;right:80px;top:-190px}
+.lesson-cover:after{width:240px;height:240px;right:-80px;bottom:-160px}
+.cover-copy{max-width:590px;position:relative;z-index:2}
+.lesson-kicker,.cover-meta{font-size:10px;letter-spacing:1.6px;font-weight:800;color:#d6defe}
+.cover-copy h2{font:800 clamp(25px,3vw,36px)/1.18 Manrope,sans-serif;margin:15px 0 10px;max-width:560px}
+.cover-copy p{font-size:14px;line-height:1.7;color:#e0e6ff;max-width:520px;margin:0 0 20px}
+.cover-meta{font-size:9px;color:#c2cffd}
+.cover-art{width:190px;height:175px;position:relative;flex:none;display:grid;place-items:center}
+.art-circle{width:135px;height:135px;border-radius:38px;background:linear-gradient(145deg,#fff8e8,#f3d9b7);color:#334789;display:grid;place-items:center;font:800 54px Manrope;transform:rotate(-8deg);box-shadow:15px 16px 0 #18285b40;animation:floatBook 4s ease-in-out infinite}
+@keyframes floatBook{0%,100%{transform:translateY(0) rotate(-8deg)}50%{transform:translateY(-9px) rotate(-5deg)}}
+.art-star{position:absolute;color:#ffe4a9;font-size:27px;animation:twinkle 2.8s ease-in-out infinite}
+.star-one{top:7px;right:23px}.star-two{bottom:12px;left:8px;animation-delay:.7s}
+.art-pencil{position:absolute;right:1px;bottom:15px;color:#ffd6bd;font-size:40px;transform:rotate(20deg)}
+.lesson-layout{display:grid;grid-template-columns:minmax(0,1fr) 245px;gap:20px;align-items:start;margin-top:20px}
+.lesson-main{background:#fff;border:1px solid #e9edf5;border-radius:18px;padding:26px 28px;min-width:0;box-shadow:0 8px 26px #24386b08}
+.lesson-welcome{display:flex;align-items:center;gap:12px;padding:14px 16px;background:#f3f5ff;border-radius:13px;margin-bottom:22px}
+.lesson-welcome>span{width:38px;height:38px;border-radius:12px;background:#e2e8ff;color:#4058a0;display:grid;place-items:center;font-size:20px}
+.lesson-welcome b,.lesson-welcome small{display:block}.lesson-welcome b{font:700 13px Manrope;color:#283a76}.lesson-welcome small{font-size:11px;color:#7884a3;margin-top:3px}
+.lesson-sections{display:grid;gap:14px}
+.lesson-section{display:grid;grid-template-columns:42px minmax(0,1fr);gap:14px;padding:19px 0;border-bottom:1px solid #eef0f5}
+.section-icon{width:40px;height:40px;border-radius:13px;background:#f0f2ff;color:#425ba6;display:grid;place-items:center;font:800 14px Manrope}
+.section-copy h3{font:800 17px Manrope;color:#253568;margin:4px 0 9px}
+.section-copy p,.lesson-note p{font-size:13px;line-height:1.9;color:#59647d;margin:7px 0}
+.practice-section{background:#fffaf0;border:1px solid #f5e8c9;border-radius:14px;padding:18px;margin-top:5px}
+.practice-section .section-icon{background:#ffedc8;color:#94651c}
+.practice-section .section-copy h3{color:#76521d}
+.lesson-note{background:#f7f8fc;border-radius:13px;padding:14px 18px}
+.lesson-steps{margin:0;padding:18px 18px 18px 42px;background:#f3f6ff;border-radius:13px;color:#4d5c82}
+.lesson-steps li{padding:5px 0;font-size:13px;line-height:1.7}
+.lesson-aside{display:grid;gap:12px;position:sticky;top:18px}
+.aside-card{background:#fff;border:1px solid #e9edf5;border-radius:15px;padding:17px;display:grid;gap:9px}
+.aside-icon{width:34px;height:34px;border-radius:11px;background:#f0f2ff;color:#455da8;display:grid;place-items:center}
+.aside-card b{font:700 13px Manrope;color:#293969}
+.aside-card p{font-size:11px;line-height:1.7;color:#7d879e;margin:0}
+.aside-highlight{background:#fffaf1;border-color:#f3e8d0}
+.aside-highlight .aside-icon{background:#ffedca;color:#91651f}
+.complete-lesson{border:0;border-radius:12px;background:#2e4389;color:#fff;padding:15px 13px;font-weight:700;font-size:12px;box-shadow:0 8px 18px #2e438925;transition:transform .2s,box-shadow .2s}
+.complete-lesson:hover{transform:translateY(-2px);box-shadow:0 12px 22px #2e438930}
+.complete-lesson:disabled{opacity:.7;cursor:default;transform:none}
+@keyframes twinkle{0%,100%{opacity:.65;transform:scale(.9)}50%{opacity:1;transform:scale(1.15)}}
+@media(max-width:900px){.lesson-layout{grid-template-columns:1fr}.lesson-aside{position:static;grid-template-columns:1fr 1fr}.complete-lesson{grid-column:1/-1}}
+@media(max-width:620px){.lesson-cover{min-height:225px;padding:25px 22px;border-radius:17px}.cover-copy{max-width:100%}.cover-copy h2{font-size:25px;max-width:270px}.cover-copy p{font-size:12px;max-width:260px}.cover-art{position:absolute;right:-48px;bottom:-35px;opacity:.28;transform:scale(.85)}.lesson-main{padding:17px 15px;border-radius:15px}.lesson-welcome{padding:11px}.section-copy h3{font-size:15px}.section-copy p,.lesson-note p{font-size:12px;line-height:1.85}.lesson-section{grid-template-columns:34px minmax(0,1fr);gap:10px}.section-icon{width:34px;height:34px;font-size:12px}.practice-section{padding:13px}.lesson-aside{grid-template-columns:1fr}.complete-lesson{grid-column:auto}}
