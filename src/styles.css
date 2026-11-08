@@ -905,3 +905,22 @@
 @media(prefers-reduced-motion:reduce){
  .epdp-phaser-mascot{animation:none!important}
 }
+
+
+/* Acesso obrigatório à plataforma */
+.auth-gate-shell{min-height:100vh;display:grid;grid-template-columns:minmax(0,1fr) minmax(320px,430px);align-items:center;gap:clamp(28px,7vw,100px);padding:clamp(24px,7vw,100px);background:radial-gradient(circle at 12% 15%,#405aa5 0,transparent 35%),linear-gradient(135deg,#17254f,#253b78 58%,#192a5b);color:#fff}
+.auth-gate-brand{max-width:570px;margin:auto}
+.auth-gate-mark{display:grid;place-items:center;width:58px;height:58px;border-radius:18px;background:#fff;color:#263d82;font:800 31px Manrope;box-shadow:0 12px 35px #0b163d55}
+.auth-gate-brand>div{display:flex;align-items:center;gap:14px;margin-bottom:48px}
+.auth-gate-brand>div b,.auth-gate-loading>b{font:800 23px Manrope;letter-spacing:1px}
+.auth-gate-brand>div small{display:block;font-size:9px;letter-spacing:1.5px;color:#c4d0f4}
+.auth-gate-brand h1{font:800 clamp(32px,4.8vw,56px)/1.12 Manrope;max-width:560px;margin:0 0 18px}
+.auth-gate-brand p{max-width:470px;color:#d3dcf8;font-size:15px;line-height:1.8}
+.auth-gate-brand ul{list-style:none;padding:0;margin:28px 0;display:grid;gap:13px;color:#e4eaff;font-size:13px}
+.auth-gate-brand li:before{content:'✓';display:inline-grid;place-items:center;width:22px;height:22px;margin-right:10px;border-radius:50%;background:#ffffff20;color:#d7e6ff;font-weight:800}
+.auth-required-overlay{position:relative;inset:auto;min-height:auto;background:transparent;padding:0;z-index:1}
+.auth-required-overlay .auth-modal{width:100%;max-width:420px;padding:32px;box-shadow:0 24px 70px #0a163b55}
+.auth-gate-loading{display:grid;justify-items:center;gap:12px;text-align:center}
+.auth-gate-loading p{color:#cbd6f5;font-size:12px}
+.lesson-meta{display:block;margin-top:7px;color:#7785a7;font-size:10px}
+@media(max-width:760px){.auth-gate-shell{grid-template-columns:1fr;gap:22px;padding:28px 18px;align-content:center}.auth-gate-brand{width:100%;max-width:430px}.auth-gate-brand>div{margin-bottom:22px}.auth-gate-brand h1{font-size:32px}.auth-gate-brand p{font-size:12px}.auth-gate-brand ul{display:none}.auth-required-overlay .auth-modal{padding:24px}}
