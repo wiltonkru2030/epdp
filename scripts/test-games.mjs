@@ -5,7 +5,7 @@ import { transformWithEsbuild } from 'vite'
 const source = await readFile(new URL('../src/content/games.ts', import.meta.url), 'utf8')
 const { code } = await transformWithEsbuild(source, 'src/content/games.ts', { loader: 'ts', target: 'es2022', format: 'esm' })
 const moduleUrl = 'data:text/javascript;base64,' + Buffer.from(code).toString('base64')
-const { games, gridLetters, gridPaths } = await import(moduleUrl)
+const { games, gridLetters, gridPaths, normalize } = await import(moduleUrl)
 
 assert.equal(games.length, 20, 'The arcade must contain exactly 20 games')
 assert.equal(new Set(games.map(game => game.id)).size, 20, 'Game IDs must be unique')
