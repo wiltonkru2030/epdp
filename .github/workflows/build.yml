@@ -18,7 +18,7 @@ jobs:
           node-version: 22
       - name: Instalar dependências
         run: npm install
-      - name: Testar os 20 jogos e as 120 fases
+      - name: Testar os 20 jogos e as 160 fases
         run: npm run test:games
       - name: Verificar TypeScript e gerar build
         run: npm run build
