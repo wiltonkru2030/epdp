@@ -1144,3 +1144,44 @@
 .module-card-body{padding:15px 16px 14px}.module-card-meta{display:flex;justify-content:space-between;gap:8px;color:#8793a5;font-size:7px;letter-spacing:1px;font-weight:800}.module-card h3{font:800 14px/1.35 Manrope;color:#293b57;margin:11px 0 7px;min-height:38px}.module-card p{font-size:10px;line-height:1.65;color:#7d899a;margin:0;min-height:50px}.module-progress-label{display:flex;justify-content:space-between;margin:14px 0 7px;font-size:8px;color:#8a95a5}.module-progress-label b{color:#496c8d}.module-progress-track{height:4px}.module-progress-track span{background:#6d927e}.module-card-footer{display:flex;align-items:center;justify-content:space-between;gap:8px;border-top:1px solid #f0f2f4;margin-top:13px;padding-top:12px}.module-status{font-size:8px;color:#8490a1}.module-status.finished{color:#4f8064;font-weight:800}.module-card-footer button{border:0;background:#f0f4f7;color:#355879;border-radius:6px;padding:8px 10px;font-size:9px;font-weight:800}.module-card-footer button b{margin-left:7px;font-size:13px}.catalog-empty{padding:28px;background:#fff;border:1px dashed #dce3eb;border-radius:10px;color:#748197;font-size:12px;text-align:center}.catalog-error{color:#9a514b}.catalog-bottom-note{display:flex;align-items:center;gap:14px;margin-top:27px;padding:20px 23px;border-radius:11px;background:#f3f5f6;border:1px solid #e9edef}.catalog-bottom-note>span{width:35px;height:35px;border-radius:10px;background:#e4e9e8;color:#54796e;display:grid;place-items:center;font-size:17px}.catalog-bottom-note b{font:800 12px Manrope;color:#33475b}.catalog-bottom-note p{font-size:10px;color:#7f8a99;margin:5px 0 0}
 @media(max-width:1000px){.catalog-illustration{right:20px;opacity:.55}.module-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:620px){.catalog-hero{min-height:285px;padding:26px 20px}.catalog-hero-copy{max-width:100%}.catalog-hero h2{font-size:28px;max-width:280px}.catalog-hero p{font-size:10px;max-width:280px}.catalog-illustration{right:-70px;opacity:.16}.catalog-summary{gap:12px;margin-bottom:32px}.catalog-summary b{font-size:11px}.catalog-summary small{font-size:7px}.summary-icon{width:31px;height:31px}.module-grid{grid-template-columns:1fr}.module-card{display:grid;grid-template-columns:112px minmax(0,1fr)}.module-art{height:100%;min-height:190px}.module-art>span{font-size:33px}.module-art>small{left:10px;font-size:6px}.module-card-body{padding:13px}.module-card h3{font-size:12px;min-height:0;margin:9px 0 6px}.module-card p{font-size:9px;min-height:0}.module-card-meta{font-size:6px}.module-progress-label{margin-top:12px}.catalog-section-title h2{font-size:24px}.catalog-section-title p{font-size:10px}.catalog-bottom-note{padding:15px;align-items:flex-start}.catalog-bottom-note b{font-size:11px}}
+
+/* EPDP global readability pass */
+:root{font-family:Inter,"DM Sans",Arial,sans-serif;color:#25324a;background:#f6f8fc;font-size:16px;line-height:1.7}
+body{font-size:16px;line-height:1.7;color:#34415a;background:#f6f8fc}
+p{font-size:15px!important;line-height:1.85!important;color:#58657a;margin:0 0 14px!important}
+li{font-size:15px;line-height:1.8}h1,h2,h3,h4{line-height:1.3;letter-spacing:-.025em}
+small{font-size:12px!important;line-height:1.5;letter-spacing:.02em}
+button,input,textarea,select{font:inherit}button{font-size:14px}
+.layout header div,.sidebar nav button,.outline,.link,.soft,.white{font-size:13px}
+.sidebar nav button{padding:13px 14px;min-height:46px}
+.muted,.intro>small,.heading small,.panel>small,.hero small{font-size:11px!important;letter-spacing:1px}
+.content{padding-top:38px;padding-bottom:34px}.heading{margin-bottom:26px;gap:16px}
+.heading h1{font-size:clamp(25px,3vw,32px);line-height:1.25;margin:7px 0;color:#202d49}
+.hero{padding:34px 38px;min-height:230px}.hero h2{font-size:clamp(24px,3vw,30px);line-height:1.3}.hero p{font-size:15px!important;line-height:1.8!important}
+.panel{padding:24px}.panel h2,.intro h2{font-size:20px;line-height:1.35}
+.panel p,.intro p,.game p,.lesson p{font-size:14px!important;line-height:1.8!important}
+.stats .card{padding:19px}.stats small{font-size:12px!important}.stats strong{font-size:25px}
+.choices{gap:10px}.choices button{font-size:14px;padding:12px 14px;line-height:1.55}
+.games{gap:18px}.game{padding:23px}.game h3,.lesson h3{font-size:17px;line-height:1.4}
+.lesson{padding:17px;gap:16px;margin:12px 0}.lesson h3{font-size:16px}.lesson p{margin-top:7px!important}
+.card{border-radius:15px}.layout header{height:76px}footer{font-size:12px}
+.modal{padding:30px}.modal h2{font-size:24px}.modal p,.modal small{font-size:13px!important;line-height:1.7!important}.modal label,.auth-modal label{font-size:13px}
+.assessment-card,.recommendation-card{padding:23px;gap:20px}.assessment-card h3,.recommendation-card h3{font-size:18px;line-height:1.4}
+.assessment-card p,.recommendation-card p{font-size:14px!important;line-height:1.75!important}
+.assessment-question,.assessment-review{padding:24px 0}.assessment-question h3,.assessment-review h3{font-size:18px;line-height:1.65;margin:16px 0}
+.assessment-question blockquote{font-size:15px;line-height:1.85;padding:18px 20px;margin:18px 0}
+.assessment-options{gap:11px}.assessment-options button{padding:15px 16px;gap:14px}.assessment-options button span{font-size:14px;line-height:1.7}
+.assessment-review p{font-size:14px!important;line-height:1.8!important}
+img{filter:none;image-rendering:auto}.arcade-world-art{opacity:.68!important;mix-blend-mode:normal!important}
+.arcade-owl-mascot,.arcade-friends img,.arena-coach img,.arena-victory-mascot{opacity:1!important;filter:drop-shadow(0 5px 9px #23314b22)!important}
+.game-mode .arena-game-card{background:#fff!important;border:1px solid #e3e8f1!important;box-shadow:0 12px 28px #24345f12!important}
+.game-mode .arena-game-card:hover{border-color:#a9b8df!important;box-shadow:0 18px 34px #24345f1c!important}
+.game-mode .arena-hero{background:linear-gradient(115deg,#e8efff,#e5f5f1 58%,#fff3e5)!important;border:1px solid #dfe7f2!important;box-shadow:0 18px 40px #24345f12!important;color:#26365a!important}
+.game-mode .arena-hero h2,.game-mode .arena-hero p{color:#26365a!important;text-shadow:none!important}
+.game-mode .arena-hero p{font-size:15px!important;line-height:1.8!important}
+.game-mode .arena-hero-stats b{background:#ffffffc9!important;border:1px solid #dfe6f1!important;color:#405477!important}
+.game-mode .arena-game-stage{background:#f5f7fc!important;border-radius:20px}
+.game-mode .arena-profile-strip{background:#fff!important;border:1px solid #e3e8f1!important;box-shadow:0 8px 22px #24345f0c!important;color:#34415a!important}
+.game-mode .arena-game-copy{color:#34415a}.game-mode .arena-game-copy h3,.game-mode .arena-game-copy p{color:#34415a!important}
+.game-mode .arena-game-copy p{font-size:13px!important;line-height:1.7!important}
+@media(max-width:620px){body{font-size:15px}.content{padding:22px 16px 30px}.heading{align-items:flex-start;margin-bottom:18px}.heading h1{font-size:25px}.hero{padding:24px 22px;min-height:210px}.panel{padding:18px}.panel p,.intro p,.game p,.lesson p{font-size:14px!important}.lesson{padding:14px;gap:11px}.lesson h3{font-size:15px}.assessment-question h3,.assessment-review h3{font-size:17px}.assessment-options button span{font-size:14px}.game-mode .arena-game-card{min-width:0}}
