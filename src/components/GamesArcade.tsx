@@ -86,8 +86,8 @@ const games:Game[] = [
 {prompt:'Em “Precisa-se de funcionários”, o sujeito é…',answer:'Indeterminado',options:['Simples','Composto','Indeterminado'],hint:'O verbo está na terceira pessoa do singular com índice de indeterminação do sujeito.',explanation:'Com verbo transitivo indireto acompanhado de se, o sujeito é indeterminado.',category:'Sintaxe'},
 {prompt:'Qual conectivo expressa oposição?',answer:'Entretanto',options:['Portanto','Além disso','Entretanto'],hint:'Tem sentido semelhante a “porém”.',explanation:'Entretanto é conjunção coordenativa adversativa e expressa oposição.',category:'Coesão'}]}
 ]
-const gridLetters=['L','I','V','R','O','A','A','B','C','D','E','F','G','H','I','J','K','M','V','E','R','B','O','N','T','E','X','T','O','A','P','Q','R','S','T','U']
-const gridPaths:Record<string,number[]>={LIVRO:[0,1,2,3,4],VERBO:[18,19,20,21,22],TEXTO:[24,25,26,27,28]}
+const gridLetters=['L','I','V','R','O','V','T','B','C','D','E','E','G','E','I','J','K','R','V','E','X','B','O','B','T','E','X','T','O','O','P','Q','R','S','O','U']
+const gridPaths:Record<string,number[]>={LIVRO:[0,1,2,3,4],VERBO:[5,11,17,23,29],TEXTO:[6,13,20,27,34]}
 const shuffle=<T,>(items:T[])=>[...items].sort(()=>Math.random()-.5)
 const normalize=(value:string)=>value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase()
 
