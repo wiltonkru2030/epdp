@@ -52,8 +52,6 @@ function LessonBody({ content }: { content: string }) {
 export default function App() {
   const [page, setPage] = useState<Page>('Início')
   const { user } = useAuth()
-  const [choice, setChoice] = useState('')
-  const [checked, setChecked] = useState(false)
   const [menu, setMenu] = useState(false)
   const [login, setLogin] = useState(false)
   const [lessons, setLessons] = useState<Lesson[]>([])
