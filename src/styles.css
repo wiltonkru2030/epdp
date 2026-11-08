@@ -342,20 +342,44 @@
 .arena-letter-grid button.found{background:linear-gradient(145deg,#dff5e8,#b9e5cc);border-color:#72bf91;color:#216943;animation:arenaPop .22s ease}
 @keyframes arenaPop{50%{transform:scale(1.09)}}
 .arena-helper{text-align:center;color:#8793ac;font-size:10px}
-.arena-hangman-drawing{display:flex;align-items:center;justify-content:center;gap:35px;min-height:175px}
-.arena-gallows{height:150px;width:110px;position:relative}
-.arena-gallows i,.arena-gallows b{position:absolute;display:block}
-.arena-gallows .base{height:5px;width:100px;background:#7485b3;bottom:0;left:0;border-radius:5px}
-.arena-gallows .side{height:140px;width:5px;background:#7485b3;bottom:4px;left:20px;border-radius:5px}
-.arena-gallows .top{height:5px;width:68px;background:#7485b3;top:6px;left:20px;border-radius:5px}
-.arena-gallows .rope{height:23px;width:3px;background:#7485b3;top:9px;right:19px}
-.arena-gallows .head{width:24px;height:24px;border:4px solid #df8a74;border-radius:50%;top:30px;right:8px;animation:arenaPop .25s ease}
-.arena-gallows .body{height:43px;width:4px;background:#df8a74;top:56px;right:18px}
-.arena-gallows .arm,.arena-gallows .leg{height:4px;width:25px;background:#df8a74;transform-origin:left center}
-.arena-gallows .arm.left{top:68px;right:17px;transform:rotate(210deg)}
-.arena-gallows .arm.right{top:68px;right:-3px;transform:rotate(-30deg)}
-.arena-gallows .leg.left{top:96px;right:17px;transform:rotate(125deg)}
-.arena-gallows .leg.right{top:96px;right:-3px;transform:rotate(55deg)}
+.arena-hangman-drawing{display:grid;justify-items:center;gap:8px;min-height:0;padding:8px 0 2px}
+.arena-hangman-hero{display:grid;justify-items:center;gap:2px;width:min(100%,300px);padding:8px 14px 10px;border:1px solid #dcece9;border-radius:22px;background:radial-gradient(circle at 50% 38%,#fff 0,#f0faf8 62%,#e7f4f2 100%);box-shadow:inset 0 1px #fff,0 10px 24px #1e40500d}
+.hangman-friend-stage{width:100%;max-width:220px;position:relative;animation:friendStageFloat 3s ease-in-out infinite}
+.hangman-friend{display:block;width:100%;height:auto;overflow:visible}
+.hangman-part{transform-box:fill-box;transform-origin:center;animation:friendPartPop .42s cubic-bezier(.2,1.5,.45,1) both}
+.part-head{transform-origin:50% 50%}.part-body{transform-origin:50% 10%}
+.part-arm{transform-origin:50% 50%;animation:friendArmWave .48s ease both}
+.part-leg{transform-origin:50% 50%;animation:friendPartPop .4s cubic-bezier(.2,1.5,.45,1) both}
+.hangman-friend-stage.is-happy{animation:friendVictory .62s ease-in-out infinite alternate}
+.hangman-friend-stage.is-lost{animation:friendOops .45s ease-in-out 2}
+.hangman-friend-stage.is-happy .part-head{animation:friendLaugh .32s ease-in-out infinite alternate}
+.hangman-heart-meter{display:flex;justify-content:center;gap:9px;padding:0 0 2px}
+.hangman-heart-meter span{font-size:19px;line-height:1;transition:transform .2s,opacity .2s}
+.hangman-heart-meter .heart-live{color:#e77e91;filter:drop-shadow(0 2px 2px #e77e9133);animation:heartBeat 1.8s ease-in-out infinite}
+.hangman-heart-meter .heart-empty{color:#cbd5df;opacity:.5;transform:scale(.83)}
+.friend-waiting{animation:friendWaitPulse 1.8s ease-in-out infinite}
+.arena-hidden-word{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin:12px 0 4px}
+.arena-hidden-word span{min-width:22px;padding:6px 3px;border-bottom:3px solid #5d8c9a;text-align:center;color:#263e5d;font:900 18px Manrope}
+.arena-keyboard{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:7px;margin:16px auto;max-width:560px}
+.arena-keyboard button{min-width:0;min-height:38px;aspect-ratio:1.1;border:1px solid #d5e0ed;border-radius:11px;background:linear-gradient(155deg,#fff,#edf3fa);color:#263d63;font-size:12px;font-weight:900;box-shadow:0 3px 0 #cbd7e7,0 5px 10px #1d2d570a;transition:transform .15s,background .15s}
+.arena-keyboard button:active:not(:disabled){transform:translateY(2px);box-shadow:0 1px 0 #cbd7e7}
+.arena-keyboard button:disabled{opacity:.42;box-shadow:none}
+.arena-keyboard button.key-correct{background:#dff7e9;border-color:#74c79b;color:#176b45;opacity:1;box-shadow:0 2px 0 #a4dabb}
+.arena-keyboard button.key-wrong{background:#fff0ef;border-color:#efb0aa;color:#b34747;opacity:.8;box-shadow:none}
+.arena-result-inline{text-align:center;padding:16px;border-radius:16px;background:#eaf7ef;color:#286a4a;font-size:12px;animation:friendPartPop .35s ease both}
+.arena-result-inline.is-wrong{background:#fff3ef;border:1px solid #f2c9b9;color:#8d5747}
+.arena-result-inline p{font-size:11px;line-height:1.6}
+.arena-result-inline button{margin-top:7px}
+@keyframes friendStageFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes friendPartPop{0%{opacity:0;transform:translateY(-15px) scale(.65)}75%{opacity:1;transform:translateY(2px) scale(1.06)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes friendArmWave{0%{opacity:0;transform:rotate(-24deg) scale(.7)}70%{opacity:1;transform:rotate(9deg) scale(1.05)}100%{opacity:1;transform:rotate(0) scale(1)}}
+@keyframes friendVictory{from{transform:translateY(0) rotate(-2deg)}to{transform:translateY(-10px) rotate(2deg)}}
+@keyframes friendOops{0%,100%{transform:translateX(0) rotate(0)}25%{transform:translateX(-5px) rotate(-3deg)}75%{transform:translateX(5px) rotate(3deg)}}
+@keyframes friendLaugh{from{transform:rotate(-5deg) scale(1)}to{transform:rotate(5deg) scale(1.06)}}
+@keyframes friendWaitPulse{0%,100%{opacity:.75;transform:scale(.96)}50%{opacity:1;transform:scale(1.03)}}
+@keyframes heartBeat{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
+.arena-coach.laugh img{animation:coachLaugh .32s ease-in-out infinite alternate}
+@keyframes coachLaugh{from{transform:translateY(0) rotate(-7deg) scale(1)}to{transform:translateY(-12px) rotate(7deg) scale(1.1)}}
 .arena-hidden-word{display:flex;flex-wrap:wrap;justify-content:center;gap:5px}
 .arena-hidden-word span{min-width:20px;padding:5px 2px;border-bottom:3px solid #7184bd;text-align:center;color:#334c91;font:900 17px Manrope}
 .arena-keyboard{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:5px;margin:18px auto;max-width:560px}
