@@ -78,7 +78,7 @@ export default function AssessmentCenter() {
 
   async function openAssessment(item: Assessment) {
     setError(''); setResult(null); setAnswers({}); setActiveIndex(0); setExpired(false)
-    setRemainingSeconds(item.time_limit_seconds); setSelected(item); setLoading(true)
+    setRemainingSeconds(item.time_limit_seconds); setStartedAt(0); setSelected(item); setLoading(true)
     const { data: qs, error: qError } = await supabase.from('questions')
       .select('id,subject,prompt,context_text,difficulty,position')
       .eq('assessment_id', item.id).eq('published', true).order('position')
