@@ -683,3 +683,51 @@
 @media(prefers-reduced-motion:reduce){
  .game-mode .arena-game-stage,.game-mode .arena-victory-mascot,.game-mode .arena-victory:before,.game-mode .arena-victory .arena-trophy,.game-mode .achievement-burst,.game-mode .achievement-confetti i{animation:none!important}
 }
+
+
+/* Game selection feels like a console menu, not a web directory */
+.game-mode .arena-game-grid{gap:clamp(12px,1.8vw,22px);perspective:1200px}
+.game-mode .arena-game-card{position:relative;isolation:isolate;overflow:hidden;border:1px solid #34466f;border-radius:22px;background:linear-gradient(155deg,#1d3159,#111e3d);box-shadow:0 8px 0 #091329,0 18px 32px #02081755;transform:translateY(0);transition:transform .22s cubic-bezier(.2,.8,.2,1),box-shadow .22s,border-color .22s;animation:arenaCardEnter .45s both}
+.game-mode .arena-game-card:nth-child(2n){animation-delay:.04s}
+.game-mode .arena-game-card:nth-child(3n){animation-delay:.08s}
+.game-mode .arena-game-card:before{content:"";position:absolute;z-index:2;inset:0;pointer-events:none;background:linear-gradient(120deg,transparent 20%,#ffffff16 42%,transparent 62%);transform:translateX(-130%);transition:transform .65s}
+.game-mode .arena-game-card:hover{transform:translateY(-7px) rotateX(2deg);border-color:#82a4e4;box-shadow:0 12px 0 #091329,0 28px 42px #02081788}
+.game-mode .arena-game-card:hover:before{transform:translateX(130%)}
+.game-mode .arena-game-card:active{transform:translateY(5px) scale(.985);box-shadow:0 2px 0 #091329,0 8px 14px #02081766}
+.game-mode .arena-game-art{position:relative;min-height:150px;overflow:hidden}
+.game-mode .arena-game-art:before{content:"";position:absolute;width:160px;height:160px;right:-45px;top:-58px;border:1px solid #ffffff35;border-radius:50%;box-shadow:0 0 0 18px #ffffff09,0 0 0 38px #ffffff07;transition:transform .4s}
+.game-mode .arena-game-card:hover .arena-game-art:before{transform:scale(1.2) rotate(18deg)}
+.game-mode .arena-game-art>span{position:relative;z-index:1;display:grid;place-items:center;width:76px;height:76px;margin:24px auto 8px;border:1px solid #ffffff65;border-radius:24px;background:linear-gradient(145deg,#ffffff42,#ffffff12);color:#fff;font:1000 30px Manrope;text-shadow:0 4px 12px #0005;box-shadow:0 10px 22px #0003;transform:rotate(-5deg);transition:transform .25s}
+.game-mode .arena-game-card:hover .arena-game-art>span{transform:rotate(5deg) scale(1.1) translateY(-4px)}
+.game-mode .arena-game-art>small{position:relative;z-index:2;color:#f1f5ff;font-weight:950;letter-spacing:1.2px}
+.game-mode .arena-game-art>.arcade-play-icon{position:absolute;right:13px;bottom:12px;width:38px;height:38px;display:grid;place-items:center;border:1px solid #ffffff55;border-radius:14px;background:#ffffff20;color:#fff;font-size:17px;box-shadow:0 5px 14px #0003;transition:transform .2s,background .2s}
+.game-mode .arena-game-card:hover .arcade-play-icon{transform:scale(1.12) rotate(8deg);background:#ffffff35}
+.game-mode .arena-game-copy{padding:16px 16px 18px}
+.game-mode .arena-game-copy>span{font-size:9px;letter-spacing:1.7px;color:#8edfd1;font-weight:1000}
+.game-mode .arena-game-copy h3{margin:7px 0 5px;color:#fff;font:900 16px Manrope}
+.game-mode .arena-game-copy p{min-height:34px;color:#a9bbdc;font-size:10px;line-height:1.5}
+.game-mode .arena-game-copy>b{display:inline-flex;align-items:center;gap:10px;margin-top:12px;padding:11px 14px;border-radius:12px;background:linear-gradient(180deg,#6de1c5,#3ab99f);color:#092f34;font-size:9px;font-weight:1000;letter-spacing:.8px;box-shadow:0 4px 0 #197e72,0 8px 14px #0002;transition:transform .16s,box-shadow .16s}
+.game-mode .arena-game-card:active .arena-game-copy>b{transform:translateY(3px);box-shadow:0 1px 0 #197e72}
+.game-mode .arena-game-copy>b i{font-size:14px;font-style:normal}
+.game-mode .arena-game-card.is-locked{filter:saturate(.55)}
+.game-mode .arena-profile-strip{border-radius:20px;background:linear-gradient(110deg,#172b51,#101b36);border-color:#3a4f7b;box-shadow:0 12px 30px #02081755}
+.game-mode .arena-achievement-row{border-radius:18px;border-color:#384d77;background:linear-gradient(100deg,#172a4f,#111c37)}
+.game-mode .arena-achievement-icons>span{width:36px;height:36px;border-radius:12px;font-size:18px;animation:arenaMedalShine 2.4s ease-in-out infinite}
+.game-mode .arena-victory-confetti{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.game-mode .arena-victory-confetti i{position:absolute;left:calc((var(--i) * 4.2%) + 1%);top:-18px;width:8px;height:14px;border-radius:3px;background:#f7d37f;animation:achievementConfetti 3s calc(var(--i) * -.12s) ease-in infinite}
+.game-mode .arena-victory-confetti i:nth-child(3n){background:#64dfc1}
+.game-mode .arena-victory-confetti i:nth-child(3n + 1){background:#a8b8ff}
+.game-mode .achievement-counter{color:#91a7d4;font-size:10px;letter-spacing:2px;font-weight:900;margin:-12px 0 18px}
+@keyframes arenaCardEnter{from{opacity:0;transform:translateY(18px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes arenaMedalShine{0%,100%{filter:brightness(1);transform:translateY(0)}50%{filter:brightness(1.18);transform:translateY(-3px)}}
+@media(max-width:700px){
+ .game-mode .arena-game-art{min-height:118px}
+ .game-mode .arena-game-art>span{width:60px;height:60px;margin:16px auto 5px;border-radius:19px;font-size:24px}
+ .game-mode .arena-game-copy{padding:12px 11px 14px}
+ .game-mode .arena-game-copy h3{font-size:13px}
+ .game-mode .arena-game-copy p{font-size:9px}
+ .game-mode .arena-game-copy>b{padding:10px 11px;font-size:8px}
+}
+@media(prefers-reduced-motion:reduce){
+ .game-mode .arena-game-card,.game-mode .arena-game-card:before,.game-mode .arena-game-art>span,.game-mode .arena-game-art:before,.game-mode .arena-achievement-icons>span,.game-mode .arena-victory-confetti i{animation:none!important;transition:none!important}
+}
