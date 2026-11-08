@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { supabase } from '../lib/supabase'
 
 type Kind = 'grid'|'hangman'|'tiles'|'choice'|'syllables'|'sort'|'match'|'machine'|'race'|'order'|'spot'|'story'|'boss'
@@ -86,13 +86,13 @@ const games:Game[] = [
 {prompt:'Em “Precisa-se de funcionários”, o sujeito é…',answer:'Indeterminado',options:['Simples','Composto','Indeterminado'],hint:'O verbo está na terceira pessoa do singular com índice de indeterminação do sujeito.',explanation:'Com verbo transitivo indireto acompanhado de se, o sujeito é indeterminado.',category:'Sintaxe'},
 {prompt:'Qual conectivo expressa oposição?',answer:'Entretanto',options:['Portanto','Além disso','Entretanto'],hint:'Tem sentido semelhante a “porém”.',explanation:'Entretanto é conjunção coordenativa adversativa e expressa oposição.',category:'Coesão'}]}
 ]
-const gridLetters=['L','E','I','T','U','R','A','A','B','C','D','E','F','G','H','I','J','K','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','A','B','C','D']
-const gridPaths:Record<string,number[]>={LIVRO:[18,19,20,21,22],VERBO:[24,25,26,27,28],TEXTO:[30,31,32,33,34]}
+const gridLetters=['L','I','V','R','O','A','A','B','C','D','E','F','G','H','I','J','K','M','V','E','R','B','O','N','T','E','X','T','O','A','P','Q','R','S','T','U']
+const gridPaths:Record<string,number[]>={LIVRO:[0,1,2,3,4],VERBO:[18,19,20,21,22],TEXTO:[24,25,26,27,28]}
 const shuffle=<T,>(items:T[])=>[...items].sort(()=>Math.random()-.5)
 const normalize=(value:string)=>value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase()
 
 export default function GamesArcade(){
-const [gameId,setGameId]=useState<string|null>(null),[round,setRound]=useState(0),[score,setScore]=useState(0),[selected,setSelected]=useState(''),[order,setOrder]=useState<string[]>([]),[seconds,setSeconds]=useState(75),[finished,setFinished]=useState(false),[feedback,setFeedback]=useState(''),[hintVisible,setHintVisible]=useState(false),[selectedGrid,setSelectedGrid]=useState<number[]>([]),[guessed,setGuessed]=useState<string[]>([]),[mistakes,setMistakes]=useState(0),[savedMessage,setSavedMessage]=useState(''),[xp,setXp]=useState(0),[sound,setSound]=useState(false),[dragging,setDragging]=useState(false)
+const [gameId,setGameId]=useState<string|null>(null),[round,setRound]=useState(0),[score,setScore]=useState(0),[selected,setSelected]=useState(''),[order,setOrder]=useState<string[]>([]),[seconds,setSeconds]=useState(75),[finished,setFinished]=useState(false),[feedback,setFeedback]=useState(''),[hintVisible,setHintVisible]=useState(false),[selectedGrid,setSelectedGrid]=useState<number[]>([]),[guessed,setGuessed]=useState<string[]>([]),[mistakes,setMistakes]=useState(0),[savedMessage,setSavedMessage]=useState(''),[xp,setXp]=useState(0),[dragging,setDragging]=useState(false)
 const game=games.find(item=>item.id===gameId)??null
 const challenge=game?.challenges[round]??null
 const gridRef=useRef<HTMLDivElement>(null)
@@ -115,7 +115,6 @@ function nextRound(){if(!game)return;if(round===game.challenges.length-1){finish
 function updateOrder(index:number,direction:-1|1){setOrder(current=>{const target=index+direction;if(target<0||target>=current.length)return current;const copy=[...current];[copy[index],copy[target]]=[copy[target],copy[index]];return copy})}
 function pickGrid(index:number){if(!challenge||finished||selectedGrid.includes(index))return;const path=gridPaths[challenge.answer]??gridPaths.LIVRO;const expected=path[selectedGrid.length];if(index!==expected){setFeedback('wrong');window.setTimeout(()=>setFeedback(''),450);return}const updated=[...selectedGrid,index];setSelectedGrid(updated);if(updated.length===path.length){setScore(value=>value+1);setXp(value=>value+30);setFeedback('correct')}}
 function guessLetter(letter:string){if(guessed.includes(letter)||wonHangman||lostHangman)return;const next=[...guessed,letter];setGuessed(next);if(!normalize(hangmanWord).includes(letter))setMistakes(value=>value+1);else if(normalize(hangmanWord).split('').every(char=>char===' '||next.includes(char))){setScore(value=>value+1);setXp(value=>value+30);setFeedback('correct')}}
-function finishHangman(){finishGame(wonHangman?score+1:score)}
 
 function renderRound(){
 if(!game||!challenge)return null
@@ -134,7 +133,7 @@ return <div className="arena-machine"><div className="arena-machine-display"><sp
 
 return <section className="arena">
 {!game?<><div className="arena-hero"><div><span>EPDP · GAME ARENA</span><h2>Aprenda.<br/><em>Jogue. Evolua.</em></h2><p>Vinte experiências de português com missões, desafios e evolução a cada partida.</p><div className="arena-hero-stats"><b>20 JOGOS</b><i/><b>FASES E DESAFIOS</b></div></div><div className="arena-hero-emblem"><div>EP</div><span>Aa</span><i>Ç</i></div></div>
-<div className="arena-toolbar"><div><span>SELECIONE SUA MISSÃO</span><h2>Central de desafios</h2></div><button onClick={()=>setSound(value=>!value)}>{sound?'Som ativado':'Som desativado'}</button></div>
+<div className="arena-toolbar"><div><span>SELECIONE SUA MISSÃO</span><h2>Central de desafios</h2></div><span>20 EXPERIÊNCIAS</span></div>
 <div className="arena-game-grid">{games.map((item,index)=><button className="arena-game-card" key={item.id} onClick={()=>start(item.id)}><div className={'arena-game-art '+item.color}><span>{item.art}</span><small>MISSÃO {String(index+1).padStart(2,'0')}</small><i/></div><div className="arena-game-copy"><span>{item.tag}</span><h3>{item.title}</h3><p>{item.subtitle}</p><b>INICIAR JOGO <i>→</i></b></div></button>)}</div>
 <div className="arena-footer"><b>Sua jornada, suas conquistas.</b><span>Entre na sua conta para registrar os resultados e acompanhar seu histórico.</span></div></>:<div className="arena-session">
 <header className="arena-session-header"><button onClick={()=>setGameId(null)}>← VOLTAR À ARENA</button><div><span>{game.tag}</span><b>{game.title}</b></div><div className="arena-clock">{game.kind==='grid'||game.kind==='hangman'?'LIVRE':'00:'+String(seconds).padStart(2,'0')}</div></header>
