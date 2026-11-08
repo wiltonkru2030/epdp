@@ -17,7 +17,7 @@ export const games:Game[] = [
 {id:'acentuacao',title:'Acentuação',subtitle:'Escolha a grafia certa e domine as regras.',tag:'ORTOGRAFIA',art:'Á',color:'amber',kind:'choice',challenges:[
 {prompt:'Qual palavra está escrita corretamente?',answer:'saúde',options:['saude','saúde','saudade'],hint:'Observe o hiato.',explanation:'Saúde recebe acento porque o u tônico forma hiato e fica sozinho na sílaba.',category:'Acentuação'},
 {prompt:'Qual é a forma correta segundo a ortografia atual?',answer:'ideia',options:['idéia','ideia','herói'],hint:'O acordo ortográfico retirou o acento do ditongo aberto ei em paroxítonas.',explanation:'Ideia é paroxítona e não recebe acento no ditongo ei.',category:'Acentuação'},
-{prompt:'Assinale a proparoxítona corretamente acentuada.',answer:'lâmpada',options:['lampada','lâmpada','lâmpâda'],hint:'Toda proparoxítona é acentuada.',explanation:'Lâmpada tem a antepenúltima sílaba tônica.',category:'Acentuação'}]},
+{prompt:'Assinale a proparoxítona corretamente acentuada.',answer:'lâmpada',options:['lampada','lâmpada','lâmpadas'],hint:'Toda proparoxítona é acentuada.',explanation:'Lâmpada tem a antepenúltima sílaba tônica.',category:'Acentuação'}]},
 {id:'separacao-silabica',title:'Separação silábica',subtitle:'Separe as sílabas e monte palavras.',tag:'FONÉTICA',art:'SÍ',color:'blue',kind:'syllables',challenges:[
 {prompt:'Organize as sílabas para formar JANELA.',answer:'JA-NE-LA',options:['NE','LA','JA'],hint:'Comece pela sílaba inicial.',explanation:'Janela se separa em ja-ne-la: três sílabas.',category:'Separação silábica'},
 {prompt:'Organize as sílabas para formar ESCOLA.',answer:'ES-CO-LA',options:['CO','ES','LA'],hint:'A primeira sílaba começa com E.',explanation:'Escola se separa em es-co-la.',category:'Separação silábica'},
@@ -37,7 +37,7 @@ export const games:Game[] = [
 {id:'conjugacao-verbos',title:'Máquina de conjugação',subtitle:'Ajuste pessoa, número, tempo e modo verbal.',tag:'VERBOS',art:'V',color:'blue',kind:'machine',challenges:[
 {prompt:'Conjugue “cantar” na 1ª pessoa do singular do presente do indicativo.',answer:'Eu canto',options:['Eu canto','Eu cantava','Eu cantarei'],hint:'É uma ação no presente realizada por “eu”.',explanation:'Canto é a forma do presente do indicativo para a primeira pessoa do singular.',category:'Verbos'},
 {prompt:'Qual forma está no pretérito perfeito: “nós ____ ontem”?',answer:'estudamos',options:['estudamos','estudaremos','estudávamos'],hint:'A ação foi concluída no passado.',explanation:'Estudamos pode ser pretérito perfeito ou presente conforme o contexto; “ontem” marca o passado concluído.',category:'Tempos verbais'},
-{prompt:'Complete no futuro do presente: “Eles ____ amanhã”.',answer:'viajarão',options:['viajam','viajariam','viajarão'],hint:'A ação ocorrerá depois do momento da fala.',explanation:'Viajarão é futuro do presente do indicativo.',category:'Verbos'}]},
+{prompt:'Complete no futuro do presente: “Eles ____ amanhã”.',answer:'viajarão',options:['viajam','podia','viajarão'],hint:'A ação ocorrerá depois do momento da fala.',explanation:'Viajarão é futuro do presente do indicativo.',category:'Verbos'}]},
 {id:'corrida-tempos-verbais',title:'Corrida dos tempos verbais',subtitle:'Acerte para acelerar e cruzar a linha de chegada.',tag:'VERBOS',art:'»',color:'amber',kind:'race',challenges:[
 {prompt:'“Eu estudava” indica qual tempo verbal?',answer:'Pretérito imperfeito',options:['Pretérito perfeito','Pretérito imperfeito','Futuro do presente'],hint:'Indica hábito ou continuidade no passado.',explanation:'Estudava está no pretérito imperfeito do indicativo.',category:'Tempos verbais'},
 {prompt:'“Quando eu chegar, avisarei.” O verbo chegar está em qual modo?',answer:'Subjuntivo',options:['Indicativo','Subjuntivo','Imperativo'],hint:'Expressa hipótese relacionada a uma condição futura.',explanation:'Chegar está no futuro do subjuntivo.',category:'Modos verbais'},
@@ -194,7 +194,7 @@ const finalRoundsByGame:Record<string,Challenge[]> = {
 {prompt:'Complete: pa__eio',answer:'SS',options:['S','SS','Ç'],hint:'Atividade agradável ao ar livre.',explanation:'Passeio é escrito com ss.',category:'Ortografia'}],
 'acentuacao':[
 {prompt:'Qual palavra é uma oxítona acentuada?',answer:'sofá',options:['sofá','mesa','caderno'],hint:'Termina em a e tem a última sílaba tônica.',explanation:'Sofá é oxítona terminada em a e recebe acento.',category:'Acentuação'},
-{prompt:'Complete: “Eles ___ muitos compromissos.”',answer:'têm',options:['tem','têm','têem'],hint:'O sujeito está na terceira pessoa do plural.',explanation:'Têm é a forma plural do presente do verbo ter.',category:'Acentuação'}],
+{prompt:'Complete: “Eles ___ muitos compromissos.”',answer:'têm',options:['tem','têm','temos'],hint:'O sujeito está na terceira pessoa do plural.',explanation:'Têm é a forma plural do presente do verbo ter.',category:'Acentuação'}],
 'separacao-silabica':[
 {prompt:'Organize as sílabas para formar ABACAXI.',answer:'A-BA-CA-XI',options:['CA','XI','A','BA'],hint:'É uma fruta tropical.',explanation:'Abacaxi separa-se em a-ba-ca-xi.',category:'Separação silábica'},
 {prompt:'Organize as sílabas para formar FAMÍLIA.',answer:'FA-MÍ-LIA',options:['LIA','FA','MÍ'],hint:'Grupo de pessoas com laços de parentesco ou afeto.',explanation:'Família separa-se em fa-mí-lia.',category:'Separação silábica'}],
