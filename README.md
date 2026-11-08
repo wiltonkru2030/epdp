@@ -60,11 +60,30 @@ O projeto possui manifesto web, ícone vetorial e service worker registrados som
 - A navegação pode abrir a estrutura da aplicação sem rede, mas login, progresso, avaliações e conteúdos servidos pelo Supabase dependem de conexão.
 - Para testar a instalação, publique o site em HTTPS e abra-o em um navegador compatível. O endereço de desenvolvimento não representa a validação final de instalação.
 
-## Estado de implementação
+## Estado da EPDP GAME ARENA
 
-A central foi reconstruída como EPDP GAME ARENA com 20 modalidades jogáveis: caça-palavras, forca, complete a palavra, acentuação, separação silábica, substantivos, adjetivos, pronomes, conjugação verbal, corrida dos tempos verbais, monte a frase, organize as palavras, encontre o erro, sinônimos e antônimos, homônimos e parônimos, interpretação, figuras de linguagem, pontuação, concordância e batalha de conhecimentos. Cada modalidade tem identidade visual e mecânica própria, com fases, feedback explicado, pontuação e cronômetro nos desafios adequados. A interface inclui animações leves, adaptação para celular, tabuleiro de letras, teclado da forca, montagem de sílabas, ordenação, sequência por seleção, encaixe de peças, corrida e batalha. Para usuários autenticados, os resultados são enviados à função `record_game_attempt` e ficam no histórico de `game_attempts`. XP e estrelas mostrados na tela são calculados para a sessão atual; ainda não representam um sistema persistente de conquistas ou desbloqueios.
+A central reúne 20 jogos de português com seis desafios por partida (120 desafios no total). Cada jogo tem uma identidade de cenário e utiliza um motor de interação adequado ao desafio: tabuleiro de letras, forca, peças de ortografia, sílabas, ordenação de frases, sequência, associação por arrastar/soltar ou toque, interpretação e perguntas de gramática.
 
-Antes de produção, validar o build, os fluxos de autenticação, as rotas, as políticas RLS e a instalação PWA em dispositivos reais.
+### Experiência de jogo
+- Sessões em tela imersiva, com controles grandes, resposta visual imediata, transições entre fases e animações de vitória.
+- Coruja mascote com estados visuais de pensamento, acerto, erro e comemoração.
+- Música de fundo procedural com Web Audio durante a partida; efeitos diferentes para início, acerto, erro, troca de fase, recompensa e conclusão. O botão de som permite silenciar.
+- Vibração tátil com `navigator.vibrate` em navegadores/dispositivos que oferecem suporte. A vibração não é garantida em todos os aparelhos, especialmente em navegadores iOS.
+- Layout responsivo com controles de toque e alternativas por clique/teclado; suporte a `prefers-reduced-motion`.
+
+### Progressão e dados
+- Para usuários autenticados, o Supabase valida as seis respostas no servidor e calcula a pontuação; a aplicação não envia uma pontuação escolhida pelo navegador.
+- Histórico de partidas, XP acumulado, moedas, total de partidas, melhor pontuação e conquistas são persistidos no Supabase.
+- Conquistas novas aparecem em uma celebração em tela cheia, com recompensas e sequência para múltiplas conquistas.
+- Os jogos são desbloqueados progressivamente por XP. Visitantes podem jogar, mas seus resultados não são gravados.
+- Os gabaritos ficam em um esquema privado do banco, sem leitura direta pelo cliente.
+
+### Verificações automatizadas
+- `npm run test:games`: verifica os 20 jogos, as 120 fases, respostas, peças de montagem, caminhos do caça-palavras, breakpoints móveis, áudio e vibração.
+- `npm run build`: verifica TypeScript e gera a versão de produção.
+- O GitHub Actions executa os dois comandos em cada atualização da branch principal.
+
+Os testes automatizados verificam dados, estrutura e compilação. Eles não substituem testes manuais em aparelhos físicos, navegadores diferentes, permissões de áudio/vibração ou testes completos de ponta a ponta. Antes de produção, valide esses fluxos em celulares e computadores reais, além das políticas RLS e da instalação PWA.
 
 
 ## Avaliações e reforço
