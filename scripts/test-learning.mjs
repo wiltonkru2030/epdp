@@ -5,6 +5,7 @@ const app = await readFile(new URL('../src/App.tsx', import.meta.url), 'utf8')
 const auth = await readFile(new URL('../src/components/AuthModal.tsx', import.meta.url), 'utf8')
 const assessment = await readFile(new URL('../src/components/AssessmentCenter.tsx', import.meta.url), 'utf8')
 const migration = await readFile(new URL('../supabase/migrations/202611080015_auth_required_and_assessment_options.sql', import.meta.url), 'utf8')
+const assessmentFix = await readFile(new URL('../supabase/migrations/202611080018_fix_assessment_recommendation_uuid_aggregate.sql', import.meta.url), 'utf8')
 
 assert.match(app, /if \(authLoading\) return/, 'App must wait for Supabase session resolution')
 assert.match(app, /if \(!user\) return .*AuthModal required/s, 'App must block all pages when there is no authenticated user')
@@ -31,5 +32,6 @@ assert.match(assessment, /option_id: answers\[q\.id\] \?\? null/, 'Unanswered qu
 assert.match(assessment, /assessment_attempts/, 'Assessment center must show attempt history')
 assert.match(assessment, /mock_exam/, 'Assessment center must distinguish mock exams')
 assert.match(assessment, /correct_explanation/, 'Assessment results must show correction explanations')
+assert.match(assessmentFix, /array_agg\(q\.review_lesson_id\)/, 'Assessment recommendations must aggregate UUID lesson references safely')
 
 console.log('EPDP learning checks passed: mandatory authentication, anonymous database lockout, protected answer key, timed assessments, history and course objectives.')
