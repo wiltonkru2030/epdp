@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 
-type PhaserGame = { destroy: (removeCanvas?: boolean) => void }
+type PhaserGame = { destroy: (removeCanvas: boolean, noReturn?: boolean) => void }
 type MascotSceneLike = { events: { emit: (event: string, value: string) => void } }
 
 export default function PhaserMascot({ mood = 'idle', className = '' }: { mood?: string; className?: string }) {
