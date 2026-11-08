@@ -411,3 +411,58 @@
 .arena-sequence-bank button:disabled{opacity:.35}
 .arena-tile-slot{width:90px;height:72px;margin:0 auto 16px;border:2px dashed #9cadd4;border-radius:17px;display:grid;place-items:center;background:linear-gradient(145deg,#f5f7ff,#e9eefb);color:#405b9e;font:900 25px Manrope;box-shadow:inset 0 2px 9px #2539680a}
 .arena-tile-options button.chosen{background:#eaf0ff;border-color:#7187c6;color:#304b94;transform:translateY(-3px);box-shadow:0 7px 16px #334d9620}
+
+
+/* EPDP Game Arena — interface imersiva de aplicativo */
+.game-mode main>header,.game-mode .content>.heading{display:none}
+.game-mode main>.content{max-width:none;padding:0 0 28px}
+.game-mode main{background:#080f25}
+.game-mode .content>footer{color:#8794b4;padding:18px 22px}
+.game-mode .arena{max-width:1320px;padding:0 22px 42px;color:#fff}
+.arcade-topbar{height:76px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.arcade-brand{display:flex;align-items:center;gap:11px}
+.arcade-brand-mark{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(145deg,#9de9dc,#4f83c8);color:#122044;font:900 15px Manrope;box-shadow:0 7px 20px #55b9c755}
+.arcade-brand div,.arcade-player{display:grid;gap:4px}
+.arcade-brand b{font:900 13px Manrope;letter-spacing:1.5px;color:#fff}
+.arcade-brand small,.arcade-player span{font-size:8px;letter-spacing:1.4px;color:#8395bd;font-weight:800}
+.arcade-player{text-align:right;border:1px solid #27365e;background:#121d3b;padding:9px 14px;border-radius:12px}
+.arcade-player b{font:800 10px Manrope;color:#d9e5ff;letter-spacing:1px}
+.game-mode .arena-hero{min-height:300px;border:1px solid #354779;background:radial-gradient(ellipse at 76% 22%,#5a69c4 0,transparent 30%),radial-gradient(ellipse at 92% 100%,#277e85 0,transparent 35%),linear-gradient(112deg,#17234b,#263c78 60%,#182f57);box-shadow:0 22px 55px #0005}
+.game-mode .arena-hero h2{font-size:clamp(38px,5.2vw,62px);letter-spacing:-2.5px}
+.game-mode .arena-hero p{font-size:14px;max-width:480px}
+.game-mode .arena-hero-stats b{background:#ffffff12;border:1px solid #ffffff1e;border-radius:9px;padding:9px 12px}
+.game-mode .arena-hero-emblem div{width:126px;height:132px;border-radius:28px;background:linear-gradient(145deg,#fff1c9,#e7a85d);color:#28386f;font-size:43px;box-shadow:12px 15px 0 #101a3c88,0 0 50px #ffd68c55}
+.arcade-section-heading{display:flex;align-items:end;justify-content:space-between;gap:15px;margin:38px 2px 18px}
+.arcade-section-heading>div>span{font-size:9px;letter-spacing:2px;color:#7f96c6;font-weight:900}
+.arcade-section-heading h2{font:900 27px Manrope;color:#fff;margin:7px 0 4px}
+.arcade-section-heading p{font-size:11px;color:#8c9cbd;margin:0}
+.arcade-section-heading>b{border:1px solid #2d3d68;background:#142044;color:#9fb4e8;border-radius:10px;padding:10px 13px;font-size:9px;letter-spacing:1px}
+.game-mode .arena-game-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:15px}
+.game-mode .arena-game-card{display:flex;flex-direction:column;align-items:stretch;gap:0;padding:0;border:1px solid #2b3a63;border-radius:19px;background:#121d3a;box-shadow:0 12px 28px #0003;transition:transform .22s,border-color .22s,box-shadow .22s}
+.game-mode .arena-game-card:hover{transform:translateY(-7px) scale(1.015);border-color:#7189d1;box-shadow:0 20px 36px #0005}
+.game-mode .arena-game-art{height:160px;width:100%;border-radius:18px 18px 0 0;display:grid;place-items:center}
+.game-mode .arena-game-art>span{font-size:58px;filter:drop-shadow(0 9px 10px #14204a55);transform:rotate(-8deg)}
+.game-mode .arena-game-art>small{left:13px;bottom:12px;font-size:8px}
+.game-mode .arena-game-art>i{width:9px;height:9px;top:16px;right:17px;box-shadow:0 0 18px 7px #ffffff65}
+.game-mode .arena-game-art.green{background:radial-gradient(circle at 68% 30%,#a1f0cf,#288c7c 72%)}
+.game-mode .arena-game-art.violet{background:radial-gradient(circle at 68% 30%,#d0a8ff,#6548aa 72%)}
+.game-mode .arena-game-art.blue{background:radial-gradient(circle at 68% 30%,#a5d9ff,#3565b6 72%)}
+.game-mode .arena-game-art.amber{background:radial-gradient(circle at 68% 30%,#ffe0a0,#b66a39 72%)}
+.arcade-play-icon{position:absolute;right:13px;bottom:11px;width:31px;height:31px;border-radius:50%;display:grid;place-items:center;background:#ffffffed;color:#314b86;font-size:10px;box-shadow:0 4px 12px #18244c45}
+.game-mode .arena-game-copy{padding:14px 15px 16px}
+.game-mode .arena-game-copy>span{color:#8fa5d5;font-size:8px}
+.game-mode .arena-game-copy h3{color:#fff;font-size:14px;margin:7px 0}
+.game-mode .arena-game-copy p{color:#91a0bf;font-size:10px;min-height:31px}
+.game-mode .arena-game-copy>b{color:#9de4d8;font-size:9px;margin-top:12px}
+.game-mode .arena-footer{background:#111c38;border-color:#27375e;color:#93a1bf;padding:17px 19px}
+.game-mode .arena-footer b{color:#dce8ff}
+.game-mode .arena-session{border:1px solid #2d3d68;background:linear-gradient(180deg,#111b3b 0,#18264e 230px,#f8f9fd 230px)}
+.game-mode .arena-session-header{height:76px}
+.game-mode .arena-game-stage{padding-top:34px;min-height:390px}
+.game-mode .arena-mission h2{font-size:clamp(21px,3vw,29px)}
+.game-mode .arena-options button,.game-mode .arena-match-lines button,.game-mode .arena-category-grid button,.game-mode .arena-tile-options button{border-radius:15px;min-height:58px;font-size:13px;box-shadow:0 7px 16px #24345f0b}
+.game-mode .arena-options button:active,.game-mode .arena-category-grid button:active,.game-mode .arena-tile-options button:active{transform:scale(.97)}
+.game-mode .arena-victory{min-height:550px}
+@media(max-width:1050px){.game-mode .arena-game-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:760px){.game-mode .arena{padding:0 13px 30px}.arcade-topbar{height:65px}.game-mode .arena-hero{min-height:245px;padding:25px 22px}.game-mode .arena-hero h2{font-size:37px}.game-mode .arena-game-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.game-mode .arena-game-art{height:125px}.game-mode .arena-game-art>span{font-size:47px}.game-mode .arena-game-copy{padding:12px}.game-mode .arena-game-copy h3{font-size:12px}.game-mode .arena-game-copy p{font-size:9px}.game-mode .arena-session-header{height:65px}}
+@media(max-width:430px){.game-mode .arena-hero{min-height:225px;padding:20px 17px}.game-mode .arena-hero h2{font-size:31px}.game-mode .arena-hero p{font-size:10px;max-width:210px}.game-mode .arena-hero-emblem{opacity:.55;right:-12px}.arcade-section-heading h2{font-size:22px}.arcade-section-heading p{max-width:220px;line-height:1.5}.game-mode .arena-game-art{height:105px}.game-mode .arena-game-art>span{font-size:39px}.game-mode .arena-game-copy{padding:10px}.game-mode .arena-game-copy p{min-height:38px}.game-mode .arena-game-copy>b{font-size:8px}}
