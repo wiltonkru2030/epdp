@@ -13,7 +13,7 @@ export const games:Game[] = [
 {id:'complete-word',title:'Complete a palavra',subtitle:'Monte a grafia correta com peças de letras.',tag:'ORTOGRAFIA',art:'Aa',color:'blue',kind:'tiles',challenges:[
 {prompt:'Complete: exce__ão',answer:'Ç',options:['S','Ç','SS'],hint:'A palavra indica algo fora da regra.',explanation:'A grafia correta é exceção, com ç.',category:'Ortografia'},
 {prompt:'Complete: privilé__io',answer:'G',options:['J','G','GU'],hint:'Significa benefício ou vantagem especial.',explanation:'Privilégio é escrito com g.',category:'Ortografia'},
-{prompt:'Complete: empeci__ho',answer:'L',options:['L','U','LH'],hint:'Significa obstáculo ou dificuldade.',explanation:'Empecilho é escrito com lh.',category:'Ortografia'}]},
+{prompt:'Complete: empeci__ho',answer:'LH',options:['L','U','LH'],hint:'Significa obstáculo ou dificuldade.',explanation:'Empecilho é escrito com lh.',category:'Ortografia'}]},
 {id:'acentuacao',title:'Acentuação',subtitle:'Escolha a grafia certa e domine as regras.',tag:'ORTOGRAFIA',art:'Á',color:'amber',kind:'choice',challenges:[
 {prompt:'Qual palavra está escrita corretamente?',answer:'saúde',options:['saude','saúde','saùde'],hint:'Observe o hiato.',explanation:'Saúde recebe acento porque o u tônico forma hiato e fica sozinho na sílaba.',category:'Acentuação'},
 {prompt:'Qual é a forma correta segundo a ortografia atual?',answer:'ideia',options:['idéia','ideia','idéía'],hint:'O acordo ortográfico retirou o acento do ditongo aberto ei em paroxítonas.',explanation:'Ideia é paroxítona e não recebe acento no ditongo ei.',category:'Acentuação'},
