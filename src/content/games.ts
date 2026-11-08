@@ -148,7 +148,7 @@ games.forEach(game=>{const additions=extraByKind[game.kind]??[];game.challenges.
 
 const focusedBonusByGame:Record<string,Challenge[]> = {
 'acentuacao':[
-{prompt:'Qual forma verbal indica passado em “Ontem ele ___ sair cedo”?',answer:'pôde',options:['pode','pôde','pôdeu'],hint:'Diferencie o passado do presente pela acentuação.',explanation:'Pôde, com circunflexo, é a forma do pretérito perfeito; pode é presente.',category:'Acentuação'},
+{prompt:'Qual forma verbal indica passado em “Ontem ele ___ sair cedo”?',answer:'pôde',options:['pode','pôde','podia'],hint:'Diferencie o passado do presente pela acentuação.',explanation:'Pôde, com circunflexo, é a forma do pretérito perfeito; pode é presente.',category:'Acentuação'},
 {prompt:'Qual palavra está corretamente acentuada?',answer:'órgão',options:['orgão','órgão','órgâo'],hint:'É uma paroxítona terminada em ão.',explanation:'Órgão recebe acento por ser paroxítona terminada em ditongo.',category:'Acentuação'},
 {prompt:'Complete: “Eles ___ muitos livros.”',answer:'têm',options:['tem','têm','tém'],hint:'O sujeito está na terceira pessoa do plural.',explanation:'Têm recebe acento diferencial para marcar a terceira pessoa do plural.',category:'Acentuação'}],
 'desafio-pronomes':[
