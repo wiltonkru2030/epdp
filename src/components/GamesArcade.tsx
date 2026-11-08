@@ -4,7 +4,7 @@ import { supabase } from '../lib/supabase'
 type Mode = 'hangman' | 'wordsearch' | 'complete' | 'sentence' | 'accent'
 type Challenge = { prompt: string; answer: string; options?: string[]; hint: string; explanation: string; category: string }
 
-const pools: Record<Exclude<Mode, 'hangman'>, Challenge[]> = {
+const pools: Record<Exclude<Mode, 'hangman' | 'wordsearch'>, Challenge[]> = {
   complete: [
     { prompt: 'Complete a palavra: exce__ão', answer: 'ç', options: ['s', 'ç', 'ss'], hint: 'A palavra indica uma situação que foge à regra.', explanation: 'A grafia correta é exceção, com ç.', category: 'Ortografia' },
     { prompt: 'Complete a palavra: privilé__io', answer: 'g', options: ['j', 'g', 'gu'], hint: 'É um benefício ou vantagem especial.', explanation: 'Privilégio é escrito com g.', category: 'Ortografia' },
@@ -113,7 +113,7 @@ export default function GamesArcade() {
   }
 
   function answer() {
-    if (!challenge || !choice || checked) return
+    if (!challenge || (mode !== 'sentence' && !choice) || checked) return
     const correct = mode === 'sentence' ? sentenceOrder.join(' ') === challenge.answer : choice === challenge.answer
     setChecked(true)
     if (correct) setScore(value => value + 1)
