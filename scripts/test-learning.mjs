@@ -32,6 +32,7 @@ assert.match(assessment, /option_id: answers\[q\.id\] \?\? null/, 'Unanswered qu
 assert.match(assessment, /assessment_attempts/, 'Assessment center must show attempt history')
 assert.match(assessment, /mock_exam/, 'Assessment center must distinguish mock exams')
 assert.match(assessment, /correct_explanation/, 'Assessment results must show correction explanations')
+assert.match(assessment, /Revisar aula relacionada/, 'Assessment feedback must link back to the related lesson')
 assert.match(assessmentFix, /array_agg\(q\.review_lesson_id\)/, 'Assessment recommendations must aggregate UUID lesson references safely')
 
 console.log('EPDP learning checks passed: mandatory authentication, anonymous database lockout, protected answer key, timed assessments, history and course objectives.')
