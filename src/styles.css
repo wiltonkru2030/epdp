@@ -548,3 +548,11 @@
  .arena-victory-mascot{width:120px;height:115px}
 }
 @media(prefers-reduced-motion:reduce){.arena-coach img,.arena-victory-mascot{animation:none!important}}
+
+
+.arena-lock-notice{min-height:0;color:#f1d38b;font-size:10px;font-weight:800;margin:-10px 2px 10px}
+.arena-lock-notice:empty{display:none}
+.game-mode .arena-game-card.is-locked{opacity:.62;filter:saturate(.55);border-style:dashed}
+.game-mode .arena-game-card.is-locked:hover{transform:translateY(-2px);border-color:#66749a}
+.game-mode .arena-game-card.is-locked .arena-game-art:after{content:"";position:absolute;inset:0;background:#111a3d65;z-index:1}
+.arena-lock-icon{position:absolute;z-index:2;top:50%;left:50%;transform:translate(-50%,-50%);font-size:32px;color:#fff;text-shadow:0 3px 12px #0009}
