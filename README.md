@@ -62,7 +62,7 @@ O projeto possui manifesto web, ícone vetorial e service worker registrados som
 
 ## Estado de implementação
 
-A central de jogos possui cinco modalidades jogáveis: caça-palavras, forca de palavras, complete a palavra, monte a frase e desafio de acentuação. As partidas incluem teclado interativo na forca, seleção/ordenação de palavras, feedback explicado, cronômetro de 90 segundos e pontuação. Para usuários autenticados, os resultados são enviados à função `record_game_attempt` e ficam no histórico de `game_attempts`. O catálogo solicitado de 20 jogos ainda não está completo; jogos de classes gramaticais, verbos, pontuação, concordância, figuras de linguagem, interpretação e batalha de conhecimentos ainda precisam ser implementados.
+A central foi reconstruída como EPDP GAME ARENA com 20 modalidades jogáveis: caça-palavras, forca, complete a palavra, acentuação, separação silábica, substantivos, adjetivos, pronomes, conjugação verbal, corrida dos tempos verbais, monte a frase, organize as palavras, encontre o erro, sinônimos e antônimos, homônimos e parônimos, interpretação, figuras de linguagem, pontuação, concordância e batalha de conhecimentos. Cada modalidade tem identidade visual e mecânica própria, com fases, feedback explicado, pontuação e cronômetro nos desafios adequados. A interface inclui animações leves, adaptação para celular, tabuleiro de letras, teclado da forca, montagem de sílabas, ordenação, sequência por seleção, encaixe de peças, corrida e batalha. Para usuários autenticados, os resultados são enviados à função `record_game_attempt` e ficam no histórico de `game_attempts`. XP e estrelas mostrados na tela são calculados para a sessão atual; ainda não representam um sistema persistente de conquistas ou desbloqueios.
 
 Antes de produção, validar o build, os fluxos de autenticação, as rotas, as políticas RLS e a instalação PWA em dispositivos reais.
 
@@ -74,6 +74,6 @@ Antes de produção, validar o build, os fluxos de autenticação, as rotas, as 
 - O retorno inclui a correção comentada e os conceitos de cada questão.
 - A avaliação diagnóstica inicial possui cinco questões autorais.
 - Quando o aproveitamento de um assunto fica abaixo de 70%, a função registra uma recomendação individual na tabela `study_recommendations`.
-- As cinco modalidades atuais registram as rodadas por meio de `record_game_attempt` quando o estudante está autenticado. Visitantes podem jogar, mas não salvam recordes.
+- As vinte modalidades registram as partidas por meio de `record_game_attempt` quando o estudante está autenticado. Visitantes podem jogar, mas não salvam recordes.
 
-As recomendações são criadas a partir de tentativas reais. O catálogo de aulas de reforço e os demais jogos ainda precisam ser ampliados.
+As recomendações são criadas a partir de tentativas reais. O catálogo de aulas de reforço ainda precisa ser ampliado. O progresso de jogos salvo hoje registra tentativas e pontuação; a persistência de XP, medalhas e desbloqueio de fases ainda precisa ser desenvolvida.
