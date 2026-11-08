@@ -69,3 +69,29 @@
 @keyframes twinkle{0%,100%{opacity:.65;transform:scale(.9)}50%{opacity:1;transform:scale(1.15)}}
 @media(max-width:900px){.lesson-layout{grid-template-columns:1fr}.lesson-aside{position:static;grid-template-columns:1fr 1fr}.complete-lesson{grid-column:1/-1}}
 @media(max-width:620px){.lesson-cover{min-height:225px;padding:25px 22px;border-radius:17px}.cover-copy{max-width:100%}.cover-copy h2{font-size:25px;max-width:270px}.cover-copy p{font-size:12px;max-width:260px}.cover-art{position:absolute;right:-48px;bottom:-35px;opacity:.28;transform:scale(.85)}.lesson-main{padding:17px 15px;border-radius:15px}.lesson-welcome{padding:11px}.section-copy h3{font-size:15px}.section-copy p,.lesson-note p{font-size:12px;line-height:1.85}.lesson-section{grid-template-columns:34px minmax(0,1fr);gap:10px}.section-icon{width:34px;height:34px;font-size:12px}.practice-section{padding:13px}.lesson-aside{grid-template-columns:1fr}.complete-lesson{grid-column:auto}}
+
+
+/* Jogo funcional de acentuação */
+.accent-game{padding:22px;margin-bottom:16px;max-width:760px}
+.game-topline{display:flex;justify-content:space-between;gap:12px;color:#657398;font-size:10px;letter-spacing:1px;font-weight:800}
+.game-progress{height:6px;background:#edf0f6;border-radius:10px;margin:17px 0 22px;overflow:hidden}
+.game-progress span{display:block;height:100%;background:#5269b5;transition:width .25s}
+.accent-game h3{font:800 18px Manrope;color:#293968;margin:0 0 16px}
+.game-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.game-options button{border:1px solid #e0e5ef;background:#fff;border-radius:10px;padding:13px 10px;color:#4e5c7c;font-size:13px;transition:.18s}
+.game-options button.chosen{border-color:#536bb9;background:#f0f3ff;color:#2c438d;font-weight:700}
+.game-options button:disabled{cursor:default;opacity:1}
+.game-feedback{margin:14px 0;padding:13px 15px;border-radius:10px;font-size:12px;line-height:1.7}
+.game-feedback p{margin:5px 0 0}
+.game-feedback.correct{background:#edf8f1;color:#236c49}
+.game-feedback.incorrect{background:#fff3ec;color:#98552e}
+.game-primary{margin-top:15px;background:#2c438d;color:#fff;border:0;border-radius:9px;padding:11px 17px;font-size:11px;font-weight:700}
+.game-primary:disabled{opacity:.45;cursor:not-allowed}
+.game-disclaimer{display:block;color:#929bb0;font-size:9px;margin-top:16px;line-height:1.5}
+.game-result{text-align:center;padding:22px 10px}
+.game-result .game-score{font:800 42px Manrope;color:#2c438d}
+.game-result .game-score small{font-size:18px;color:#8993aa}
+.game-result h3{margin:8px 0}
+.game-result p{font-size:12px;color:#7d879e}
+.coming-soon{display:inline-block;color:#8993aa;font-size:10px;padding:8px 0}
+@media(max-width:620px){.accent-game{padding:16px}.game-options{grid-template-columns:1fr}.accent-game h3{font-size:16px}}
