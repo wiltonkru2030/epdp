@@ -15,7 +15,7 @@ const pools: Record<Exclude<Mode, 'hangman'>, Challenge[]> = {
   sentence: [
     { prompt: 'Organize as palavras para formar uma frase correta.', answer: 'A leitura amplia o conhecimento.', options: ['conhecimento.', 'A', 'amplia', 'leitura', 'o'], hint: 'Comece pelo artigo que acompanha “leitura”.', explanation: 'A ordem forma uma oração com sujeito “A leitura” e predicado “amplia o conhecimento”.', category: 'Organização textual' },
     { prompt: 'Organize as palavras para formar uma frase correta.', answer: 'Os alunos estudaram para a prova.', options: ['prova.', 'estudaram', 'Os', 'a', 'para', 'alunos'], hint: 'O sujeito aparece antes do verbo.', explanation: '“Os alunos” é o sujeito; “estudaram para a prova” é o predicado.', category: 'Sintaxe' },
-    { prompt: 'Organize as palavras para formar uma frase correta.', answer: 'A professora explicou a matéria.', options: ['matéria.', 'explicou', 'A', 'matéria', 'professora', 'a'], hint: 'A frase começa com quem realizou a ação.', explanation: 'A professora é o sujeito; explicou é o verbo; a matéria completa o sentido.', category: 'Sintaxe' },
+    { prompt: 'Organize as palavras para formar uma frase correta.', answer: 'A professora explicou a matéria.', options: ['matéria.', 'explicou', 'A', 'professora', 'a'], hint: 'A frase começa com quem realizou a ação.', explanation: 'A professora é o sujeito; explicou é o verbo; a matéria completa o sentido.', category: 'Sintaxe' },
   ],
   accent: [
     { prompt: 'Qual palavra está escrita corretamente?', answer: 'saúde', options: ['saude', 'saúde', 'saùde'], hint: 'Observe o hiato formado pelas vogais.', explanation: 'Saúde recebe acento porque o u tônico forma hiato e fica sozinho na sílaba.', category: 'Acentuação' },
@@ -65,7 +65,6 @@ export default function GamesArcade() {
   const revealed = hangmanWord.word.split('').map(letter => letter === ' ' || guessed.includes(letter) ? letter : '')
   const hangmanWon = hangmanWord.word.split('').every(letter => guessed.includes(letter) || letter === ' ')
   const hangmanLost = mistakes >= 6
-  const done = mode === 'hangman' ? hangmanWon || hangmanLost : checked && round >= 4
 
   useEffect(() => {
     if (!mode || finished || seconds <= 0) return
@@ -74,7 +73,11 @@ export default function GamesArcade() {
   }, [mode, finished, seconds])
 
   useEffect(() => {
-    if (seconds === 0 && mode && !finished) setFinished(true)
+    if (seconds === 0 && mode && !finished) {
+      setFinished(true)
+      if (mode === 'hangman') void saveGame('forca_palavras', hangmanWon ? 1 : 0, 1)
+      else void saveGame(mode === 'accent' ? 'acentuacao' : mode === 'complete' ? 'complete_word' : 'build_sentence', score, 5)
+    }
   }, [seconds, mode, finished])
 
   useEffect(() => {
@@ -144,7 +147,7 @@ export default function GamesArcade() {
       <div className="arcade-note"><b>Seu progresso importa.</b><span>Ao entrar na sua conta, as rodadas concluídas são registradas no seu histórico de jogos.</span></div>
     </> : <div className="arcade-play-screen">
       <div className="arcade-game-header"><button onClick={resetHome}>← Todos os jogos</button><span>{modes.find(item => item.id === mode)?.tag}</span><div className="arcade-timer">00:{String(seconds).padStart(2, '0')}</div></div>
-      {finished ? <div className="arcade-finish"><div className="arcade-finish-mark">✓</div><small>PARTIDA FINALIZADA</small><h2>{seconds === 0 ? 'Tempo encerrado!' : 'Desafio concluído!'}</h2><strong>{score}<small> / 5</small></strong><p>Você acertou {score} de 5 desafios nesta partida.</p>{saveMessage && <span role="status">{saveMessage}</span>}<button onClick={() => start(mode)}>Jogar novamente</button><button className="arcade-secondary" onClick={resetHome}>Escolher outro jogo</button></div> : mode === 'hangman' ? <div className="hangman-game">
+      {finished ? <div className="arcade-finish"><div className="arcade-finish-mark">✓</div><small>PARTIDA FINALIZADA</small><h2>{seconds === 0 ? 'Tempo encerrado!' : 'Desafio concluído!'}</h2><strong>{score}<small> / {mode === 'hangman' ? '1' : '5'}</small></strong><p>Você acertou {score} de {mode === 'hangman' ? '1 palavra' : '5 desafios'} nesta partida.</p>{saveMessage && <span role="status">{saveMessage}</span>}<button onClick={() => start(mode)}>Jogar novamente</button><button className="arcade-secondary" onClick={resetHome}>Escolher outro jogo</button></div> : mode === 'hangman' ? <div className="hangman-game">
         <div className="arcade-roundline"><span>DESCUBRA A PALAVRA</span><b>{Math.max(0, 6 - mistakes)} tentativas restantes</b></div>
         <div className="hangman-stage"><div className="hangman-scaffold"><span className="scaffold-top"/><span className="scaffold-side"/><span className="scaffold-base"/><span className="scaffold-rope"/>{mistakes > 0 && <i className="hangman-head"/>}{mistakes > 1 && <i className="hangman-body"/>}{mistakes > 2 && <i className="hangman-arm left"/>}{mistakes > 3 && <i className="hangman-arm right"/>}{mistakes > 4 && <i className="hangman-leg left"/>}{mistakes > 5 && <i className="hangman-leg right"/>}</div><div className="hangman-word">{revealed.map((letter, i) => <span key={i}>{letter || '_'}</span>)}</div></div>
         <div className="hangman-hint"><small>PISTA · {hangmanWord.category.toUpperCase()}</small><p>{hangmanWord.hint}</p></div>
