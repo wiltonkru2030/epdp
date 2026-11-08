@@ -133,3 +133,116 @@
 @media(max-width:620px){.assessment-card,.recommendation-card{align-items:flex-start;flex-direction:column}.assessment-options button{padding:10px}}
 
 .game-save-status{font-size:11px;color:#52648f;line-height:1.6;margin:10px auto;max-width:420px}
+
+
+/* Central de jogos EPDP — interface arcade responsiva */
+.arcade{max-width:1040px;margin:0 auto;animation:arcadeIn .35s ease both}
+@keyframes arcadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.arcade-banner{min-height:260px;border-radius:24px;padding:32px 38px;background:radial-gradient(circle at 82% 40%,#5267ad 0,#334987 32%,#1e2d60 78%);color:#fff;display:flex;align-items:center;justify-content:space-between;overflow:hidden;position:relative;isolation:isolate}
+.arcade-banner:after{content:"";position:absolute;inset:auto -70px -190px auto;width:390px;height:390px;border:1px solid #ffffff20;border-radius:50%;box-shadow:0 0 0 32px #ffffff08,0 0 0 68px #ffffff06;z-index:-1}
+.arcade-eyebrow{font-size:9px;letter-spacing:2px;font-weight:800;color:#bdcafa}
+.arcade-banner h2{font:800 clamp(25px,3vw,37px)/1.16 Manrope;margin:15px 0 12px;letter-spacing:-1px}
+.arcade-banner h2 em{font-style:normal;color:#e6ca94}
+.arcade-banner p{font-size:12px;line-height:1.8;color:#d6def5;max-width:420px;margin:0}
+.arcade-banner-meta{display:flex;align-items:center;gap:10px;margin-top:23px;font-size:9px;color:#c4cfee;font-weight:700}
+.arcade-banner-meta i{width:4px;height:4px;background:#d9bd82;border-radius:50%}
+.arcade-orbit{width:205px;height:190px;position:relative;display:grid;place-items:center;flex:none}
+.arcade-orbit:before,.arcade-orbit:after{content:"";position:absolute;border:1px solid #ffffff35;border-radius:50%;width:170px;height:170px;transform:rotate(-25deg) scaleY(.55)}
+.arcade-orbit:after{width:210px;height:210px;transform:rotate(55deg) scaleY(.55);border-color:#ffffff20}
+.orbit-book{width:112px;height:125px;background:linear-gradient(145deg,#fff9ed,#e8d2b1);border-radius:12px 18px 18px 12px;display:grid;place-items:center;color:#30447e;font:800 42px Manrope;box-shadow:12px 14px 0 #17255270;transform:rotate(-9deg);z-index:1}
+.orbit-letter{position:absolute;right:0;top:8px;color:#f2d9a8;font:800 35px Manrope;z-index:2}
+.orbit-dot{position:absolute;left:5px;bottom:18px;width:13px;height:13px;background:#e6c78c;border-radius:50%;box-shadow:0 0 0 8px #e6c78c20}
+.arcade-section-head{display:flex;align-items:end;justify-content:space-between;margin:27px 2px 14px}
+.arcade-section-head small{font-size:9px;letter-spacing:1.6px;color:#8a96b1;font-weight:800}
+.arcade-section-head h3{font:800 20px Manrope;color:#27365f;margin:6px 0 0}
+.arcade-section-head>span{font-size:9px;font-weight:800;color:#7180a4;background:#e9edf8;padding:7px 10px;border-radius:20px}
+.arcade-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.arcade-card{display:grid;grid-template-columns:124px minmax(0,1fr);gap:17px;text-align:left;align-items:center;padding:13px;border:1px solid #e8ecf4;border-radius:17px;background:#fff;box-shadow:0 6px 20px #25376208;transition:transform .2s,box-shadow .2s,border-color .2s;min-width:0}
+.arcade-card:hover{transform:translateY(-3px);box-shadow:0 13px 28px #25376215;border-color:#cbd4e9}
+.arcade-card-art{height:132px;border-radius:13px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.arcade-card-art:before,.arcade-card-art:after{content:"";position:absolute;border:1px solid #ffffff65;border-radius:50%;width:100px;height:100px;right:-34px;top:-40px}
+.arcade-card-art:after{width:75px;height:75px;right:auto;left:-34px;top:auto;bottom:-36px}
+.arcade-card-art>span{font:800 38px Manrope;color:#fff;text-shadow:0 3px 10px #17254a35;z-index:1}
+.arcade-card-art>small{position:absolute;bottom:10px;left:10px;font-size:8px;letter-spacing:1px;color:#ffffffdc;font-weight:800}
+.arcade-card-art.violet{background:linear-gradient(145deg,#8270bd,#51468c)}
+.arcade-card-art.blue{background:linear-gradient(145deg,#5b8bc4,#31568f)}
+.arcade-card-art.green{background:linear-gradient(145deg,#65a99a,#357a70)}
+.arcade-card-art.amber{background:linear-gradient(145deg,#d6a75f,#a66c35)}
+.arcade-card-copy{min-width:0}
+.arcade-card-copy>small{font-size:8px;letter-spacing:1.3px;color:#8c98b1;font-weight:800}
+.arcade-card-copy h3{font:800 15px Manrope;color:#27365f;margin:7px 0}
+.arcade-card-copy p{font-size:10px;line-height:1.6;color:#8590a7;margin:0 0 14px}
+.arcade-play{display:flex;align-items:center;justify-content:space-between;color:#344d91;font-size:9px;letter-spacing:.5px;font-weight:800}
+.arcade-play b{font-size:16px}
+.arcade-note{display:flex;gap:12px;align-items:center;padding:15px 18px;border:1px solid #e9edf5;border-radius:13px;background:#fff;margin-top:17px}
+.arcade-note b{font:700 11px Manrope;color:#33477e;white-space:nowrap}
+.arcade-note span{font-size:10px;color:#8993a8;line-height:1.5}
+.arcade-play-screen{background:#fff;border:1px solid #e8ecf4;border-radius:20px;overflow:hidden;box-shadow:0 12px 32px #23345c0c;min-height:520px}
+.arcade-game-header{height:62px;padding:0 22px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #edf0f5}
+.arcade-game-header>button{border:0;background:none;color:#53658f;font-size:11px;font-weight:700;padding:8px 0}
+.arcade-game-header>span{font-size:9px;letter-spacing:1.4px;color:#8995b0;font-weight:800}
+.arcade-timer{font:800 14px Manrope;color:#2e4389;background:#eef2ff;padding:8px 12px;border-radius:9px;font-variant-numeric:tabular-nums}
+.arcade-roundline{display:flex;justify-content:space-between;gap:10px;align-items:center;font-size:9px;letter-spacing:1.2px;color:#8a96af;font-weight:800}
+.arcade-roundline b{color:#435b9b;letter-spacing:0}
+.arcade-challenge{max-width:650px;margin:0 auto;padding:32px 26px 38px}
+.arcade-challenge-card{margin-top:22px}
+.arcade-challenge-card>small{font-size:9px;letter-spacing:1.5px;color:#8a96b1;font-weight:800}
+.arcade-challenge-card h2{font:800 23px/1.4 Manrope;color:#27365f;margin:13px 0 23px}
+.arcade-answer-options{display:grid;gap:10px}
+.arcade-answer-options button{display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;padding:15px 17px;border:1px solid #e3e8f1;background:#fff;border-radius:12px;color:#52617f;font-size:13px;transition:.18s}
+.arcade-answer-options button.selected{border-color:#536db7;background:#f1f4ff;color:#30488f;font-weight:700}
+.arcade-answer-options button i{font-style:normal;color:#8a96b1}
+.arcade-answer-options button.selected i{color:#405aa7}
+.arcade-submit{width:100%;margin-top:20px;border:0;border-radius:11px;background:linear-gradient(100deg,#2b4289,#4964ad);color:#fff;padding:14px;font-size:12px;font-weight:800;box-shadow:0 8px 17px #31498d25;transition:transform .2s}
+.arcade-submit:hover:not(:disabled){transform:translateY(-2px)}
+.arcade-submit:disabled{opacity:.4;cursor:not-allowed}
+.arcade-feedback{margin-top:17px;padding:14px 16px;border-radius:12px;background:#f4f6fb;color:#485775;font-size:12px;line-height:1.7}
+.arcade-feedback p{margin:5px 0 0;font-size:11px}
+.arcade-feedback.is-correct{background:#edf8f1;color:#286c4c}
+.arcade-feedback.is-wrong{background:#fff3ec;color:#96542e}
+.sentence-instruction{font-size:11px;color:#8993a8;margin:-10px 0 15px}
+.sentence-answer,.sentence-bank{display:flex;flex-wrap:wrap;gap:8px;min-height:52px;padding:12px;border-radius:12px;background:#f1f4fc;margin-bottom:12px}
+.sentence-answer{border:1px dashed #aab6d4}
+.sentence-answer button,.sentence-bank button{border:1px solid #dce3f1;background:#fff;border-radius:8px;padding:9px 11px;color:#3c508b;font-size:12px;font-weight:700}
+.sentence-answer button span{margin-left:8px;color:#9ca8bd}
+.sentence-reset{border:0;background:none;color:#63739b;font-size:10px;font-weight:700;padding:6px 0}
+.arcade-finish{min-height:430px;padding:48px 22px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.arcade-finish-mark{width:65px;height:65px;border-radius:22px;background:#e9f5ee;color:#36815b;display:grid;place-items:center;font-size:29px;margin-bottom:20px}
+.arcade-finish>small{font-size:9px;letter-spacing:1.7px;color:#8995ae;font-weight:800}
+.arcade-finish h2{font:800 24px Manrope;color:#293968;margin:10px 0}
+.arcade-finish>strong{font:800 44px Manrope;color:#344e99;margin-top:8px}
+.arcade-finish>strong small{font-size:17px;color:#99a2b5}
+.arcade-finish p{font-size:12px;color:#7e89a1}
+.arcade-finish>span{font-size:10px;color:#52658e;margin:7px 0 13px}
+.arcade-finish>button{border:0;border-radius:10px;background:#2d438b;color:#fff;padding:12px 22px;font-size:11px;font-weight:800;margin-top:10px;min-width:190px}
+.arcade-finish>button.arcade-secondary{background:#eef1fa;color:#41568f}
+.hangman-game{max-width:650px;margin:0 auto;padding:25px 26px 35px}
+.hangman-stage{display:flex;align-items:center;justify-content:center;gap:45px;padding:22px 0 10px}
+.hangman-scaffold{height:155px;width:130px;position:relative;flex:none}
+.scaffold-base,.scaffold-side,.scaffold-top,.scaffold-rope{position:absolute;background:#596c9b;border-radius:3px}
+.scaffold-base{width:115px;height:5px;bottom:4px;left:4px}
+.scaffold-side{width:5px;height:146px;bottom:4px;left:24px}
+.scaffold-top{height:5px;width:78px;top:5px;left:24px}
+.scaffold-rope{width:4px;height:20px;top:8px;right:27px}
+.hangman-head,.hangman-body,.hangman-arm,.hangman-leg{position:absolute;display:block;background:#c18b58}
+.hangman-head{width:27px;height:27px;border:3px solid #c18b58;border-radius:50%;background:transparent;top:25px;right:15px}
+.hangman-body{width:4px;height:44px;top:51px;right:27px}
+.hangman-arm,.hangman-leg{width:4px;height:27px;transform-origin:top;background:#c18b58}
+.hangman-arm.left{top:60px;right:27px;transform:rotate(45deg)}
+.hangman-arm.right{top:60px;right:27px;transform:rotate(-45deg)}
+.hangman-leg.left{top:91px;right:27px;transform:rotate(35deg)}
+.hangman-leg.right{top:91px;right:27px;transform:rotate(-35deg)}
+.hangman-word{display:flex;flex-wrap:wrap;justify-content:center;gap:7px;max-width:300px}
+.hangman-word span{width:25px;height:38px;border-bottom:3px solid #6478b5;text-align:center;font:800 20px Manrope;color:#2d4389}
+.hangman-hint{background:#f4f6fc;border-radius:12px;padding:13px 16px;margin:10px 0 17px}
+.hangman-hint small{font-size:8px;letter-spacing:1.3px;color:#8290ad;font-weight:800}
+.hangman-hint p{font-size:12px;color:#4e5d7b;margin:6px 0 0;line-height:1.6}
+.hangman-keyboard{display:grid;grid-template-columns:repeat(9,minmax(0,1fr));gap:6px}
+.hangman-keyboard button{border:1px solid #e0e6f0;background:#fff;border-radius:8px;padding:10px 0;color:#4d5e88;font-size:11px;font-weight:800}
+.hangman-keyboard button.hit{background:#eaf6ef;border-color:#c4e4d0;color:#32734e}
+.hangman-keyboard button.miss{background:#f4f5f8;color:#b2b8c4;border-color:#edf0f4}
+.hangman-keyboard button:disabled{cursor:default}
+.arcade-finish button:focus-visible,.arcade button:focus-visible{outline:3px solid #e1b96f;outline-offset:3px}
+@media(max-width:720px){.arcade-banner{min-height:245px;padding:25px 23px}.arcade-banner h2{font-size:27px;max-width:280px}.arcade-banner p{max-width:280px}.arcade-orbit{position:absolute;right:-55px;bottom:-30px;opacity:.25;transform:scale(.9)}.arcade-grid{grid-template-columns:1fr}.arcade-card{grid-template-columns:105px minmax(0,1fr);gap:13px}.arcade-card-art{height:115px}.arcade-card-copy h3{font-size:14px}.arcade-game-header{padding:0 14px}.arcade-challenge,.hangman-game{padding:23px 16px}.arcade-challenge-card h2{font-size:19px}.hangman-stage{gap:20px}.hangman-keyboard{grid-template-columns:repeat(7,minmax(0,1fr))}.arcade-play-screen{min-height:460px}}
+@media(max-width:390px){.arcade-banner h2{font-size:24px}.arcade-banner-meta{font-size:8px;gap:7px}.arcade-card{grid-template-columns:88px minmax(0,1fr)}.arcade-card-art{height:104px}.hangman-stage{gap:10px}.hangman-scaffold{transform:scale(.85);transform-origin:center}.hangman-word{gap:4px}.hangman-word span{width:20px;font-size:16px}}
+@media(prefers-reduced-motion:reduce){.arcade,.arcade-card,.arcade-submit{animation:none;transition:none}}
