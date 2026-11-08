@@ -566,3 +566,28 @@
 .arena-match-lines button.chosen{border-color:#7892ce;background:#eef3ff;color:#344d91;transform:translateY(-2px)}
 .arena-match-lines button[draggable=true]{cursor:grab;touch-action:pan-y}
 @media(max-width:600px){.arena-match-drop{min-height:95px;padding:13px}.arena-match-drop b{font-size:12px}}
+
+
+/* Cenários distintos para as missões: cada jogo recebe uma ambientação própria. */
+.game-mode .arena-game-stage{position:relative;isolation:isolate;border:1px solid #e2e8f3;border-radius:22px;background-color:#fbfcff;box-shadow:0 12px 30px #17264a0a;overflow:hidden}
+.game-mode .arena-game-stage:before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.72}
+.game-mode .arena-game-stage.scene-caca-palavras:before{background-image:linear-gradient(#dce8f8 1px,transparent 1px),linear-gradient(90deg,#dce8f8 1px,transparent 1px),radial-gradient(circle at 80% 15%,#c5f0e4,transparent 28%);background-size:28px 28px,28px 28px,auto}
+.game-mode .arena-game-stage.scene-forca-palavras:before{background-image:linear-gradient(90deg,#f4e6d2,#fffaf2 35%,transparent 80%),repeating-linear-gradient(0deg,#ead9c1 0 2px,transparent 2px 22px)}
+.game-mode .arena-game-stage.scene-complete-word:before{background-image:radial-gradient(circle at 18% 20%,#dce9ff 0 8%,transparent 8.5%),radial-gradient(circle at 85% 75%,#d6f4ed 0 10%,transparent 10.5%),linear-gradient(135deg,#f8fbff,#eef4ff)}
+.game-mode .arena-game-stage.scene-acentuacao:before{background-image:radial-gradient(circle at 15% 15%,#ffe7ae,transparent 23%),radial-gradient(circle at 88% 88%,#d9e8ff,transparent 30%)}
+.game-mode .arena-game-stage.scene-separacao-silabica:before{background-image:repeating-linear-gradient(135deg,#e5edff 0 2px,transparent 2px 24px),linear-gradient(135deg,#fff,#f1f6ff)}
+.game-mode .arena-game-stage.scene-classificacao-substantivos:before{background-image:linear-gradient(90deg,#d8eee7 0 2px,transparent 2px 33.3%,#d8eee7 33.3% calc(33.3% + 2px),transparent calc(33.3% + 2px) 66.6%,#d8eee7 66.6% calc(66.6% + 2px),transparent calc(66.6% + 2px)),linear-gradient(#f8fffc,#edf8f3)}
+.game-mode .arena-game-stage.scene-identifique-adjetivos:before{background-image:radial-gradient(circle at 50% 45%,transparent 0 22%,#d8e5fa 22.5% 23.5%,transparent 24%),radial-gradient(circle at 50% 45%,#eaf1ff,transparent 62%)}
+.game-mode .arena-game-stage.scene-desafio-pronomes:before{background-image:radial-gradient(ellipse at 18% 20%,#dceaff 0 14%,transparent 14.5%),radial-gradient(ellipse at 82% 78%,#d7f2e9 0 17%,transparent 17.5%)}
+.game-mode .arena-game-stage.scene-conjugacao-verbos:before{background-image:repeating-linear-gradient(90deg,#e2eafa 0 1px,transparent 1px 36px),repeating-linear-gradient(0deg,#e2eafa 0 1px,transparent 1px 36px),linear-gradient(145deg,#f8fbff,#edf3ff)}
+.game-mode .arena-game-stage.scene-corrida-tempos-verbais:before{background-image:repeating-linear-gradient(90deg,transparent 0 45px,#e1e9f6 45px 47px),linear-gradient(180deg,#eff5ff 0 48%,#e7f4ed 48% 100%)}
+.game-mode .arena-game-stage.scene-monte-frase:before{background-image:linear-gradient(90deg,#dce7fb 0 1px,transparent 1px 25%),linear-gradient(#f7f9ff,#edf3ff)}
+.game-mode .arena-game-stage.scene-organize-palavras:before{background-image:radial-gradient(circle at 20% 22%,#d7e8ff 0 9%,transparent 9.5%),radial-gradient(circle at 82% 24%,#e7dcff 0 9%,transparent 9.5%),radial-gradient(circle at 72% 82%,#d7f1e9 0 11%,transparent 11.5%)}
+.game-mode .arena-game-stage.scene-encontre-erro:before{background-image:linear-gradient(135deg,#fff6f4,#fff 55%),repeating-linear-gradient(0deg,#f6dddd 0 1px,transparent 1px 32px)}
+.game-mode .arena-game-stage.scene-sinonimos-antonimos:before{background-image:radial-gradient(circle at 25% 50%,#dceaff 0 11%,transparent 11.5%),radial-gradient(circle at 75% 50%,#d7f2e8 0 11%,transparent 11.5%),linear-gradient(90deg,transparent 49.5%,#dbe5f4 49.5% 50.5%,transparent 50.5%)}
+.game-mode .arena-game-stage.scene-homonimos-paronimos:before{background-image:linear-gradient(90deg,#f0eaff 0 49.5%,#d9e3f3 49.5% 50.5%,#e8f4ff 50.5%)}
+.game-mode .arena-game-stage.scene-interpretacao:before{background-image:linear-gradient(90deg,#f4ead7 0 13px,transparent 13px),repeating-linear-gradient(0deg,transparent 0 28px,#e8e1d4 28px 29px),linear-gradient(90deg,#fffdf7,#f8f5ec)}
+.game-mode .arena-game-stage.scene-figuras-linguagem:before{background-image:repeating-conic-gradient(from 10deg at 50% 50%,#e9edff 0 12deg,#f8faff 12deg 24deg)}
+.game-mode .arena-game-stage.scene-pontuacao:before{background-image:radial-gradient(circle,#dce7fb 1.5px,transparent 2px);background-size:22px 22px}
+.game-mode .arena-game-stage.scene-concordancia:before{background-image:linear-gradient(90deg,transparent 49.5%,#dce8e3 49.5% 50.5%,transparent 50.5%),radial-gradient(ellipse at 50% 15%,#dff3e9,transparent 40%),linear-gradient(#fbfffd,#eff8f3)}
+.game-mode .arena-game-stage.scene-batalha-conhecimentos:before{background-image:radial-gradient(circle at 50% 45%,#e6dfff,transparent 34%),radial-gradient(circle at 50% 50%,transparent 0 32%,#dce5fa 32.5% 33%,transparent 33.5%),linear-gradient(145deg,#f7f7ff,#edf0ff)}
