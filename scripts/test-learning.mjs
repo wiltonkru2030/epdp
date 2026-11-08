@@ -9,6 +9,11 @@ const assessmentFix = await readFile(new URL('../supabase/migrations/20261108001
 const profileSecurity = await readFile(new URL('../supabase/migrations/202611080020_restrict_profile_role_updates.sql', import.meta.url), 'utf8')
 const dashboard = await readFile(new URL('../src/components/DashboardCenter.tsx', import.meta.url), 'utf8')
 const profile = await readFile(new URL('../src/components/ProfileCenter.tsx', import.meta.url), 'utf8')
+const lessonExperience = await readFile(new URL('../src/components/LessonExperience.tsx', import.meta.url), 'utf8')
+const lessonStyles = await readFile(new URL('../src/components/LessonExperience.css', import.meta.url), 'utf8')
+const lessonToolsMigration = await readFile(new URL('../supabase/migrations/20261108081039_student_lesson_notes_and_favorites.sql', import.meta.url), 'utf8')
+const lessonIndexMigration = await readFile(new URL('../supabase/migrations/20261108081202_index_lesson_study_tools_lesson_id.sql', import.meta.url), 'utf8')
+const courseModulesMigration = await readFile(new URL('../supabase/migrations/20261108081335_seed_portuguese_advanced_course_modules.sql', import.meta.url), 'utf8')
 
 assert.match(app, /if \(authLoading\) return/, 'App must wait for Supabase session resolution')
 assert.match(app, /if \(!user\) return .*AuthModal required/s, 'App must block all pages when there is no authenticated user')
@@ -46,5 +51,18 @@ assert.match(profile, /auth\.updateUser\(\{ password \}\)/, 'Profile must use Su
 assert.match(profile, /Solicitação enviada/, 'Email changes must explain confirmation flow')
 assert.match(app, /DashboardCenter/, 'Student home must use the real dashboard component')
 assert.match(app, /ProfileCenter/, 'Student profile must use the profile management component')
+
+
+assert.match(app, /LessonExperience/, 'Course pages must use the interactive lesson experience')
+assert.match(app, /courseModules\.map/, 'The course must group lessons into modules')
+assert.match(lessonExperience, /speechSynthesis/, 'Lessons must support browser text-to-speech')
+assert.match(lessonExperience, /Corrigir minhas respostas/, 'Lessons must include interactive practice')
+assert.match(lessonExperience, /lesson_study_tools/, 'Lesson favorites and notes must persist in Supabase')
+assert.match(lessonExperience, /Tamanho do texto/, 'Students must be able to adjust reading size')
+assert.match(lessonStyles, /lesson-illustration/, 'Lessons must include responsive educational illustrations')
+assert.match(lessonToolsMigration, /enable row level security/i, 'Private lesson notes must have RLS enabled')
+assert.match(lessonToolsMigration, /auth\.uid\(\).*user_id/i, 'Lesson notes and favorites must be restricted to their owner')
+assert.match(lessonIndexMigration, /lesson_study_tools_lesson_id_idx/, 'Lesson study tools must index the lesson foreign key')
+assert.match(courseModulesMigration, /Reescrita e concursos/, 'The complete Portuguese learning path must be seeded')
 
 console.log('EPDP learning checks passed: mandatory authentication, anonymous database lockout, protected answer key, timed assessments, history, course objectives, real dashboard and secure profile.')
