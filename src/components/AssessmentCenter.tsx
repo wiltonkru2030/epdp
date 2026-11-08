@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
+import TopicVisual from './TopicVisual'
 
 type Assessment = { id: string; title: string; description: string; assessment_type: string; time_limit_seconds: number | null }
 type Question = { id: string; subject: string; prompt: string; context_text: string; difficulty: number; position: number }
@@ -166,6 +167,7 @@ export default function AssessmentCenter({ onOpenLesson }: Props) {
         <article className="assessment-question assessment-current-question">
           <small>QUESTÃO {activeIndex + 1} DE {questions.length} · {activeQuestion.subject} · NÍVEL {activeQuestion.difficulty}/5</small>
           {activeQuestion.context_text && <blockquote>{activeQuestion.context_text}</blockquote>}
+          <TopicVisual topic={activeQuestion.subject} compact />
           <h3>{activeQuestion.prompt}</h3>
           <div className="assessment-options">{questionOptions.map(option =>
             <button key={option.id} className={answers[activeQuestion.id] === option.id ? 'chosen' : ''} onClick={() => setAnswers(current => ({ ...current, [activeQuestion.id]: option.id }))}>
