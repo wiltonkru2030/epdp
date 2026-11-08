@@ -29,6 +29,51 @@ function questionsFor(title: string): Question[] {
     { prompt: 'Inferir significa:', options: ['Copiar uma frase', 'Concluir a partir de pistas do texto', 'Ignorar o contexto', 'Inventar uma informação'], answer: 1, explanation: 'A inferência é uma conclusão plausível sustentada por pistas textuais.' },
     { prompt: 'Em “Marina comprou um livro. Ela começou a leitura”, “ela” retoma:', options: ['leitura', 'livro', 'Marina', 'começou'], answer: 2, explanation: 'O pronome “ela” retoma o nome Marina, estabelecendo coesão referencial.' },
   ]
+  if (t.includes('semântica')) return [
+    { prompt: 'Em “Sentei no banco da praça”, banco significa:', options: ['Instituição financeira', 'Assento', 'Margem de rio', 'Conjunto de dados'], answer: 1, explanation: 'O contexto “da praça” indica que banco é um assento.' },
+    { prompt: 'A expressão “coração de pedra” está em sentido:', options: ['Denotativo', 'Conotativo', 'Técnico', 'Literal'], answer: 1, explanation: 'A expressão é figurada: indica insensibilidade, não um coração feito de pedra.' },
+    { prompt: 'Palavras com sentidos opostos são:', options: ['Sinônimas', 'Homônimas', 'Antônimas', 'Polissêmicas'], answer: 2, explanation: 'Antônimos expressam oposição de sentido.' },
+  ]
+  if (t.includes('coesão') || t.includes('organização textual')) return [
+    { prompt: 'Em “Ana chegou. Ela trouxe os livros”, “ela” é um recurso de:', options: ['Coesão referencial', 'Ironia', 'Ambiguidade', 'Hipérbole'], answer: 0, explanation: 'O pronome retoma Ana e conecta as frases.' },
+    { prompt: 'Qual conectivo indica oposição?', options: ['portanto', 'porque', 'mas', 'logo'], answer: 2, explanation: '“Mas” introduz uma relação adversativa.' },
+    { prompt: 'Notícia, receita e e-mail são exemplos de:', options: ['Fonemas', 'Gêneros textuais', 'Figuras de linguagem', 'Orações'], answer: 1, explanation: 'São gêneros textuais usados em situações sociais de comunicação.' },
+  ]
+  if (t.includes('fonética') || t.includes('fonologia')) return [
+    { prompt: 'Em “chave”, CH é:', options: ['Encontro consonantal', 'Dígrafo', 'Hiato', 'Ditongo'], answer: 1, explanation: 'Duas letras representam um único fonema.' },
+    { prompt: 'A palavra “saúde” apresenta:', options: ['Ditongo', 'Tritongo', 'Hiato', 'Dígrafo'], answer: 2, explanation: 'As vogais a e ú ficam em sílabas diferentes: sa-ú-de.' },
+    { prompt: 'Fonema é:', options: ['Sinal gráfico', 'Unidade sonora distintiva', 'Uma sílaba escrita', 'Um tipo de acento'], answer: 1, explanation: 'Fonema é uma unidade sonora capaz de distinguir palavras.' },
+  ]
+  if (t.includes('classes gramaticais')) return [
+    { prompt: 'Em “A menina inteligente respondeu”, “inteligente” é:', options: ['Substantivo', 'Verbo', 'Adjetivo', 'Advérbio'], answer: 2, explanation: 'O adjetivo caracteriza o substantivo “menina”.' },
+    { prompt: 'Qual classe expressa ação, estado ou fenômeno?', options: ['Verbo', 'Artigo', 'Preposição', 'Interjeição'], answer: 0, explanation: 'O verbo expressa ação, estado, mudança ou fenômeno.' },
+    { prompt: 'Qual classe conecta orações?', options: ['Numeral', 'Conjunção', 'Adjetivo', 'Substantivo'], answer: 1, explanation: 'A conjunção conecta termos ou orações e estabelece relações de sentido.' },
+  ]
+  if (t.includes('morfologia') || t.includes('formação das palavras')) return [
+    { prompt: 'Em “infeliz”, “in-” é:', options: ['Sufixo', 'Radical', 'Prefixo', 'Desinência'], answer: 2, explanation: 'O prefixo aparece antes do radical.' },
+    { prompt: '“Passatempo” é formado por:', options: ['Composição', 'Flexão', 'Derivação sufixal', 'Parassíntese'], answer: 0, explanation: 'A palavra resulta da união de dois elementos: passa + tempo.' },
+    { prompt: 'Em “felizmente”, “-mente” é:', options: ['Prefixo', 'Sufixo', 'Radical', 'Vogal temática'], answer: 1, explanation: 'O sufixo é acrescentado depois do radical.' },
+  ]
+  if (t.includes('sintaxe')) return [
+    { prompt: 'Em “A professora explicou a matéria”, o sujeito é:', options: ['explicou', 'a matéria', 'A professora', 'professora explicou'], answer: 2, explanation: '“A professora” é o termo sobre o qual se declara algo.' },
+    { prompt: 'Em “Comprei um caderno”, “um caderno” é:', options: ['Objeto direto', 'Objeto indireto', 'Vocativo', 'Aposto'], answer: 0, explanation: 'O complemento liga-se ao verbo sem preposição obrigatória.' },
+    { prompt: 'Quantas orações há em “Estudei e revisei o conteúdo”?', options: ['Uma', 'Duas', 'Três', 'Quatro'], answer: 1, explanation: 'Há dois verbos, portanto duas orações.' },
+  ]
+  if (t.includes('crase')) return [
+    { prompt: 'Em “Fui à escola”, a crase ocorre pela fusão de:', options: ['Artigo + artigo', 'Preposição a + artigo a', 'Pronome + verbo', 'Duas preposições'], answer: 1, explanation: 'O verbo exige a preposição “a” e “escola” admite o artigo feminino “a”.' },
+    { prompt: 'Em “Começou a estudar”, ocorre crase?', options: ['Sim, sempre', 'Não, antes de verbo não ocorre', 'Somente no plural', 'Depende do sujeito'], answer: 1, explanation: 'Não se usa crase antes de verbo.' },
+    { prompt: 'Qual frase está correta?', options: ['Fui à pé', 'Entreguei à ela', 'Voltei à cidade', 'Começou à chover'], answer: 2, explanation: '“Voltei à cidade” apresenta preposição exigida pelo verbo e artigo feminino.' },
+  ]
+  if (t.includes('figuras de linguagem')) return [
+    { prompt: '“Estou morrendo de fome” é exemplo de:', options: ['Eufemismo', 'Hipérbole', 'Metonímia', 'Antítese'], answer: 1, explanation: 'Hipérbole é o exagero intencional para enfatizar uma ideia.' },
+    { prompt: '“Seus olhos são estrelas” apresenta:', options: ['Metáfora', 'Comparação explícita', 'Ironia', 'Pleonasmo'], answer: 0, explanation: 'A metáfora aproxima elementos sem conectivo comparativo.' },
+    { prompt: 'Em “João afirmou que chegaria cedo”, predomina discurso:', options: ['Direto', 'Indireto', 'Indireto livre', 'Poético'], answer: 1, explanation: 'A fala é integrada à narração, sem reprodução literal.' },
+  ]
+  if (t.includes('reescrita') || t.includes('concursos')) return [
+    { prompt: 'A transformação “A equipe concluiu o relatório” / “O relatório foi concluído pela equipe” preserva:', options: ['A ideia principal', 'O tempo futuro', 'O sujeito agente', 'A forma interrogativa'], answer: 0, explanation: 'A voz muda de ativa para passiva, mas o fato principal é preservado.' },
+    { prompt: '“Embora” expressa relação de:', options: ['Causa', 'Consequência', 'Concessão', 'Conclusão'], answer: 2, explanation: '“Embora” introduz uma ideia concessiva.' },
+    { prompt: 'Ao substituir um conectivo, deve-se verificar:', options: ['Somente o tamanho da frase', 'Se a relação lógica foi preservada', 'A quantidade de vírgulas', 'A primeira letra'], answer: 1, explanation: 'A substituição precisa preservar a relação de sentido entre as orações.' },
+  ]
   return [
     { prompt: 'Qual é a melhor estratégia para estudar este conteúdo?', options: ['Ler os exemplos e praticar', 'Memorizar sem compreender', 'Pular as explicações', 'Responder sem ler'], answer: 0, explanation: 'Compreender os conceitos, observar exemplos e praticar ajuda a consolidar a aprendizagem.' },
     { prompt: 'Ao analisar uma frase, devemos observar:', options: ['Somente o tamanho', 'O contexto e a função das palavras', 'Apenas a primeira palavra', 'Somente a pontuação'], answer: 1, explanation: 'O contexto é essencial para compreender o sentido e a função dos elementos da língua.' },
