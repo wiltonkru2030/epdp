@@ -50,3 +50,15 @@
 .theme-punctuation .lesson-illustration-book{background:linear-gradient(145deg,#fff9ec,#f1dfb1)}
 .theme-figures .lesson-illustration-book{background:linear-gradient(145deg,#fff1f4,#f4c6d2)}
 .theme-rewrite .lesson-illustration-book{background:linear-gradient(145deg,#f1fff8,#c3e8dc)}
+
+/* Leitura confortável: parágrafos separados e títulos com hierarquia clara. */
+.lesson-explanation{margin-top:8px}
+.lesson-content-section{padding:23px 0;gap:15px}
+.lesson-content-section h3{font-size:17px;line-height:1.45;margin:2px 0 12px}
+.lesson-content-section p,.lesson-content-note p{font-size:calc(14px * var(--lesson-font-scale,1));line-height:1.95;margin:0 0 13px;color:#4c5872}
+.lesson-content-section p:last-child,.lesson-content-note p:last-child{margin-bottom:0}
+.lesson-content-note{padding:17px 19px;margin:16px 0;border-left:3px solid #9aabd9}
+.lesson-content-list{padding:17px 22px 17px 42px;margin:16px 0;font-size:14px;line-height:1.95}
+.lesson-content-list li{font-size:14px;line-height:1.9;padding:5px 0}
+.lesson-explanation-heading h3{font-size:23px;line-height:1.35;margin:8px 0 18px}
+@media(max-width:620px){.lesson-content-section{padding:19px 0;gap:10px}.lesson-content-section h3{font-size:16px}.lesson-content-section p,.lesson-content-note p{font-size:calc(14px * var(--lesson-font-scale,1));line-height:1.9}.lesson-content-note{padding:14px}.lesson-explanation-heading h3{font-size:20px}}
