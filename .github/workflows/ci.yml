@@ -1,0 +1,26 @@
+name: EPDP CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main, "feat/**"]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm install
+      - name: Test learning features
+        run: npm run test:learning
+      - name: Test educational games
+        run: npm run test:games
+      - name: Build production bundle
+        run: npm run build
