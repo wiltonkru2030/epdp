@@ -63,7 +63,7 @@ assert.doesNotMatch(component, /ABCDEFGHIJKLMNOPQRSTUVWXYZÁÉÍÓÚÂÊÔÃÕÇ
 assert.doesNotMatch(source, /saùde|idéía|Cidadões|Cidadães|lâmpâda|têem/, 'Remove malformed distractor spellings')
 assert.match(component, /navigator\.vibrate/, 'Haptic feedback must be feature-detected')
 assert.match(component, /feedback&&game\.kind!=='hangman'/, 'Hangman must not show a duplicate next-round button')
-assert.match(component, /mascotByGame:Record<string,string>/, 'Each game must be assigned a mascot')
+assert.match(component, /PhaserMascot/, 'Game screens must use the shared animated Phaser mascot')
 assert.match(source, /for\(let i=copy\.length-1;i>0;i--\)/, 'Piece shuffling must use unbiased Fisher-Yates')
 const keyboard = 'ABCDEFGHIJLMNOPQRSTUVXZ'
 assert.equal(new Set(keyboard).size, keyboard.length, 'Hangman keyboard keys must be unique')
