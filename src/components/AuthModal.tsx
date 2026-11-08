@@ -1,10 +1,10 @@
 import { useState, type FormEvent } from 'react'
 import { supabase } from '../lib/supabase'
 
-type Props = { onClose: () => void }
+type Props = { onClose: () => void; required?: boolean }
 type Mode = 'login' | 'signup' | 'reset'
 
-export default function AuthModal({ onClose }: Props) {
+export default function AuthModal({ onClose, required = false }: Props) {
   const [mode, setMode] = useState<Mode>('login')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -48,9 +48,9 @@ export default function AuthModal({ onClose }: Props) {
   }
 
   const title = mode === 'signup' ? 'Crie sua conta' : mode === 'reset' ? 'Recuperar senha' : 'Acesse sua conta'
-  return <div className="overlay" onClick={onClose}>
+  return <div className={required ? 'overlay auth-required-overlay' : 'overlay'} onClick={required ? undefined : onClose}>
     <section className="modal auth-modal" onClick={event => event.stopPropagation()}>
-      <button className="close" onClick={onClose} aria-label="Fechar">×</button>
+      {!required && <button className="close" onClick={onClose} aria-label="Fechar">×</button>}
       <small>ESTUDO PROFUNDO DE PORTUGUÊS</small>
       <h2>{title}</h2>
       <p>{mode === 'signup' ? 'Comece sua jornada de aprendizagem.' : mode === 'reset' ? 'Informe seu e-mail para receber o link de recuperação.' : 'Entre para acompanhar seu aprendizado.'}</p>
