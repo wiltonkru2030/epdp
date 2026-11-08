@@ -95,7 +95,7 @@ function Illustration({ title }: { title: string }) {
 
 function contentSections(content: string) {
   const normalized = content.replace(/\r/g, '').replace(/\\n/g, '\n').trim()
-  const blocks = normalized.split(/\n\s*\n/).map(block => block.trim()).filter(Boolean)
+  const blocks = normalized.replace(/\n(?=## )/g, '\n\n').split(/\n\s*\n/).map(block => block.trim()).filter(Boolean)
   return blocks.map((block, index) => {
     const lines = block.split('\n').map(line => line.trim()).filter(Boolean)
     const first = lines[0] || ''
