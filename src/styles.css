@@ -891,3 +891,17 @@
 @media(prefers-reduced-motion:reduce){
  .game-mode .hangman-mascot{animation:none!important}
 }
+
+
+/* Phaser 3 mascot viewport */
+.epdp-phaser-mascot{display:block;position:relative;width:76px;height:76px;flex:0 0 auto;overflow:hidden;contain:layout paint}
+.epdp-phaser-mascot canvas{display:block!important;width:100%!important;height:100%!important;max-width:100%;object-fit:contain}
+.game-mode .hangman-friend-stage .epdp-phaser-mascot{width:min(100%,190px);height:auto;aspect-ratio:1;margin:0 auto}
+.game-mode .arena-coach .epdp-phaser-mascot{width:58px;height:58px}
+@media(max-width:700px){
+ .game-mode .arena-coach .epdp-phaser-mascot{width:42px;height:42px}
+ .game-mode .hangman-friend-stage .epdp-phaser-mascot{width:min(100%,145px)}
+}
+@media(prefers-reduced-motion:reduce){
+ .epdp-phaser-mascot{animation:none!important}
+}
