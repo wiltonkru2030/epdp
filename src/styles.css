@@ -491,3 +491,60 @@
 .game-mode .arena-hero:after{z-index:-1}
 @media(max-width:760px){.game-mode .arena-hero-emblem{width:145px;height:175px;transform:none;margin-right:-12px}.arcade-owl-mascot{width:150px;height:175px}.arcade-friends{right:15px;bottom:5px}.arcade-friends img{width:46px;height:50px}.arcade-friends img:nth-child(2){width:55px;height:45px}.arcade-world-art{opacity:.2}}
 @media(max-width:430px){.game-mode .arena-hero-emblem{width:100px;height:145px;opacity:1}.arcade-owl-mascot{width:120px;height:140px}.arcade-friends{right:7px}.arcade-friends img{width:36px;height:40px}.arcade-friends img:nth-child(2){width:43px;height:36px}}
+
+
+/* Game Arena — progressão, controles de jogo e mascote reativo */
+.arena-profile-strip{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:15px 18px;margin:14px 0 22px;border:1px solid #2b3d68;border-radius:16px;background:linear-gradient(105deg,#142344,#101a35);box-shadow:0 12px 28px #0002}
+.arena-player-level{display:grid;gap:5px;min-width:190px}
+.arena-player-level>span,.arena-wallet small{font-size:8px;letter-spacing:1.4px;color:#8398c4;font-weight:900}
+.arena-player-level>b{font:900 17px Manrope;color:#f4f7ff}
+.arena-player-level>small{font-size:9px;color:#91a2c6}
+.arena-level-track{height:6px;border-radius:10px;overflow:hidden;background:#28385f;margin-top:3px}
+.arena-level-track i{display:block;height:100%;border-radius:10px;background:linear-gradient(90deg,#64d5c2,#a4e9d9);transition:width .5s}
+.arena-wallet{display:flex;align-items:center;gap:24px}
+.arena-wallet>div{display:grid;gap:5px}
+.arena-wallet b{font:850 14px Manrope;color:#f5f7ff}
+.arena-sound-toggle{border:1px solid #3a4c77;border-radius:10px;background:#1c2b50;color:#c9d8fb;padding:10px 12px;font-size:8px;font-weight:900;letter-spacing:1px}
+.arena-achievement-row{display:flex;align-items:center;justify-content:space-between;gap:15px;margin:0 0 24px;padding:13px 16px;border:1px solid #27385e;border-radius:14px;background:#101a34}
+.arena-achievement-row>div:first-child{display:grid;gap:4px}
+.arena-achievement-row>div:first-child b,.arena-new-achievements>b{font-size:8px;letter-spacing:1.5px;color:#8fa5d4}
+.arena-achievement-row>div:first-child span{font-size:10px;color:#dce7ff}
+.arena-achievement-icons{display:flex;align-items:center;gap:7px}
+.arena-achievement-icons>span{width:29px;height:29px;display:grid;place-items:center;border-radius:9px;background:linear-gradient(145deg,#f7d68d,#bd8b40);color:#573e20;font-size:15px;box-shadow:0 4px 12px #0003}
+.arena-achievement-icons small{font-size:9px;color:#8798bc}
+.arena-history-strip{display:flex;gap:9px;overflow:auto;padding:0 0 18px;margin-top:-8px}
+.arena-history-item{flex:0 0 auto;min-width:145px;padding:10px 12px;border:1px solid #28385d;border-radius:11px;background:#111c38}
+.arena-history-item b{display:block;color:#e4ebff;font-size:10px}
+.arena-history-item span{display:block;color:#91a4cc;font-size:9px;margin-top:5px}
+.arena-coach{display:flex;align-items:center;gap:12px;max-width:760px;margin:18px auto -13px;padding:9px 14px;border:1px solid #dfe6f2;border-radius:14px;background:#fff;box-shadow:0 8px 22px #1c2b520b;position:relative;z-index:2;transition:transform .2s}
+.arena-coach img{width:57px;height:58px;object-fit:contain;filter:drop-shadow(0 4px 5px #25375a22);animation:coachIdle 3s ease-in-out infinite}
+.arena-coach span{font:800 11px Manrope;color:#42598f}
+.arena-coach.happy img,.arena-coach.celebrate img{animation:coachCelebrate .55s ease-in-out infinite alternate}
+.arena-coach.oops img{animation:coachOops .35s ease-in-out 2}
+.arena-coach.thinking img{animation:coachThink 1.4s ease-in-out infinite}
+.arena-coach.happy{border-color:#b8e7d1;background:#f2fff8}
+.arena-coach.oops{border-color:#f1c5c5;background:#fff7f6}
+.arena-coach.celebrate{border-color:#ecd69b;background:#fffbef}
+.arena-victory-mascot{width:150px;height:145px;object-fit:contain;filter:drop-shadow(0 10px 12px #283b6825);animation:coachCelebrate .65s ease-in-out infinite alternate}
+.arena-new-achievements{display:grid;gap:7px;margin:6px 0 14px;padding:12px 16px;border:1px solid #ead49e;border-radius:12px;background:#fff9e9;color:#77551f}
+.arena-new-achievements span{font-size:11px;font-weight:850}
+.piece-selected{outline:3px solid #7b9ce0!important;outline-offset:2px;transform:translateY(-3px);box-shadow:0 8px 18px #4263a333!important}
+.arena-order-piece,.arena-sequence-slot button{cursor:grab;touch-action:pan-y;user-select:none}
+.arena-order-piece:active,.arena-sequence-slot button:active{cursor:grabbing}
+.arena-helper{font-size:10px;line-height:1.6;color:#8b98b2;text-align:center}
+@keyframes coachIdle{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-5px) rotate(2deg)}}
+@keyframes coachCelebrate{from{transform:translateY(0) rotate(-5deg) scale(1)}to{transform:translateY(-8px) rotate(5deg) scale(1.04)}}
+@keyframes coachOops{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px) rotate(-5deg)}75%{transform:translateX(5px) rotate(5deg)}}
+@keyframes coachThink{0%,100%{transform:rotate(-3deg) translateY(0)}50%{transform:rotate(5deg) translateY(-4px)}}
+@media(max-width:760px){
+ .arena-profile-strip{align-items:stretch;flex-direction:column;gap:12px;padding:13px}
+ .arena-wallet{justify-content:space-between;gap:8px;flex-wrap:wrap}
+ .arena-wallet b{font-size:12px}
+ .arena-sound-toggle{padding:9px}
+ .arena-coach{margin:12px auto -12px;padding:7px 10px}
+ .arena-coach img{width:48px;height:50px}
+ .arena-achievement-row{align-items:flex-start}
+ .arena-history-item{min-width:130px}
+ .arena-victory-mascot{width:120px;height:115px}
+}
+@media(prefers-reduced-motion:reduce){.arena-coach img,.arena-victory-mascot{animation:none!important}}
