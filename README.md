@@ -98,3 +98,29 @@ A execução mais recente do GitHub Actions passou nos testes de conteúdo/estru
 - As vinte modalidades registram as partidas por meio de `record_game_attempt` quando o estudante está autenticado. Visitantes podem jogar, mas não salvam recordes.
 
 As recomendações são criadas a partir de tentativas reais. O catálogo de aulas de reforço ainda precisa ser ampliado. Na Game Arena, XP, moedas, partidas, melhor pontuação e conquistas já são persistidos; o avanço de fase por jogo ainda não é retomado entre sessões.
+
+
+## Aulas interativas de Português
+
+A trilha agora possui 12 módulos publicados: fundamentos, interpretação de textos, semântica, organização textual, fonética e fonologia, ortografia e acentuação, classes gramaticais, morfologia, sintaxe, pontuação e crase, figuras de linguagem e reescrita para concursos.
+
+Cada aula usa uma experiência responsiva com:
+- Ilustração educativa original em CSS, adaptada ao tema da aula.
+- Conteúdo organizado em seções, exemplos e listas.
+- Leitura em voz alta com a voz disponível no navegador (pt-BR).
+- Ajuste do tamanho da fonte.
+- Quiz formativo com três questões e explicações por resposta.
+- Registro da conclusão e da pontuação no progresso do aluno.
+- Favoritos e anotações particulares, armazenados em public.lesson_study_tools com RLS por usuário.
+
+### Instalação e execução
+
+Não foi adicionada dependência npm para essas funcionalidades. O projeto já utiliza React, TypeScript, Vite e @supabase/supabase-js.
+
+    npm install
+    npm run test:learning
+    npm run test:games
+    npm run build
+    npm run dev
+
+As migrations 20261108081039_student_lesson_notes_and_favorites.sql, 20261108081202_index_lesson_study_tools_lesson_id.sql e 20261108081335_seed_portuguese_advanced_course_modules.sql acompanham as alterações de banco e conteúdo.
