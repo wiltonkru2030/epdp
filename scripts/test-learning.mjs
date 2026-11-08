@@ -11,7 +11,7 @@ assert.match(app, /if \(!user\) return .*AuthModal required/s, 'App must block a
 assert.match(app, /if \(!user\) \{\s*setLessons\(\[\]\)/, 'Course data must not load for unauthenticated visitors')
 assert.match(app, /learning_objective/, 'Course lessons must show their learning objective')
 assert.match(app, /estimated_minutes/, 'Course lessons must show their estimated study time')
-assert.match(auth, /required\? 'overlay auth-required-overlay'/, 'Required authentication modal must not be dismissible by clicking outside')
+assert.match(auth, /required \? 'overlay auth-required-overlay'/, 'Required authentication modal must not be dismissible by clicking outside')
 assert.match(auth, /!required && .*className="close"/, 'Required authentication modal must hide the close control')
 
 assert.match(migration, /revoke all on all tables in schema public from anon, public/i, 'Anonymous database role must lose table access')
