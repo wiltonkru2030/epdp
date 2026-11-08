@@ -7,6 +7,7 @@ import AssessmentCenter from './components/AssessmentCenter'
 import ReinforcementCenter from './components/ReinforcementCenter'
 import DashboardCenter from './components/DashboardCenter'
 import ProfileCenter from './components/ProfileCenter'
+import LessonExperience from './components/LessonExperience'
 
 type Page = 'Início' | 'Meu curso' | 'Testes e avaliações' | 'Jogos educativos' | 'Reforço' | 'Meu perfil'
 type Lesson = {
@@ -98,7 +99,7 @@ export default function App() {
     return () => { active = false }
   }, [user])
 
-  async function finishLesson(lesson: Lesson) {
+  async function finishLesson(lesson: Lesson, score?: number) {
     if (!user) {
       setLogin(true)
       return
@@ -108,6 +109,7 @@ export default function App() {
       user_id: user.id,
       lesson_id: lesson.id,
       completed: true,
+      score: score ?? null,
       updated_at: new Date().toISOString(),
     }, { onConflict: 'user_id,lesson_id' })
     setSavingProgress(false)
@@ -122,17 +124,7 @@ export default function App() {
   const content = () => {
     if (page === 'Jogos educativos') return <GamesArcade />
     if (page === 'Meu curso') return <>
-      {selectedLesson ? <section className="lesson-page">
-        <button className="back-course" onClick={() => setSelectedLesson(null)}>← Voltar para o curso</button>
-        <div className="lesson-cover">
-          <div className="cover-copy"><span className="lesson-kicker">ETAPA {courseModule?.stage ?? 1} · {selectedLesson.level.toUpperCase()}</span><h2>{selectedLesson.title}</h2><p>{selectedLesson.description}</p><span className="cover-meta">AULA {String(selectedLesson.position).padStart(2, '0')} · {selectedLesson.estimated_minutes ?? 15} MIN DE ESTUDO</span></div>
-          <div className="cover-art" aria-hidden="true"><div className="art-circle">Aa</div><span className="art-star star-one">✦</span><span className="art-star star-two">✳</span><span className="art-pencil">✎</span></div>
-        </div>
-        <div className="lesson-layout">
-          <article className="lesson-main"><div className="lesson-welcome"><span>✦</span><div><b>Objetivo desta aula</b><small>{selectedLesson.learning_objective || 'Compreender o conteúdo, observar exemplos e praticar.'}</small></div></div><LessonBody content={selectedLesson.content}/></article>
-          <aside className="lesson-aside"><div className="aside-card"><span className="aside-icon">◷</span><b>Seu momento de estudar</b><p>Não tenha pressa. O importante é compreender cada parte.</p></div><div className="aside-card aside-highlight"><span className="aside-icon">★</span><b>Aprender é praticar</b><p>Ao terminar, marque a aula como concluída para acompanhar sua evolução.</p></div><button className="complete-lesson" disabled={savingProgress || completed.includes(selectedLesson.id)} onClick={() => void finishLesson(selectedLesson)}>{savingProgress ? 'Salvando...' : completed.includes(selectedLesson.id) ? '✓ Aula concluída' : 'Concluir esta aula →'}</button></aside>
-        </div>
-      </section> : <>
+      {selectedLesson ? <LessonExperience lesson={selectedLesson} completed={completed.includes(selectedLesson.id)} saving={savingProgress} onBack={() => setSelectedLesson(null)} onFinish={(score) => void finishLesson(selectedLesson, score)} /> : <>
         <div className="intro"><small>TRILHA DE APRENDIZAGEM</small><h2>Português — sua trilha de aprendizagem</h2><p>Comece pelos fundamentos, avance com aulas organizadas e acompanhe seu progresso. Novas etapas serão liberadas conforme forem publicadas.</p></div>
         {courseModule && <div className="course-module-banner"><small>ETAPA {courseModule.stage}</small><b>{courseModule.title}</b><span>Módulo de aprendizagem · {lessons.length} aulas publicadas</span></div>}
         <div className="course-progress"><b>{completed.length} de {lessons.length} aulas concluídas</b><div className="bar"><span style={{ width: lessons.length ? (completed.length / lessons.length * 100) + '%' : '0%' }} /></div></div>
