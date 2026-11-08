@@ -37,3 +37,16 @@
 .lesson-finish-row{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:17px 19px;margin-top:15px;border:1px solid #e7ebf4;border-radius:14px;background:#fff}.lesson-finish-row b{font:700 13px Manrope;color:#2b3e77}.lesson-finish-row p{font-size:10px;color:#8590a8;margin:5px 0 0}.lesson-finish-row button{border:0;border-radius:9px;background:#2e4389;color:#fff;padding:12px 16px;font-size:10px;font-weight:800;white-space:nowrap}.lesson-finish-row button:disabled{opacity:.55}
 @media(max-width:900px){.lesson-experience-grid{grid-template-columns:1fr}.lesson-side-column{position:static;grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:620px){.lesson-hero{min-height:225px;padding:23px 20px;border-radius:16px}.lesson-hero h2{font-size:25px;max-width:270px}.lesson-hero p{font-size:11px;max-width:245px}.lesson-illustration{position:absolute;right:-55px;bottom:-25px;opacity:.25;transform:scale(.9)}.lesson-actionbar{gap:6px}.lesson-actionbar>button{padding:8px 9px;font-size:9px}.lesson-font-controls{margin-left:0}.lesson-font-controls span{display:none}.lesson-content-card,.lesson-quiz{padding:15px}.lesson-content-section{grid-template-columns:29px minmax(0,1fr);gap:9px}.lesson-section-number{width:28px;height:28px}.lesson-content-section h3{font-size:14px}.lesson-side-column{grid-template-columns:1fr}.lesson-notes>div{align-items:flex-start;flex-direction:column}.lesson-finish-row{align-items:stretch;flex-direction:column}.lesson-finish-row button{width:100%}.lesson-quiz-result{align-items:flex-start}}
+
+
+.theme-reading .lesson-illustration-book{background:linear-gradient(145deg,#f2f7ff,#c9d9fa)}
+.theme-meaning .lesson-illustration-book{background:linear-gradient(145deg,#fff4f0,#f4c9c4)}
+.theme-text .lesson-illustration-book{background:linear-gradient(145deg,#f3fff8,#c7ead8)}
+.theme-sounds .lesson-illustration-book{background:linear-gradient(145deg,#f8f3ff,#d8cafa)}
+.theme-writing .lesson-illustration-book{background:linear-gradient(145deg,#fff8e9,#f0d8b9)}
+.theme-grammar .lesson-illustration-book{background:linear-gradient(145deg,#effaff,#bfe5f0)}
+.theme-morphology .lesson-illustration-book{background:linear-gradient(145deg,#fff5fb,#f0c9e4)}
+.theme-syntax .lesson-illustration-book{background:linear-gradient(145deg,#f1f3ff,#cbd1f4)}
+.theme-punctuation .lesson-illustration-book{background:linear-gradient(145deg,#fff9ec,#f1dfb1)}
+.theme-figures .lesson-illustration-book{background:linear-gradient(145deg,#fff1f4,#f4c6d2)}
+.theme-rewrite .lesson-illustration-book{background:linear-gradient(145deg,#f1fff8,#c3e8dc)}
