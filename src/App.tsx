@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useAuth } from './contexts/AuthContext'
 import { supabase } from './lib/supabase'
 import AuthModal from './components/AuthModal'
+import AccentGame from './components/AccentGame'
 
 type Page = 'Início' | 'Meu curso' | 'Avaliações' | 'Jogos educativos' | 'Reforço' | 'Meu perfil'
 type Lesson = {
@@ -115,7 +116,7 @@ export default function App() {
   }
 
   const content = () => {
-    if (page === 'Jogos educativos') return <><div className="intro"><small>APRENDER BRINCANDO</small><h2>Jogos educativos</h2><p>Pratique português com atividades leves e desafiadoras.</p></div><div className="games">{games.map(([name, desc, tag]) => <article className="card game" key={name}><span className="symbol">✳</span><small className="tag">{tag}</small><h3>{name}</h3><p>{desc}</p><button className="soft" onClick={() => setPage('Meu curso')}>Começar atividade</button></article>)}</div></>
+    if (page === 'Jogos educativos') return <><div className="intro"><small>APRENDER BRINCANDO</small><h2>Jogos educativos</h2><p>Atividades com regras, pontuação e explicação das respostas.</p></div><AccentGame /><div className="games">{games.filter(([name]) => name !== 'Acentuação em foco').map(([name, desc, tag]) => <article className="card game" key={name}><span className="symbol">Aa</span><small className="tag">{tag}</small><h3>{name}</h3><p>{desc}</p><span className="coming-soon">Em desenvolvimento</span></article>)}</div></>
     if (page === 'Meu curso') return <>
       {selectedLesson ? <section className="lesson-page">
         <button className="back-course" onClick={() => setSelectedLesson(null)}>← Voltar para o curso</button>
