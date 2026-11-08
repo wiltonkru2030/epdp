@@ -49,3 +49,19 @@ VITE_SUPABASE_ANON_KEY=SUA_CHAVE_PUBLICA
 - Criar painel administrativo com permissões controladas.
 
 A aplicação ainda está em desenvolvimento. Não use dados reais sensíveis até concluir os testes de segurança.
+
+
+## PWA — instalação no celular
+
+O projeto possui manifesto web, ícone vetorial e service worker registrados somente na versão de produção.
+
+- O service worker mantém apenas o shell público e arquivos estáticos da aplicação.
+- Requisições de autenticação, API e Storage não são armazenadas em cache.
+- A navegação pode abrir a estrutura da aplicação sem rede, mas login, progresso, avaliações e conteúdos servidos pelo Supabase dependem de conexão.
+- Para testar a instalação, publique o site em HTTPS e abra-o em um navegador compatível. O endereço de desenvolvimento não representa a validação final de instalação.
+
+## Estado de implementação
+
+O jogo de acentuação é interativo e calcula a pontuação da rodada no próprio componente. Ainda não grava histórico no banco. Os outros cartões de jogos permanecem identificados como em desenvolvimento. As áreas de avaliação, reforço e administração ainda não estão concluídas.
+
+Antes de produção, validar o build, os fluxos de autenticação, as rotas, as políticas RLS e a instalação PWA em dispositivos reais.
