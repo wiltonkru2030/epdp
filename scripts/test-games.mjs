@@ -54,6 +54,13 @@ assert.match(component, /ABCDEFGHIJLMNOPQRSTUVXZ/, 'Hangman keyboard must avoid 
 assert.doesNotMatch(component, /ABCDEFGHIJKLMNOPQRSTUVWXYZÁÉÍÓÚÂÊÔÃÕÇ/, 'Hangman must not render duplicate accent keys')
 assert.doesNotMatch(source, /saùde|idéía|Cidadões|Cidadães|lâmpâda|têem/, 'Remove malformed distractor spellings')
 assert.match(component, /navigator\.vibrate/, 'Haptic feedback must be feature-detected')
+assert.match(component, /feedback&&game\.kind!=='hangman'/, 'Hangman must not show a duplicate next-round button')
+assert.match(component, /mascotByGame:Record<string,string>/, 'Each game must be assigned a mascot')
+assert.match(source, /for\(let i=copy\.length-1;i>0;i--\)/, 'Piece shuffling must use unbiased Fisher-Yates')
+const keyboard = 'ABCDEFGHIJLMNOPQRSTUVXZ'
+assert.equal(new Set(keyboard).size, keyboard.length, 'Hangman keyboard keys must be unique')
+assert.ok(!/[KWY]/.test(keyboard), 'This Portuguese-only vocabulary keyboard must omit unused K, W and Y keys')
+for (const game of games.filter(item => item.kind === 'hangman')) for (const letter of normalize(game.challenges.map(c => c.answer).join(''))) assert.ok(!/[A-Z]/.test(letter) || keyboard.includes(letter), game.id + ' contains a letter missing from the hangman keyboard')
 assert.match(component, /arena-achievement-celebration/, 'Achievement celebration must be rendered')
 
 assert.equal(new Set(games.map(game => game.id)).size, 20, 'All game IDs must remain unique')
