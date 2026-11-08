@@ -2,7 +2,6 @@ import { useEffect, useMemo, useState, type CSSProperties } from 'react'
 import { supabase } from '../lib/supabase'
 import { useAuth } from '../contexts/AuthContext'
 import './LessonExperience.css'
-import TopicVisual from './TopicVisual'
 
 type Lesson = { id: string; title: string; description: string; content: string; level: string; position: number; learning_objective?: string; estimated_minutes?: number }
 type Question = { prompt: string; options: string[]; answer: number; explanation: string }
@@ -194,7 +193,6 @@ export default function LessonExperience({ lesson, completed, saving, onFinish, 
     <div className="lesson-experience-grid">
       <article className="lesson-content-card" style={{ '--lesson-font-scale': fontScale } as CSSProperties}>
         <div className="lesson-objective"><span>◎</span><div><b>Objetivo desta aula</b><p>{lesson.learning_objective || 'Compreender o conteúdo, observar exemplos e praticar.'}</p></div></div>
-        <TopicVisual topic={lesson.title} prompt={lesson.learning_objective || lesson.description} />
         <div className="lesson-explanation"><div className="lesson-explanation-heading"><span>CONTEÚDO DA AULA</span><h3>Vamos aprender juntos</h3></div>{contentSections(lesson.content)}</div>
         <div className="lesson-notes"><label htmlFor="lesson-notes">Minhas anotações</label><textarea id="lesson-notes" value={notes} maxLength={12000} onChange={event => setNotes(event.target.value)} placeholder="Registre exemplos, dúvidas e pontos importantes..." />
           <div><small>{notes.length}/12000 caracteres · {user ? 'Suas anotações são privadas.' : 'Entre para salvar suas anotações.'}</small><button disabled={!user || toolsSaving || toolsLoading} onClick={() => void saveTools()}>{toolsSaving ? 'Salvando...' : 'Salvar anotações'}</button></div>
