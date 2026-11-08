@@ -246,3 +246,14 @@
 @media(max-width:720px){.arcade-banner{min-height:245px;padding:25px 23px}.arcade-banner h2{font-size:27px;max-width:280px}.arcade-banner p{max-width:280px}.arcade-orbit{position:absolute;right:-55px;bottom:-30px;opacity:.25;transform:scale(.9)}.arcade-grid{grid-template-columns:1fr}.arcade-card{grid-template-columns:105px minmax(0,1fr);gap:13px}.arcade-card-art{height:115px}.arcade-card-copy h3{font-size:14px}.arcade-game-header{padding:0 14px}.arcade-challenge,.hangman-game{padding:23px 16px}.arcade-challenge-card h2{font-size:19px}.hangman-stage{gap:20px}.hangman-keyboard{grid-template-columns:repeat(7,minmax(0,1fr))}.arcade-play-screen{min-height:460px}}
 @media(max-width:390px){.arcade-banner h2{font-size:24px}.arcade-banner-meta{font-size:8px;gap:7px}.arcade-card{grid-template-columns:88px minmax(0,1fr)}.arcade-card-art{height:104px}.hangman-stage{gap:10px}.hangman-scaffold{transform:scale(.85);transform-origin:center}.hangman-word{gap:4px}.hangman-word span{width:20px;font-size:16px}}
 @media(prefers-reduced-motion:reduce){.arcade,.arcade-card,.arcade-submit{animation:none;transition:none}}
+
+.wordsearch-instruction{text-align:center;margin:26px 0 18px}
+.wordsearch-instruction small{font-size:9px;letter-spacing:1.5px;color:#8794b1;font-weight:800}
+.wordsearch-instruction h2{font:800 21px Manrope;color:#293968;margin:8px 0}
+.wordsearch-instruction p{font-size:11px;color:#74819c;margin:0}
+.wordsearch-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px;max-width:390px;margin:0 auto 18px}
+.wordsearch-grid button{aspect-ratio:1;border:1px solid #dfe5f0;border-radius:10px;background:linear-gradient(145deg,#fff,#f6f8fc);color:#40537f;font:800 17px Manrope;box-shadow:0 3px 7px #25365d0a;transition:transform .16s,border-color .16s,background .16s}
+.wordsearch-grid button:active{transform:scale(.94)}
+.wordsearch-grid button.found{background:#e8f5ed;border-color:#8fc5a4;color:#28734c}
+.wordsearch-grid button:disabled{cursor:default;opacity:1}
+@media(max-width:420px){.wordsearch-grid{gap:6px}.wordsearch-grid button{font-size:15px;border-radius:8px}}
