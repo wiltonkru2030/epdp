@@ -44,9 +44,17 @@ for (const challenge of gridGame.challenges) {
 
 const css = await readFile(new URL('../src/styles.css', import.meta.url), 'utf8')
 const component = await readFile(new URL('../src/components/GamesArcade.tsx', import.meta.url), 'utf8')
+const phaserMascot = await readFile(new URL('../src/components/PhaserMascot.tsx', import.meta.url), 'utf8')
+const spriteSheet = await readFile(new URL('../public/arcade/owl-sheet.svg', import.meta.url), 'utf8')
 assert.match(css, /@media\s*\(max-width:\s*700px\)/, 'Mobile layout breakpoint is required')
 assert.match(css, /prefers-reduced-motion/, 'Reduced-motion support is required')
 assert.match(component, /function startMusic/, 'Background music must start in a game')
+assert.match(component, /import PhaserMascot from '\.\/PhaserMascot'/, 'Games must use the Phaser mascot component')
+assert.match(phaserMascot, /import\('phaser'\)/, 'Phaser 3 must be loaded by the mascot component')
+assert.match(phaserMascot, /frameWidth: 256/, 'Phaser sprite sheet frame width must be configured')
+assert.match(phaserMascot, /frameHeight: 256/, 'Phaser sprite sheet frame height must be configured')
+assert.match(phaserMascot, /owl-idle|owl-happy|owl-oops|owl-laugh/, 'Phaser mascot animations must be defined')
+assert.equal((spriteSheet.match(/<svg x=/g) ?? []).length, 16, 'Owl sprite sheet must contain 16 aligned frames')
 assert.match(component, /soundtrackByGame:Record<string/, 'Every game must use its own soundtrack profile')
 for (const game of games) assert.match(component, new RegExp("'" + game.id + "':\\{notes:"), game.id + ' is missing its own soundtrack')
 for (const game of games) assert.match(component, new RegExp("'" + game.id + "':'/arcade/"), game.id + ' is missing its mascot assignment')
@@ -79,4 +87,4 @@ for (const file of ['owl-mascot.svg','owl-happy.svg','owl-thinking.svg','owl-wor
 
 assert.equal(new Set(games.map(game => game.id)).size, 20, 'All game IDs must remain unique')
 for (const id of ['caca-palavras','forca-palavras','complete-word','acentuacao','separacao-silabica','classificacao-substantivos','identifique-adjetivos','desafio-pronomes','conjugacao-verbos','corrida-tempos-verbais','monte-frase','organize-palavras','encontre-erro','sinonimos-antonimos','homonimos-paronimos','interpretacao','figuras-linguagem','pontuacao','concordancia','batalha-conhecimentos']) assert.ok(games.some(game => game.id === id), 'Missing expected game ' + id)
-console.log('EPDP Game Arena smoke tests passed: 20 games, 160 rounds, Portuguese answer choices, 8x8 word-search paths, unique tracks, mobile layout, audio and haptics.')
+console.log('EPDP Game Arena smoke tests passed: 20 games, 160 rounds, Phaser 3 mascot sprite sheet with 16 frames, Portuguese answer choices, 8x8 word-search paths, unique tracks, mobile layout, audio and haptics.')
