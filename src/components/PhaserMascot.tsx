@@ -1,11 +1,9 @@
 import { useEffect, useRef } from 'react'
 
-type Mood = 'idle' | 'happy' | 'oops' | 'laugh' | 'thinking' | 'celebrate'
-
 type PhaserGame = { destroy: (removeCanvas?: boolean) => void }
 type MascotSceneLike = { events: { emit: (event: string, value: string) => void } }
 
-export default function PhaserMascot({ mood = 'idle', className = '' }: { mood?: Mood; className?: string }) {
+export default function PhaserMascot({ mood = 'idle', className = '' }: { mood?: string; className?: string }) {
   const hostRef = useRef<HTMLDivElement>(null)
   const gameRef = useRef<PhaserGame | null>(null)
   const sceneRef = useRef<MascotSceneLike | null>(null)
@@ -57,7 +55,7 @@ export default function PhaserMascot({ mood = 'idle', className = '' }: { mood?:
             repeat: -1,
           })
           this.mascot = this.add.sprite(128, 128, 'epdp-owl', 0).setScale(0.88)
-          this.playMood('idle')
+          this.playMood(hostRef.current?.dataset.mood ?? 'idle')
           this.events.on('change-mood', (nextMood: string) => this.playMood(nextMood))
           sceneRef.current = this
         }
@@ -108,5 +106,6 @@ export default function PhaserMascot({ mood = 'idle', className = '' }: { mood?:
     className={`epdp-phaser-mascot ${className}`}
     role="img"
     aria-label="Mascote animado da EPDP"
+    data-mood={mood}
   />
 }
