@@ -1,0 +1,3 @@
+-- Recompensas de XP e moedas concedidas uma única vez ao desbloquear conquistas.
+-- A definição completa foi aplicada ao banco Supabase nesta migração; consulte a função
+-- public.record_game_attempt(text, integer, integer, integer) no SQL Editor.
