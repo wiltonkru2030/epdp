@@ -95,3 +95,13 @@
 .game-result p{font-size:12px;color:#7d879e}
 .coming-soon{display:inline-block;color:#8993aa;font-size:10px;padding:8px 0}
 @media(max-width:620px){.accent-game{padding:16px}.game-options{grid-template-columns:1fr}.accent-game h3{font-size:16px}}
+
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
