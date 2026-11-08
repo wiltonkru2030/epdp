@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
-import { games, gridLetters, gridPaths, normalize, shuffle, type Game } from '../content/games'
+import { games, gridLetters, gridPaths, normalize, shuffle } from '../content/games'
 
 export default function GamesArcade(){
 const [gameId,setGameId]=useState<string|null>(null),[round,setRound]=useState(0),[score,setScore]=useState(0),[selected,setSelected]=useState(''),[order,setOrder]=useState<string[]>([]),[seconds,setSeconds]=useState(75),[finished,setFinished]=useState(false),[feedback,setFeedback]=useState(''),[hintVisible,setHintVisible]=useState(false),[selectedGrid,setSelectedGrid]=useState<number[]>([]),[guessed,setGuessed]=useState<string[]>([]),[mistakes,setMistakes]=useState(0),[savedMessage,setSavedMessage]=useState(''),[xp,setXp]=useState(0),[dragging,setDragging]=useState(false)
