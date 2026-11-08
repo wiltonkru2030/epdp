@@ -1,191 +1,148 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { supabase } from '../lib/supabase'
 
-type Mode = 'hangman' | 'wordsearch' | 'complete' | 'sentence' | 'accent'
-type Challenge = { prompt: string; answer: string; options?: string[]; hint: string; explanation: string; category: string }
+type Kind = 'grid'|'hangman'|'tiles'|'choice'|'syllables'|'sort'|'match'|'machine'|'race'|'order'|'spot'|'story'|'boss'
+type Challenge = { prompt:string; answer:string; options:string[]; hint:string; explanation:string; category:string; passage?:string }
+type Game = { id:string; title:string; subtitle:string; tag:string; art:string; color:string; kind:Kind; challenges:Challenge[] }
+const games:Game[] = [
+{id:'caca-palavras',title:'Caça-palavras',subtitle:'Encontre termos escondidos no tabuleiro.',tag:'VOCABULÁRIO',art:'▦',color:'green',kind:'grid',challenges:[
+{prompt:'Encontre a palavra LIVRO no tabuleiro.',answer:'LIVRO',options:[],hint:'Objeto que reúne páginas com textos.',explanation:'Livro é um substantivo concreto que nomeia um objeto.',category:'Vocabulário'},
+{prompt:'Encontre a palavra VERBO no tabuleiro.',answer:'VERBO',options:[],hint:'Classe que expressa ação, estado ou fenômeno.',explanation:'Verbo é a palavra que pode indicar ação, estado ou fenômeno da natureza.',category:'Classes gramaticais'},
+{prompt:'Encontre a palavra TEXTO no tabuleiro.',answer:'TEXTO',options:[],hint:'Conjunto organizado de enunciados com sentido.',explanation:'Texto é uma unidade de comunicação com sentido em determinado contexto.',category:'Interpretação'}]},
+{id:'forca-palavras',title:'Forca de palavras',subtitle:'Descubra conceitos com pistas e vidas limitadas.',tag:'VOCABULÁRIO',art:'A _',color:'violet',kind:'hangman',challenges:[
+{prompt:'Qualidade de um texto cujas ideias fazem sentido entre si.',answer:'COERÊNCIA',options:[],hint:'Organização lógica das ideias.',explanation:'Coerência é a relação lógica entre as ideias de um texto.',category:'Texto'},
+{prompt:'Classe de palavras que nomeia seres, objetos e sentimentos.',answer:'SUBSTANTIVO',options:[],hint:'Pode ser próprio, comum, concreto ou abstrato.',explanation:'Substantivo é a classe que nomeia seres, lugares, objetos, sentimentos e conceitos.',category:'Gramática'},
+{prompt:'Figura de linguagem que estabelece comparação implícita.',answer:'METÁFORA',options:[],hint:'Exemplo: “Aquela menina é uma flor”.',explanation:'Metáfora aproxima dois elementos sem conectivo comparativo explícito.',category:'Linguagem'}]},
+{id:'complete-word',title:'Complete a palavra',subtitle:'Monte a grafia correta com peças de letras.',tag:'ORTOGRAFIA',art:'Aa',color:'blue',kind:'tiles',challenges:[
+{prompt:'Complete: exce__ão',answer:'Ç',options:['S','Ç','SS'],hint:'A palavra indica algo fora da regra.',explanation:'A grafia correta é exceção, com ç.',category:'Ortografia'},
+{prompt:'Complete: privilé__io',answer:'G',options:['J','G','GU'],hint:'Significa benefício ou vantagem especial.',explanation:'Privilégio é escrito com g.',category:'Ortografia'},
+{prompt:'Complete: empeci__ho',answer:'L',options:['L','U','LH'],hint:'Significa obstáculo ou dificuldade.',explanation:'Empecilho é escrito com lh.',category:'Ortografia'}]},
+{id:'acentuacao',title:'Acentuação',subtitle:'Escolha a grafia certa e domine as regras.',tag:'ORTOGRAFIA',art:'Á',color:'amber',kind:'choice',challenges:[
+{prompt:'Qual palavra está escrita corretamente?',answer:'saúde',options:['saude','saúde','saùde'],hint:'Observe o hiato.',explanation:'Saúde recebe acento porque o u tônico forma hiato e fica sozinho na sílaba.',category:'Acentuação'},
+{prompt:'Qual é a forma correta segundo a ortografia atual?',answer:'ideia',options:['idéia','ideia','idéía'],hint:'O acordo ortográfico retirou o acento do ditongo aberto ei em paroxítonas.',explanation:'Ideia é paroxítona e não recebe acento no ditongo ei.',category:'Acentuação'},
+{prompt:'Assinale a proparoxítona corretamente acentuada.',answer:'lâmpada',options:['lampada','lâmpada','lâmpâda'],hint:'Toda proparoxítona é acentuada.',explanation:'Lâmpada tem a antepenúltima sílaba tônica.',category:'Acentuação'}]},
+{id:'separacao-silabica',title:'Separação silábica',subtitle:'Separe as sílabas e monte palavras.',tag:'FONÉTICA',art:'SÍ',color:'blue',kind:'syllables',challenges:[
+{prompt:'Organize as sílabas para formar JANELA.',answer:'JA-NE-LA',options:['NE','LA','JA'],hint:'Comece pela sílaba inicial.',explanation:'Janela se separa em ja-ne-la: três sílabas.',category:'Separação silábica'},
+{prompt:'Organize as sílabas para formar ESCOLA.',answer:'ES-CO-LA',options:['CO','ES','LA'],hint:'A primeira sílaba começa com E.',explanation:'Escola se separa em es-co-la.',category:'Separação silábica'},
+{prompt:'Organize as sílabas para formar CADEIRA.',answer:'CA-DEI-RA',options:['RA','CA','DEI'],hint:'O ditongo ei permanece na mesma sílaba.',explanation:'Cadeira se separa em ca-dei-ra.',category:'Separação silábica'}]},
+{id:'classificacao-substantivos',title:'Mestres dos substantivos',subtitle:'Classifique os nomes e conquiste pontos.',tag:'GRAMÁTICA',art:'Nº',color:'violet',kind:'sort',challenges:[
+{prompt:'Classifique o substantivo “Brasil”.',answer:'Próprio',options:['Próprio','Comum','Abstrato'],hint:'Nomeia um país específico.',explanation:'Brasil é substantivo próprio, pois individualiza um país.',category:'Substantivos'},
+{prompt:'Classifique “alegria”.',answer:'Abstrato',options:['Concreto','Abstrato','Coletivo'],hint:'Nomeia um sentimento.',explanation:'Alegria é substantivo abstrato, pois nomeia um sentimento.',category:'Substantivos'},
+{prompt:'Classifique “cardume”.',answer:'Coletivo',options:['Próprio','Coletivo','Comum'],hint:'Nomeia um conjunto de peixes.',explanation:'Cardume é substantivo coletivo.',category:'Substantivos'}]},
+{id:'identifique-adjetivos',title:'Detetive dos adjetivos',subtitle:'Descubra características em cada frase.',tag:'GRAMÁTICA',art:'★',color:'amber',kind:'match',challenges:[
+{prompt:'Na frase “A casa azul fica na esquina”, qual palavra caracteriza casa?',answer:'Azul',options:['Casa','Azul','Esquina'],hint:'Procure a palavra que atribui uma característica.',explanation:'Azul é adjetivo, pois caracteriza o substantivo casa.',category:'Adjetivos'},
+{prompt:'Em “O aluno dedicado estudou”, identifique o adjetivo.',answer:'Dedicado',options:['Aluno','Dedicado','Estudou'],hint:'A palavra indica uma qualidade do aluno.',explanation:'Dedicado caracteriza o substantivo aluno.',category:'Adjetivos'},
+{prompt:'Em “A manhã tranquila começou”, qual é o adjetivo?',answer:'Tranquila',options:['Manhã','Tranquila','Começou'],hint:'É a palavra que caracteriza a manhã.',explanation:'Tranquila é o adjetivo que caracteriza manhã.',category:'Adjetivos'}]},
+{id:'desafio-pronomes',title:'Desafio dos pronomes',subtitle:'Substitua nomes sem perder o sentido.',tag:'GRAMÁTICA',art:'EU',color:'green',kind:'choice',challenges:[
+{prompt:'Substitua “Maria” por um pronome: Maria chegou cedo.',answer:'Ela chegou cedo.',options:['Ela chegou cedo.','Nós chegou cedo.','Eles chegou cedo.'],hint:'Maria está na terceira pessoa do singular feminino.',explanation:'Ela é pronome pessoal do caso reto, terceira pessoa do singular.',category:'Pronomes'},
+{prompt:'Complete: Pedro e eu estudamos. ____ estudamos juntos.',answer:'Nós',options:['Nós','Eles','Vós'],hint:'A frase inclui quem fala e outra pessoa.',explanation:'Nós é a primeira pessoa do plural e inclui o falante.',category:'Pronomes'},
+{prompt:'Qual pronome substitui “os livros” em “Comprei os livros”?',answer:'Comprei-os.',options:['Comprei-lhe.','Comprei-os.','Comprei-me.'],hint:'O termo substituído é masculino plural e objeto direto.',explanation:'O pronome oblíquo os retoma o objeto direto masculino plural.',category:'Pronomes'}]},
+{id:'conjugacao-verbos',title:'Máquina de conjugação',subtitle:'Ajuste pessoa, número, tempo e modo verbal.',tag:'VERBOS',art:'V',color:'blue',kind:'machine',challenges:[
+{prompt:'Conjugue “cantar” na 1ª pessoa do singular do presente do indicativo.',answer:'Eu canto',options:['Eu canto','Eu cantava','Eu cantarei'],hint:'É uma ação no presente realizada por “eu”.',explanation:'Canto é a forma do presente do indicativo para a primeira pessoa do singular.',category:'Verbos'},
+{prompt:'Qual forma está no pretérito perfeito: “nós ____ ontem”?',answer:'estudamos',options:['estudamos','estudaremos','estudávamos'],hint:'A ação foi concluída no passado.',explanation:'Estudamos pode ser pretérito perfeito ou presente conforme o contexto; “ontem” marca o passado concluído.',category:'Tempos verbais'},
+{prompt:'Complete no futuro do presente: “Eles ____ amanhã”.',answer:'viajarão',options:['viajam','viajariam','viajarão'],hint:'A ação ocorrerá depois do momento da fala.',explanation:'Viajarão é futuro do presente do indicativo.',category:'Verbos'}]},
+{id:'corrida-tempos-verbais',title:'Corrida dos tempos verbais',subtitle:'Acerte para acelerar e cruzar a linha de chegada.',tag:'VERBOS',art:'»',color:'amber',kind:'race',challenges:[
+{prompt:'“Eu estudava” indica qual tempo verbal?',answer:'Pretérito imperfeito',options:['Pretérito perfeito','Pretérito imperfeito','Futuro do presente'],hint:'Indica hábito ou continuidade no passado.',explanation:'Estudava está no pretérito imperfeito do indicativo.',category:'Tempos verbais'},
+{prompt:'“Quando eu chegar, avisarei.” O verbo chegar está em qual modo?',answer:'Subjuntivo',options:['Indicativo','Subjuntivo','Imperativo'],hint:'Expressa hipótese relacionada a uma condição futura.',explanation:'Chegar está no futuro do subjuntivo.',category:'Modos verbais'},
+{prompt:'“Faça a atividade.” Qual é o modo verbal?',answer:'Imperativo',options:['Indicativo','Subjuntivo','Imperativo'],hint:'O enunciado expressa uma ordem ou orientação.',explanation:'Faça está no imperativo, usado para ordem, pedido ou conselho.',category:'Modos verbais'}]},
+{id:'monte-frase',title:'Monte a frase',subtitle:'Construa frases com sentido e estrutura correta.',tag:'SINTAXE',art:'≡',color:'green',kind:'order',challenges:[
+{prompt:'Organize as palavras para formar uma frase correta.',answer:'A leitura amplia o conhecimento.',options:['conhecimento.','A','amplia','leitura','o'],hint:'Comece pelo artigo que acompanha leitura.',explanation:'A leitura é o sujeito; amplia o conhecimento é o predicado.',category:'Sintaxe'},
+{prompt:'Organize as palavras para formar uma frase correta.',answer:'Os alunos estudaram para a prova.',options:['prova.','estudaram','Os','a','para','alunos'],hint:'O sujeito aparece antes do verbo.',explanation:'Os alunos é o sujeito; estudaram para a prova é o predicado.',category:'Sintaxe'},
+{prompt:'Organize as palavras para formar uma frase correta.',answer:'A professora explicou a matéria.',options:['matéria.','explicou','A','professora','a'],hint:'Comece por quem realizou a ação.',explanation:'A professora é o sujeito, explicou é o verbo e a matéria é o complemento.',category:'Sintaxe'}]},
+{id:'organize-palavras',title:'Organize as palavras',subtitle:'Desembaralhe os elementos antes do tempo acabar.',tag:'DESAFIO',art:'↕',color:'violet',kind:'order',challenges:[
+{prompt:'Organize a frase: “Todos devem respeitar as diferenças.”',answer:'Todos devem respeitar as diferenças.',options:['diferenças.','respeitar','Todos','as','devem'],hint:'O sujeito é “Todos”.',explanation:'A ordem apresenta sujeito, locução verbal, verbo principal e complemento.',category:'Organização textual'},
+{prompt:'Organize: “A leitura transforma realidades.”',answer:'A leitura transforma realidades.',options:['transforma','realidades.','A','leitura'],hint:'O sujeito é “A leitura”.',explanation:'A leitura é o sujeito e transforma realidades é o predicado.',category:'Sintaxe'},
+{prompt:'Organize: “O conhecimento exige dedicação.”',answer:'O conhecimento exige dedicação.',options:['dedicação.','O','exige','conhecimento'],hint:'Comece pelo artigo definido.',explanation:'O conhecimento é o sujeito; exige dedicação é o predicado.',category:'Sintaxe'}]},
+{id:'encontre-erro',title:'Encontre o erro',subtitle:'Investigue frases e identifique a falha gramatical.',tag:'REVISÃO',art:'!',color:'amber',kind:'spot',challenges:[
+{prompt:'Qual palavra apresenta o erro? “Nós vai ao mercado.”',answer:'vai',options:['Nós','vai','mercado'],hint:'Observe a concordância entre sujeito e verbo.',explanation:'O correto é “Nós vamos ao mercado”, pois o verbo deve concordar com o sujeito nós.',category:'Concordância verbal'},
+{prompt:'Identifique o erro: “Fazem dois anos que estudo.”',answer:'Fazem',options:['Fazem','dois anos','estudo'],hint:'O verbo fazer indicando tempo decorrido é impessoal.',explanation:'O correto é “Faz dois anos”, com o verbo no singular.',category:'Concordância verbal'},
+{prompt:'Identifique a palavra inadequada: “Menas pessoas chegaram.”',answer:'Menas',options:['Menas','pessoas','chegaram'],hint:'A palavra menos é invariável.',explanation:'O correto é “Menos pessoas chegaram”. Menos não varia em gênero.',category:'Morfologia'}]},
+{id:'sinonimos-antonimos',title:'Conexão de sentidos',subtitle:'Ligue palavras a sinônimos e antônimos.',tag:'SEMÂNTICA',art:'↔',color:'green',kind:'match',challenges:[
+{prompt:'Qual palavra é sinônimo de “feliz”?',answer:'Contente',options:['Contente','Triste','Distante'],hint:'Procure uma palavra de sentido semelhante.',explanation:'Contente tem sentido semelhante a feliz.',category:'Sinônimos'},
+{prompt:'Qual é o antônimo de “escasso”?',answer:'Abundante',options:['Raro','Abundante','Pequeno'],hint:'Procure o sentido oposto: em grande quantidade.',explanation:'Abundante é antônimo de escasso.',category:'Antônimos'},
+{prompt:'Qual é o sinônimo de “iniciar”?',answer:'Começar',options:['Terminar','Começar','Impedir'],hint:'É o verbo que indica dar início.',explanation:'Começar e iniciar são sinônimos em muitos contextos.',category:'Sinônimos'}]},
+{id:'homonimos-paronimos',title:'Palavras em jogo',subtitle:'Diferencie palavras parecidas e seus significados.',tag:'SEMÂNTICA',art:'≋',color:'blue',kind:'match',challenges:[
+{prompt:'Complete: “O conserto do carro ficou caro.” Qual é o sentido de conserto?',answer:'Reparo',options:['Reparo','Harmonia musical','Conselho'],hint:'Observe o contexto de oficina mecânica.',explanation:'Conserto, com s, significa reparo. Concerto, com c, pode ser apresentação musical.',category:'Homônimos'},
+{prompt:'Quem age com discrição é uma pessoa…',answer:'Reservada',options:['Descrita','Reservada','Distraída'],hint:'Discrição está relacionada à prudência e reserva.',explanation:'Discrição é qualidade de quem é reservado; descrição é o ato de descrever.',category:'Parônimos'},
+{prompt:'“O cumprimento foi cordial.” Cumprimento significa…',answer:'Saudação',options:['Saudação','Extensão','Obrigação'],hint:'Pense em um gesto de educação ao encontrar alguém.',explanation:'Cumprimento pode significar saudação; comprimento indica extensão.',category:'Parônimos'}]},
+{id:'interpretacao',title:'Missão interpretação',subtitle:'Leia pistas, entenda o contexto e descubra sentidos.',tag:'LEITURA',art:'◉',color:'violet',kind:'story',challenges:[
+{prompt:'Qual é a ideia principal do texto?',answer:'A leitura amplia conhecimentos e perspectivas.',options:['A leitura amplia conhecimentos e perspectivas.','Ler serve apenas para passar o tempo.','A leitura impede o diálogo.'],hint:'Considere a mensagem global, não um detalhe isolado.',explanation:'A ideia principal sintetiza o argumento central: a leitura amplia conhecimentos e permite contato com diferentes perspectivas.',category:'Interpretação',passage:'Ler é mais do que decifrar palavras. Por meio da leitura, conhecemos outras realidades, ampliamos nosso vocabulário e desenvolvemos a capacidade de refletir sobre o mundo.'},
+{prompt:'O texto afirma que a leitura permite…',answer:'Conhecer outras realidades.',options:['Evitar qualquer reflexão.','Conhecer outras realidades.','Substituir toda forma de diálogo.'],hint:'Localize uma informação apresentada explicitamente.',explanation:'O texto afirma expressamente que a leitura permite conhecer outras realidades.',category:'Compreensão',passage:'Ler é mais do que decifrar palavras. Por meio da leitura, conhecemos outras realidades, ampliamos nosso vocabulário e desenvolvemos a capacidade de refletir sobre o mundo.'},
+{prompt:'A expressão “mais do que decifrar palavras” indica que ler…',answer:'Envolve compreensão e reflexão.',options:['É apenas pronunciar palavras.','Envolve compreensão e reflexão.','Dispensa o conhecimento do contexto.'],hint:'Interprete a ampliação de sentido apresentada no início.',explanation:'A expressão contrapõe a simples decodificação ao processo mais amplo de compreensão e reflexão.',category:'Inferência',passage:'Ler é mais do que decifrar palavras. Por meio da leitura, conhecemos outras realidades, ampliamos nosso vocabulário e desenvolvemos a capacidade de refletir sobre o mundo.'}]},
+{id:'figuras-linguagem',title:'Laboratório das figuras',subtitle:'Descubra os efeitos de sentido das expressões.',tag:'LINGUAGEM',art:'✧',color:'amber',kind:'match',challenges:[
+{prompt:'“Meu coração é um deserto.” Qual figura aparece?',answer:'Metáfora',options:['Metáfora','Comparação','Hipérbole'],hint:'Há uma associação implícita entre coração e deserto.',explanation:'Metáfora é uma comparação implícita, sem conectivo comparativo.',category:'Figuras de linguagem'},
+{prompt:'“Estou morrendo de fome.” Qual figura aparece?',answer:'Hipérbole',options:['Eufemismo','Hipérbole','Ironia'],hint:'Há exagero intencional.',explanation:'Hipérbole é o exagero expressivo de uma ideia.',category:'Figuras de linguagem'},
+{prompt:'“O vento sussurrava na janela.” Qual figura aparece?',answer:'Personificação',options:['Antítese','Personificação','Metonímia'],hint:'Um elemento da natureza recebe ação humana.',explanation:'Personificação atribui características ou ações humanas a seres não humanos.',category:'Figuras de linguagem'}]},
+{id:'pontuacao',title:'Mestre da pontuação',subtitle:'Escolha os sinais que dão sentido às frases.',tag:'PONTUAÇÃO',art:'?!',color:'blue',kind:'tiles',challenges:[
+{prompt:'Complete: “Que notícia maravilhosa___”',answer:'!',options:['.','!','?'],hint:'A frase expressa emoção intensa.',explanation:'O ponto de exclamação marca emoção, surpresa ou entusiasmo.',category:'Pontuação'},
+{prompt:'Complete: “Você terminou a atividade___”',answer:'?',options:['!',';','?'],hint:'A frase é uma pergunta direta.',explanation:'O ponto de interrogação encerra perguntas diretas.',category:'Pontuação'},
+{prompt:'Qual sinal separa itens de uma enumeração simples?',answer:',',options:['.',';',','],hint:'É uma pausa breve entre elementos.',explanation:'A vírgula separa elementos de uma enumeração simples.',category:'Pontuação'}]},
+{id:'concordancia',title:'Oficina da concordância',subtitle:'Ajuste sujeito, verbo e nomes corretamente.',tag:'GRAMÁTICA',art:'✓',color:'green',kind:'machine',challenges:[
+{prompt:'Escolha a frase correta.',answer:'As meninas chegaram cedo.',options:['As meninas chegou cedo.','As meninas chegaram cedo.','As meninas chegamos cedo.'],hint:'O sujeito está no feminino plural.',explanation:'O verbo chegaram concorda com o sujeito plural “As meninas”.',category:'Concordância verbal'},
+{prompt:'Escolha a forma correta.',answer:'É proibida a entrada.',options:['É proibido a entrada.','É proibida a entrada.','São proibida a entrada.'],hint:'O artigo definido acompanha o substantivo entrada.',explanation:'Com artigo, o predicativo concorda com o substantivo: “É proibida a entrada”.',category:'Concordância nominal'},
+{prompt:'Complete: “Seguem ____ os documentos.”',answer:'anexos',options:['anexo','anexos','anexas'],hint:'O adjetivo concorda com documentos.',explanation:'Anexos concorda com documentos, masculino plural.',category:'Concordância nominal'}]},
+{id:'batalha-conhecimentos',title:'Batalha de conhecimentos',subtitle:'Enfrente desafios em sequência e vença o chefe final.',tag:'DESAFIO FINAL',art:'⚔',color:'violet',kind:'boss',challenges:[
+{prompt:'Qual alternativa apresenta uma palavra proparoxítona?',answer:'Público',options:['Café','Público','Papel'],hint:'A sílaba tônica é a antepenúltima.',explanation:'Público é proparoxítona: pú-bli-co. Todas as proparoxítonas são acentuadas.',category:'Acentuação'},
+{prompt:'Em “Precisa-se de funcionários”, o sujeito é…',answer:'Indeterminado',options:['Simples','Composto','Indeterminado'],hint:'O verbo está na terceira pessoa do singular com índice de indeterminação do sujeito.',explanation:'Com verbo transitivo indireto acompanhado de se, o sujeito é indeterminado.',category:'Sintaxe'},
+{prompt:'Qual conectivo expressa oposição?',answer:'Entretanto',options:['Portanto','Além disso','Entretanto'],hint:'Tem sentido semelhante a “porém”.',explanation:'Entretanto é conjunção coordenativa adversativa e expressa oposição.',category:'Coesão'}]}
+]
+const gridLetters=['L','E','I','T','U','R','A','A','B','C','D','E','F','G','H','I','J','K','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','A','B','C','D']
+const gridPaths:Record<string,number[]>={LIVRO:[18,19,20,21,22],VERBO:[24,25,26,27,28],TEXTO:[30,31,32,33,34]}
+const shuffle=<T,>(items:T[])=>[...items].sort(()=>Math.random()-.5)
+const normalize=(value:string)=>value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase()
 
-const pools: Record<Exclude<Mode, 'hangman' | 'wordsearch'>, Challenge[]> = {
-  complete: [
-    { prompt: 'Complete a palavra: exce__ão', answer: 'ç', options: ['s', 'ç', 'ss'], hint: 'A palavra indica uma situação que foge à regra.', explanation: 'A grafia correta é exceção, com ç.', category: 'Ortografia' },
-    { prompt: 'Complete a palavra: privilé__io', answer: 'g', options: ['j', 'g', 'gu'], hint: 'É um benefício ou vantagem especial.', explanation: 'Privilégio é escrito com g.', category: 'Ortografia' },
-    { prompt: 'Complete a palavra: empeci__ho', answer: 'l', options: ['l', 'u', 'lh'], hint: 'Significa obstáculo ou dificuldade.', explanation: 'Empecilho é escrito com lh.', category: 'Ortografia' },
-    { prompt: 'Complete a palavra: consciên__ia', answer: 'c', options: ['s', 'sc', 'c'], hint: 'É a capacidade de perceber a própria existência e os próprios atos.', explanation: 'Consciência é escrita com sc e termina em cia.', category: 'Ortografia' },
-    { prompt: 'Complete a palavra: benefi__ente', answer: 'c', options: ['ss', 's', 'c'], hint: 'Refere-se a quem faz o bem ou ajuda.', explanation: 'Beneficente é escrito com c.', category: 'Ortografia' },
-  ],
-  sentence: [
-    { prompt: 'Organize as palavras para formar uma frase correta.', answer: 'A leitura amplia o conhecimento.', options: ['conhecimento.', 'A', 'amplia', 'leitura', 'o'], hint: 'Comece pelo artigo que acompanha “leitura”.', explanation: 'A ordem forma uma oração com sujeito “A leitura” e predicado “amplia o conhecimento”.', category: 'Organização textual' },
-    { prompt: 'Organize as palavras para formar uma frase correta.', answer: 'Os alunos estudaram para a prova.', options: ['prova.', 'estudaram', 'Os', 'a', 'para', 'alunos'], hint: 'O sujeito aparece antes do verbo.', explanation: '“Os alunos” é o sujeito; “estudaram para a prova” é o predicado.', category: 'Sintaxe' },
-    { prompt: 'Organize as palavras para formar uma frase correta.', answer: 'A professora explicou a matéria.', options: ['matéria.', 'explicou', 'A', 'professora', 'a'], hint: 'A frase começa com quem realizou a ação.', explanation: 'A professora é o sujeito; explicou é o verbo; a matéria completa o sentido.', category: 'Sintaxe' },
-  ],
-  accent: [
-    { prompt: 'Qual palavra está escrita corretamente?', answer: 'saúde', options: ['saude', 'saúde', 'saùde'], hint: 'Observe o hiato formado pelas vogais.', explanation: 'Saúde recebe acento porque o u tônico forma hiato e fica sozinho na sílaba.', category: 'Acentuação' },
-    { prompt: 'Qual é a forma correta segundo a ortografia atual?', answer: 'ideia', options: ['idéia', 'ideia', 'idéía'], hint: 'O acordo ortográfico retirou o acento dos ditongos abertos ei e oi em palavras paroxítonas.', explanation: 'Ideia é paroxítona e não recebe mais acento no ditongo ei.', category: 'Acentuação' },
-    { prompt: 'Assinale a palavra proparoxítona corretamente acentuada.', answer: 'lâmpada', options: ['lampada', 'lâmpada', 'lâmpâda'], hint: 'Toda proparoxítona recebe acento.', explanation: 'Lâmpada tem a antepenúltima sílaba tônica; por isso recebe acento.', category: 'Acentuação' },
-    { prompt: 'Qual palavra é oxítona e está acentuada corretamente?', answer: 'café', options: ['cafe', 'café', 'càfé'], hint: 'Oxítonas terminadas em a, e, o, em e ens podem receber acento.', explanation: 'Café é oxítona terminada em e, por isso recebe acento agudo.', category: 'Acentuação' },
-    { prompt: 'Qual alternativa está correta?', answer: 'voo', options: ['vôo', 'voo', 'vóo'], hint: 'O acordo ortográfico eliminou o circunflexo de alguns hiatos oo.', explanation: 'A forma atual é voo, sem acento circunflexo.', category: 'Acentuação' },
-  ],
+export default function GamesArcade(){
+const [gameId,setGameId]=useState<string|null>(null),[round,setRound]=useState(0),[score,setScore]=useState(0),[selected,setSelected]=useState(''),[order,setOrder]=useState<string[]>([]),[seconds,setSeconds]=useState(75),[finished,setFinished]=useState(false),[feedback,setFeedback]=useState(''),[hintVisible,setHintVisible]=useState(false),[selectedGrid,setSelectedGrid]=useState<number[]>([]),[guessed,setGuessed]=useState<string[]>([]),[mistakes,setMistakes]=useState(0),[savedMessage,setSavedMessage]=useState(''),[xp,setXp]=useState(0),[sound,setSound]=useState(false),[dragging,setDragging]=useState(false)
+const game=games.find(item=>item.id===gameId)??null
+const challenge=game?.challenges[round]??null
+const gridRef=useRef<HTMLDivElement>(null)
+const hangmanWord=challenge?.answer??''
+const revealed=hangmanWord.split('').map(letter=>letter===' '||guessed.includes(normalize(letter))?letter:'')
+const wonHangman=!!hangmanWord&&hangmanWord.split('').every(letter=>letter===' '||guessed.includes(normalize(letter)))
+const lostHangman=mistakes>=6
+
+useEffect(()=>{if(!gameId||finished||game?.kind==='grid'||game?.kind==='hangman')return;const timer=window.setInterval(()=>setSeconds(value=>Math.max(0,value-1)),1000);return()=>window.clearInterval(timer)},[gameId,finished,game?.kind])
+useEffect(()=>{if(seconds===0&&gameId&&!finished)finishGame(score)},[seconds,gameId,finished])
+useEffect(()=>{if(game?.kind==='order'||game?.kind==='syllables')setOrder(shuffle(challenge?.options??[]));else setOrder([]);setSelected('');setFeedback('');setHintVisible(false);setSelectedGrid([]);setGuessed([]);setMistakes(0)},[gameId,round])
+
+function start(id:string){const next=games.find(item=>item.id===id);setGameId(id);setRound(0);setScore(0);setSelected('');setSeconds(75);setFinished(false);setFeedback('');setSavedMessage('');setXp(0);setOrder(next&&(next.kind==='order'||next.kind==='syllables')?shuffle(next.challenges[0].options):[]);setSelectedGrid([]);setGuessed([]);setMistakes(0)}
+async function saveResult(correct:number,total:number,duration:number){const {data}=await supabase.auth.getUser();if(!data.user){setSavedMessage('Entre na sua conta para guardar este resultado.');return}const {error}=await supabase.rpc('record_game_attempt',{p_game_slug:gameId,p_correct_count:correct,p_total_count:total,p_duration_seconds:duration});setSavedMessage(error?'Não foi possível salvar. Tente novamente mais tarde.':'Resultado salvo no seu histórico.')}
+function finishGame(finalScore:number){if(finished||!game)return;setFinished(true);void saveResult(finalScore,game.challenges.length,75-seconds)}
+function award(correct:boolean){if(correct){setScore(value=>value+1);setXp(value=>value+20)}}
+function choose(value:string){if(feedback||finished)return;setSelected(value);const correct=value===challenge?.answer;setFeedback(correct?'correct':'wrong');award(correct)}
+function submitOrder(){if(feedback||!challenge)return;const correct=game?.kind==='syllables'?order.join('-')===challenge.answer:order.join(' ')===challenge.answer;setFeedback(correct?'correct':'wrong');award(correct)}
+function nextRound(){if(!game)return;if(round===game.challenges.length-1){finishGame(score);return}setRound(value=>value+1)}
+function updateOrder(index:number,direction:-1|1){setOrder(current=>{const target=index+direction;if(target<0||target>=current.length)return current;const copy=[...current];[copy[index],copy[target]]=[copy[target],copy[index]];return copy})}
+function pickGrid(index:number){if(!challenge||finished||selectedGrid.includes(index))return;const path=gridPaths[challenge.answer]??gridPaths.LIVRO;const expected=path[selectedGrid.length];if(index!==expected){setFeedback('wrong');window.setTimeout(()=>setFeedback(''),450);return}const updated=[...selectedGrid,index];setSelectedGrid(updated);if(updated.length===path.length){setScore(value=>value+1);setXp(value=>value+30);setFeedback('correct')}}
+function guessLetter(letter:string){if(guessed.includes(letter)||wonHangman||lostHangman)return;const next=[...guessed,letter];setGuessed(next);if(!normalize(hangmanWord).includes(letter))setMistakes(value=>value+1);else if(normalize(hangmanWord).split('').every(char=>char===' '||next.includes(char))){setScore(value=>value+1);setXp(value=>value+30);setFeedback('correct')}}
+function finishHangman(){finishGame(wonHangman?score+1:score)}
+
+function renderRound(){
+if(!game||!challenge)return null
+if(game.kind==='grid')return <div className="arena-grid-game"><div className="arena-mission"><span>MISSÃO DO TABULEIRO</span><h2>{challenge.prompt}</h2><p>{challenge.hint}</p></div><div className="arena-letter-grid" ref={gridRef}>{gridLetters.map((letter,index)=><button key={index} className={selectedGrid.includes(index)?'found':''} onPointerDown={()=>{setDragging(true);pickGrid(index)}} onPointerEnter={()=>{if(dragging)pickGrid(index)}} onPointerUp={()=>setDragging(false)}>{letter}</button>)}</div><p className="arena-helper">Selecione as letras na sequência para encontrar a palavra.</p>{feedback==='correct'&&<button className="arena-primary" onClick={nextRound}>Próxima palavra</button>}</div>
+if(game.kind==='hangman')return <div className="arena-hangman"><div className="arena-hangman-drawing"><div className="arena-gallows"><i className="top"/><i className="side"/><i className="base"/><i className="rope"/>{mistakes>0&&<b className="head"/>}{mistakes>1&&<b className="body"/>}{mistakes>2&&<b className="arm left"/>}{mistakes>3&&<b className="arm right"/>}{mistakes>4&&<b className="leg left"/>}{mistakes>5&&<b className="leg right"/>}</div><div className="arena-hidden-word">{revealed.map((letter,index)=><span key={index}>{letter||'_'}</span>)}</div></div><div className="arena-mission"><span>PISTA · {challenge.category.toUpperCase()}</span><p>{challenge.prompt}</p></div><div className="arena-keyboard">{'ABCDEFGHIJKLMNOPQRSTUVWXYZÁÉÍÓÚÂÊÔÃÕÇ'.split('').map(letter=><button key={letter} disabled={guessed.includes(normalize(letter))||wonHangman||lostHangman} onClick={()=>guessLetter(normalize(letter))}>{letter}</button>)}</div>{(wonHangman||lostHangman)&&<div className="arena-result-inline"><b>{wonHangman?'Palavra descoberta!':'Suas tentativas acabaram.'}</b><p>{challenge.explanation}</p><button onClick={()=>{if(round===game.challenges.length-1)finishHangman();else nextRound()}}>Continuar</button></div>}</div>
+if(game.kind==='order'||game.kind==='syllables')return <div className="arena-order-game"><div className="arena-mission"><span>{game.kind==='syllables'?'CONSTRUA A PALAVRA':'ORGANIZE A SEQUÊNCIA'}</span><h2>{challenge.prompt}</h2></div><div className="arena-order-slots">{order.map((part,index)=><div className="arena-order-piece" key={index}><span>{part}</span><div><button disabled={!!feedback||index===0} onClick={()=>updateOrder(index,-1)}>‹</button><button disabled={!!feedback||index===order.length-1} onClick={()=>updateOrder(index,1)}>›</button></div></div>)}</div><button className="arena-primary" disabled={!!feedback} onClick={submitOrder}>Conferir montagem</button></div>
+if(game.kind==='story')return <div className="arena-story"><div className="arena-book-page"><span>LEITURA DA MISSÃO</span><p>{challenge.passage}</p></div><div className="arena-mission"><h2>{challenge.prompt}</h2></div><div className="arena-options">{challenge.options.map(option=><button key={option} className={selected===option?'chosen':''} disabled={!!feedback} onClick={()=>choose(option)}>{option}<i>{selected===option?'●':'○'}</i></button>)}</div></div>
+if(game.kind==='sort')return <div className="arena-sort"><div className="arena-sort-token">{challenge.prompt}</div><span>ESCOLHA A CATEGORIA</span><div className="arena-category-grid">{challenge.options.map(option=><button key={option} disabled={!!feedback} onClick={()=>choose(option)}>{option}</button>)}</div></div>
+if(game.kind==='match')return <div className="arena-match"><div className="arena-mission"><span>FAÇA A ASSOCIAÇÃO</span><h2>{challenge.prompt}</h2></div><div className="arena-match-lines">{challenge.options.map((option,index)=><button key={option} disabled={!!feedback} onClick={()=>choose(option)}><span>{String.fromCharCode(65+index)}</span>{option}</button>)}</div></div>
+if(game.kind==='race')return <div className="arena-race"><div className="arena-track"><div className="arena-runner" style={{left:(score/game.challenges.length*78)+'%'}}>EPDP</div><div className="arena-finish-line">CHEGADA</div></div><div className="arena-mission"><span>ACELERE COM RESPOSTAS CERTAS</span><h2>{challenge.prompt}</h2></div><div className="arena-options">{challenge.options.map(option=><button key={option} disabled={!!feedback} onClick={()=>choose(option)}>{option}</button>)}</div></div>
+if(game.kind==='boss')return <div className="arena-boss"><div className="arena-boss-health"><span>ENERGIA DO CHEFE</span><div><i style={{width:((game.challenges.length-round)/game.challenges.length*100)+'%'}}/></div></div><div className="arena-boss-avatar">EP</div><div className="arena-mission"><span>DESAFIO DO CHEFE · {round+1}/{game.challenges.length}</span><h2>{challenge.prompt}</h2></div><div className="arena-options">{challenge.options.map(option=><button key={option} disabled={!!feedback} onClick={()=>choose(option)}>{option}</button>)}</div></div>
+if(game.kind==='spot')return <div className="arena-spot"><div className="arena-document"><span>REVISÃO GRAMATICAL</span><p>{challenge.prompt}</p></div><div className="arena-mission"><h2>Toque na palavra que apresenta o erro.</h2></div><div className="arena-options">{challenge.options.map(option=><button key={option} disabled={!!feedback} onClick={()=>choose(option)}>{option}</button>)}</div></div>
+if(game.kind==='tiles')return <div className="arena-tiles"><div className="arena-mission"><span>COMPLETE O DESAFIO</span><h2>{challenge.prompt}</h2></div><div className="arena-tile-options">{challenge.options.map(option=><button key={option} disabled={!!feedback} onClick={()=>choose(option)}>{option}</button>)}</div></div>
+return <div className="arena-machine"><div className="arena-machine-display"><span>{game.kind==='machine'?'MÁQUINA GRAMATICAL':'DESAFIO'}</span><strong>{challenge.category}</strong><p>{challenge.prompt}</p></div><div className="arena-options">{challenge.options.map(option=><button key={option} disabled={!!feedback} onClick={()=>choose(option)}>{option}</button>)}</div></div>
 }
 
-const wordSearchGrid = ['A','P','O','R','T','E','C','L','I','V','R','O','E','T','S','A','D','N','M','G','R','A','M','A','P','A','L','A','V','R','S','O','N','E','T','A']
-const wordSearchPath = [7, 8, 9, 10, 11]
-
-const words = [
-  { word: 'COERÊNCIA', hint: 'Qualidade de um texto cujas ideias fazem sentido entre si.', category: 'Texto' },
-  { word: 'SUBSTANTIVO', hint: 'Classe de palavras que nomeia seres, objetos, lugares e sentimentos.', category: 'Gramática' },
-  { word: 'PRONOME', hint: 'Classe que pode acompanhar ou substituir um nome.', category: 'Gramática' },
-  { word: 'METÁFORA', hint: 'Figura de linguagem que estabelece uma comparação implícita.', category: 'Linguagem' },
-  { word: 'OXÍTONA', hint: 'Palavra cuja última sílaba é a tônica.', category: 'Acentuação' },
-]
-
-const modes: { id: Mode; name: string; subtitle: string; icon: string; color: string; tag: string }[] = [
-  { id: 'hangman', name: 'Forca de palavras', subtitle: 'Descubra o termo usando as pistas.', icon: 'A _', color: 'violet', tag: 'VOCABULÁRIO' },
-  { id: 'wordsearch', name: 'Caça-palavras', subtitle: 'Encontre a palavra escondida no tabuleiro.', icon: '▦', color: 'green', tag: 'VOCABULÁRIO' },
-  { id: 'complete', name: 'Complete a palavra', subtitle: 'Escolha a letra que completa a escrita.', icon: 'Aa', color: 'blue', tag: 'ORTOGRAFIA' },
-  { id: 'sentence', name: 'Monte a frase', subtitle: 'Coloque as palavras na ordem correta.', icon: '≡', color: 'green', tag: 'SINTAXE' },
-  { id: 'accent', name: 'Desafio de acentuação', subtitle: 'Escolha a grafia correta e entenda a regra.', icon: 'Á', color: 'amber', tag: 'ACENTUAÇÃO' },
-]
-
-function shuffle<T,>(items: T[]) {
-  return [...items].sort(() => Math.random() - 0.5)
-}
-
-export default function GamesArcade() {
-  const [mode, setMode] = useState<Mode | null>(null)
-  const [round, setRound] = useState(0)
-  const [score, setScore] = useState(0)
-  const [choice, setChoice] = useState('')
-  const [checked, setChecked] = useState(false)
-  const [finished, setFinished] = useState(false)
-  const [seconds, setSeconds] = useState(90)
-  const [guessed, setGuessed] = useState<string[]>([])
-  const [mistakes, setMistakes] = useState(0)
-  const [saveMessage, setSaveMessage] = useState('')
-  const [sentenceOrder, setSentenceOrder] = useState<string[]>([])
-  const [wordIndex, setWordIndex] = useState(0)
-  const [selectedCells, setSelectedCells] = useState<number[]>([])
-  const [gridHint, setGridHint] = useState('Encontre a palavra relacionada à leitura.')
-
-  const challenge = mode && mode !== 'hangman' && mode !== 'wordsearch' ? pools[mode][round % pools[mode].length] : null
-  const hangmanWord = words[wordIndex % words.length]
-  const letters = useMemo(() => 'ABCDEFGHIJKLMNOPQRSTUVWXYZÁÉÍÓÚÂÊÔÃÕÇ'.split(''), [])
-  const revealed = hangmanWord.word.split('').map(letter => letter === ' ' || guessed.includes(letter) ? letter : '')
-  const hangmanWon = hangmanWord.word.split('').every(letter => guessed.includes(letter) || letter === ' ')
-  const hangmanLost = mistakes >= 6
-
-  useEffect(() => {
-    if (!mode || finished || seconds <= 0) return
-    const timer = window.setInterval(() => setSeconds(value => Math.max(0, value - 1)), 1000)
-    return () => window.clearInterval(timer)
-  }, [mode, finished, seconds])
-
-  useEffect(() => {
-    if (seconds === 0 && mode && !finished) {
-      setFinished(true)
-      if (mode === 'hangman') { setScore(hangmanWon ? 1 : 0); void saveGame('forca-palavras', hangmanWon ? 1 : 0, 1) }
-      else if (mode === 'wordsearch') void saveGame('caca-palavras', score, 1)
-      else void saveGame(mode === 'accent' ? 'acentuacao' : mode === 'complete' ? 'complete-word' : 'build-sentence', score, 5)
-    }
-  }, [seconds, mode, finished])
-
-  useEffect(() => {
-    if (mode === 'sentence' && challenge) setSentenceOrder(shuffle(challenge.options ?? []))
-  }, [mode, round])
-
-  async function saveGame(slug: string, correct: number, total: number) {
-    const { data } = await supabase.auth.getUser()
-    if (!data.user) {
-      setSaveMessage('Entre na sua conta para guardar este resultado no histórico.')
-      return
-    }
-    const { error } = await supabase.rpc('record_game_attempt', {
-      p_game_slug: slug,
-      p_correct_count: correct,
-      p_total_count: total,
-      p_duration_seconds: 90 - seconds,
-    })
-    setSaveMessage(error ? 'Não foi possível salvar a rodada. Tente novamente mais tarde.' : 'Resultado salvo no seu histórico.')
-  }
-
-  function start(next: Mode) {
-    setMode(next); setRound(0); setScore(0); setChoice(''); setChecked(false); setFinished(false)
-    setSeconds(90); setGuessed([]); setMistakes(0); setSaveMessage(''); setWordIndex(Math.floor(Math.random() * words.length)); setSelectedCells([]); setGridHint('Encontre a palavra relacionada à leitura.')
-    if (next === 'sentence') setSentenceOrder(shuffle(pools.sentence[0].options ?? []))
-  }
-
-  function answer() {
-    if (!challenge || (mode !== 'sentence' && !choice) || checked) return
-    const correct = mode === 'sentence' ? sentenceOrder.join(' ') === challenge.answer : choice === challenge.answer
-    setChecked(true)
-    if (correct) setScore(value => value + 1)
-  }
-
-  function next() {
-    if (round === 4) {
-      setFinished(true)
-      void saveGame(mode === 'accent' ? 'acentuacao' : mode === 'complete' ? 'complete-word' : 'build-sentence', score + (mode === 'sentence' ? (sentenceOrder.join(' ') === challenge?.answer ? 1 : 0) : choice === challenge?.answer ? 1 : 0), 5)
-      return
-    }
-    setRound(value => value + 1); setChoice(''); setChecked(false)
-  }
-
-  function selectGridCell(index: number) {
-    if (selectedCells.includes(index) || finished) return
-    const expected = wordSearchPath[selectedCells.length]
-    if (index !== expected) { setGridHint('Essa letra não faz parte da sequência. Procure a palavra na horizontal.'); return }
-    const nextCells = [...selectedCells, index]
-    setSelectedCells(nextCells)
-    setGridHint(nextCells.length === wordSearchPath.length ? 'Palavra encontrada: LIVRO.' : 'Muito bem. Continue selecionando as letras na ordem.')
-    if (nextCells.length === wordSearchPath.length) {
-      setScore(1); setFinished(true); void saveGame('caca-palavras', 1, 1)
-    }
-  }
-
-  function guess(letter: string) {
-    if (guessed.includes(letter) || hangmanWon || hangmanLost) return
-    setGuessed(value => [...value, letter])
-    if (!hangmanWord.word.includes(letter)) setMistakes(value => value + 1)
-  }
-
-  function finishHangman() {
-    setScore(hangmanWon ? 1 : 0)
-    setFinished(true)
-    void saveGame('forca-palavras', hangmanWon ? 1 : 0, 1)
-  }
-
-  function resetHome() {
-    setMode(null); setFinished(false); setSaveMessage('')
-  }
-
-  return <section className="arcade">
-    {!mode ? <>
-      <div className="arcade-banner">
-        <div><span className="arcade-eyebrow">CENTRAL DE JOGOS EPDP</span><h2>Aprenda jogando.<br/><em>Conquiste conhecimento.</em></h2><p>Desafios rápidos de português, com explicações e evolução registrada na sua conta.</p><div className="arcade-banner-meta"><span>05 modalidades jogáveis</span><i /> <span>Partidas de até 90 segundos</span></div></div>
-        <div className="arcade-orbit" aria-hidden="true"><div className="orbit-book">Aa</div><span className="orbit-letter">Ç</span><span className="orbit-dot" /></div>
-      </div>
-      <div className="arcade-section-head"><div><small>ESCOLHA SEU DESAFIO</small><h3>Qual jogo vamos jogar?</h3></div><span>05 JOGOS</span></div>
-      <div className="arcade-grid">{modes.map((item, index) => <button className="arcade-card" key={item.id} onClick={() => start(item.id)}><div className={'arcade-card-art ' + item.color}><span>{item.icon}</span><small>NÍVEL {index === 0 ? '1' : '1–3'}</small></div><div className="arcade-card-copy"><small>{item.tag}</small><h3>{item.name}</h3><p>{item.subtitle}</p><span className="arcade-play">JOGAR AGORA <b>→</b></span></div></button>)}</div>
-      <div className="arcade-note"><b>Seu progresso importa.</b><span>Ao entrar na sua conta, as rodadas concluídas são registradas no seu histórico de jogos.</span></div>
-    </> : <div className="arcade-play-screen">
-      <div className="arcade-game-header"><button onClick={resetHome}>← Todos os jogos</button><span>{modes.find(item => item.id === mode)?.tag}</span><div className="arcade-timer">00:{String(seconds).padStart(2, '0')}</div></div>
-      {finished ? <div className="arcade-finish"><div className="arcade-finish-mark">✓</div><small>PARTIDA FINALIZADA</small><h2>{seconds === 0 ? 'Tempo encerrado!' : 'Desafio concluído!'}</h2><strong>{score}<small> / {mode === 'hangman' || mode === 'wordsearch' ? '1' : '5'}</small></strong><p>Você acertou {score} de {mode === 'hangman' ? '1 palavra' : mode === 'wordsearch' ? '1 palavra' : '5 desafios'} nesta partida.</p>{saveMessage && <span role="status">{saveMessage}</span>}<button onClick={() => start(mode)}>Jogar novamente</button><button className="arcade-secondary" onClick={resetHome}>Escolher outro jogo</button></div> : mode === 'wordsearch' ? <div className="hangman-game wordsearch-game">
-        <div className="arcade-roundline"><span>CAÇA-PALAVRAS</span><b>1 palavra escondida</b></div>
-        <div className="wordsearch-instruction"><small>MISSÃO</small><h2>Encontre a palavra LIVRO</h2><p>{gridHint}</p></div>
-        <div className="wordsearch-grid">{wordSearchGrid.map((letter, index) => <button key={index} disabled={selectedCells.includes(index) || finished} className={selectedCells.includes(index) ? 'found' : ''} onClick={() => selectGridCell(index)}>{letter}</button>)}</div>
-        <div className="hangman-hint"><small>DICA · LEITURA</small><p>Objeto que reúne páginas com textos, histórias e informações. Selecione as letras na sequência correta.</p></div>
-      </div> : mode === 'hangman' ? <div className="hangman-game">
-        <div className="arcade-roundline"><span>DESCUBRA A PALAVRA</span><b>{Math.max(0, 6 - mistakes)} tentativas restantes</b></div>
-        <div className="hangman-stage"><div className="hangman-scaffold"><span className="scaffold-top"/><span className="scaffold-side"/><span className="scaffold-base"/><span className="scaffold-rope"/>{mistakes > 0 && <i className="hangman-head"/>}{mistakes > 1 && <i className="hangman-body"/>}{mistakes > 2 && <i className="hangman-arm left"/>}{mistakes > 3 && <i className="hangman-arm right"/>}{mistakes > 4 && <i className="hangman-leg left"/>}{mistakes > 5 && <i className="hangman-leg right"/>}</div><div className="hangman-word">{revealed.map((letter, i) => <span key={i}>{letter || '_'}</span>)}</div></div>
-        <div className="hangman-hint"><small>PISTA · {hangmanWord.category.toUpperCase()}</small><p>{hangmanWord.hint}</p></div>
-        <div className="hangman-keyboard">{letters.map(letter => <button key={letter} disabled={guessed.includes(letter) || hangmanWon || hangmanLost} className={guessed.includes(letter) ? hangmanWord.word.includes(letter) ? 'hit' : 'miss' : ''} onClick={() => guess(letter)}>{letter}</button>)}</div>
-        {(hangmanWon || hangmanLost) && <div className="arcade-feedback"><b>{hangmanWon ? 'Você encontrou a palavra!' : 'As tentativas terminaram.'} Palavra: {hangmanWord.word}</b><p>{hangmanWord.hint}</p><button onClick={finishHangman}>Ver resultado</button></div>}
-      </div> : challenge ? <div className="arcade-challenge">
-        <div className="arcade-roundline"><span>DESAFIO {round + 1} DE 5</span><b>{score} pontos</b></div>
-        <div className="arcade-challenge-card"><small>{challenge.category.toUpperCase()}</small><h2>{challenge.prompt}</h2>
-          {mode === 'sentence' ? <><p className="sentence-instruction">Toque nas palavras na ordem em que devem aparecer.</p><div className="sentence-answer">{sentenceOrder.map((word, i) => <button key={i} disabled={checked} onClick={() => setSentenceOrder(current => current.filter((_, index) => index !== i))}>{word}<span>×</span></button>)}</div><div className="sentence-bank">{(challenge.options ?? []).filter(word => !sentenceOrder.includes(word)).map((word, i) => <button key={i} disabled={checked} onClick={() => setSentenceOrder(current => [...current, word])}>{word}</button>)}</div><button className="sentence-reset" disabled={checked} onClick={() => setSentenceOrder(shuffle(challenge.options ?? []))}>Embaralhar novamente</button></> : <div className="arcade-answer-options">{(challenge.options ?? []).map(option => <button key={option} disabled={checked} className={choice === option ? 'selected' : ''} onClick={() => setChoice(option)}><span>{option}</span><i>{choice === option ? '●' : '○'}</i></button>)}</div>}
-          {checked && <div className={'arcade-feedback ' + ((mode === 'sentence' ? sentenceOrder.join(' ') === challenge.answer : choice === challenge.answer) ? 'is-correct' : 'is-wrong')}><b>{(mode === 'sentence' ? sentenceOrder.join(' ') === challenge.answer : choice === challenge.answer) ? 'Muito bem! Resposta correta.' : 'Vamos aprender com esse erro.'}</b><p>{challenge.explanation}</p></div>}
-          {!checked ? <button className="arcade-submit" disabled={mode === 'sentence' ? sentenceOrder.length === 0 : !choice} onClick={answer}>Confirmar resposta</button> : <button className="arcade-submit" onClick={next}>{round === 4 ? 'Finalizar partida' : 'Próximo desafio'}</button>}
-        </div>
-      </div> : null}
-    </div>}
-  </section>
+return <section className="arena">
+{!game?<><div className="arena-hero"><div><span>EPDP · GAME ARENA</span><h2>Aprenda.<br/><em>Jogue. Evolua.</em></h2><p>Vinte experiências de português com missões, desafios e evolução a cada partida.</p><div className="arena-hero-stats"><b>20 JOGOS</b><i/><b>FASES E DESAFIOS</b></div></div><div className="arena-hero-emblem"><div>EP</div><span>Aa</span><i>Ç</i></div></div>
+<div className="arena-toolbar"><div><span>SELECIONE SUA MISSÃO</span><h2>Central de desafios</h2></div><button onClick={()=>setSound(value=>!value)}>{sound?'Som ativado':'Som desativado'}</button></div>
+<div className="arena-game-grid">{games.map((item,index)=><button className="arena-game-card" key={item.id} onClick={()=>start(item.id)}><div className={'arena-game-art '+item.color}><span>{item.art}</span><small>MISSÃO {String(index+1).padStart(2,'0')}</small><i/></div><div className="arena-game-copy"><span>{item.tag}</span><h3>{item.title}</h3><p>{item.subtitle}</p><b>INICIAR JOGO <i>→</i></b></div></button>)}</div>
+<div className="arena-footer"><b>Sua jornada, suas conquistas.</b><span>Entre na sua conta para registrar os resultados e acompanhar seu histórico.</span></div></>:<div className="arena-session">
+<header className="arena-session-header"><button onClick={()=>setGameId(null)}>← VOLTAR À ARENA</button><div><span>{game.tag}</span><b>{game.title}</b></div><div className="arena-clock">{game.kind==='grid'||game.kind==='hangman'?'LIVRE':'00:'+String(seconds).padStart(2,'0')}</div></header>
+{finished?<div className="arena-victory"><div className="arena-trophy">★</div><span>MISSÃO CONCLUÍDA</span><h2>{seconds===0?'Tempo encerrado!':'Você concluiu a partida!'}</h2><div className="arena-score">{score}<small> / {game.challenges.length}</small></div><p>Você conquistou {xp} pontos de experiência nesta partida.</p><div className="arena-stars">{[0,1,2].map(i=><i key={i} className={score/game.challenges.length>i/3?'active':''}>★</i>)}</div>{savedMessage&&<small role="status">{savedMessage}</small>}<button className="arena-primary" onClick={()=>start(game.id)}>Jogar novamente</button><button className="arena-secondary" onClick={()=>setGameId(null)}>Voltar à arena</button></div>:<>
+<div className="arena-progress"><span>FASE {round+1} DE {game.challenges.length}</span><div><i style={{width:((round+(feedback?1:0))/game.challenges.length*100)+'%'}}/></div><b>{score} PTS</b></div>
+<div className="arena-game-stage">{renderRound()}</div>
+{feedback&&<div className={'arena-explanation '+feedback}><b>{feedback==='correct'?'Resposta correta!':'Quase lá. Vamos aprender.'}</b><p>{challenge?.explanation}</p><button onClick={nextRound}>{round===game.challenges.length-1?'Finalizar missão':'Próxima fase →'}</button></div>}
+{!feedback&&game.kind!=='hangman'&&game.kind!=='grid'&&<button className="arena-hint" onClick={()=>setHintVisible(value=>!value)}>{hintVisible?challenge?.hint:'Precisa de uma dica?'}</button>}
+</>}</div>}
+</section>
 }
