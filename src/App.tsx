@@ -14,6 +14,9 @@ type Lesson = {
   content: string
   level: string
   position: number
+  learning_objective?: string
+  estimated_minutes?: number
+  module_id?: string | null
 }
 const pages: Page[] = ['Início', 'Meu curso', 'Avaliações', 'Jogos educativos', 'Reforço', 'Meu perfil']
 
@@ -45,7 +48,7 @@ function LessonBody({ content }: { content: string }) {
 
 export default function App() {
   const [page, setPage] = useState<Page>('Início')
-  const { user } = useAuth()
+  const { user, loading: authLoading } = useAuth()
   const [menu, setMenu] = useState(false)
   const [login, setLogin] = useState(false)
   const [lessons, setLessons] = useState<Lesson[]>([])
@@ -58,11 +61,15 @@ export default function App() {
   useEffect(() => {
     let active = true
     async function loadCourse() {
+      if (!user) {
+        setLessons([]); setCompleted([]); setLessonsLoading(false); setLessonError('')
+        return
+      }
       setLessonsLoading(true)
       setLessonError('')
       const { data, error } = await supabase
         .from('lessons')
-        .select('id,title,description,content,level,position')
+        .select('id,title,description,content,level,position,learning_objective,estimated_minutes,module_id')
         .eq('published', true)
         .order('position')
       if (!active) return
@@ -115,11 +122,11 @@ export default function App() {
       {selectedLesson ? <section className="lesson-page">
         <button className="back-course" onClick={() => setSelectedLesson(null)}>← Voltar para o curso</button>
         <div className="lesson-cover">
-          <div className="cover-copy"><span className="lesson-kicker">PORTUGUÊS · {selectedLesson.level.toUpperCase()}</span><h2>{selectedLesson.title}</h2><p>{selectedLesson.description}</p><span className="cover-meta">AULA {String(selectedLesson.position).padStart(2, '0')} · LEITURA E PRÁTICA</span></div>
+          <div className="cover-copy"><span className="lesson-kicker">PORTUGUÊS · {selectedLesson.level.toUpperCase()}</span><h2>{selectedLesson.title}</h2><p>{selectedLesson.description}</p><span className="cover-meta">AULA {String(selectedLesson.position).padStart(2, '0')} · {selectedLesson.estimated_minutes ?? 15} MIN DE ESTUDO</span></div>
           <div className="cover-art" aria-hidden="true"><div className="art-circle">Aa</div><span className="art-star star-one">✦</span><span className="art-star star-two">✳</span><span className="art-pencil">✎</span></div>
         </div>
         <div className="lesson-layout">
-          <article className="lesson-main"><div className="lesson-welcome"><span>✦</span><div><b>Vamos aprender?</b><small>Leia com calma e avance no seu ritmo.</small></div></div><LessonBody content={selectedLesson.content}/></article>
+          <article className="lesson-main"><div className="lesson-welcome"><span>✦</span><div><b>Objetivo desta aula</b><small>{selectedLesson.learning_objective || 'Compreender o conteúdo, observar exemplos e praticar.'}</small></div></div><LessonBody content={selectedLesson.content}/></article>
           <aside className="lesson-aside"><div className="aside-card"><span className="aside-icon">◷</span><b>Seu momento de estudar</b><p>Não tenha pressa. O importante é compreender cada parte.</p></div><div className="aside-card aside-highlight"><span className="aside-icon">★</span><b>Aprender é praticar</b><p>Ao terminar, marque a aula como concluída para acompanhar sua evolução.</p></div><button className="complete-lesson" disabled={savingProgress || completed.includes(selectedLesson.id)} onClick={() => void finishLesson(selectedLesson)}>{savingProgress ? 'Salvando...' : completed.includes(selectedLesson.id) ? '✓ Aula concluída' : 'Concluir esta aula →'}</button></aside>
         </div>
       </section> : <>
@@ -130,7 +137,7 @@ export default function App() {
         {!lessonsLoading && lessons.length === 0 && <div className="card panel">Nenhuma aula publicada foi encontrada.</div>}
         {lessons.map(lesson => <article className="card lesson" key={lesson.id}>
           <b>{String(lesson.position).padStart(2, '0')}</b>
-          <div><h3>{lesson.title}</h3><p>{lesson.description}</p></div>
+          <div><h3>{lesson.title}</h3><p>{lesson.description}</p><small className="lesson-meta">{lesson.estimated_minutes ?? 15} min de estudo · {lesson.level}</small></div>
           <small className={completed.includes(lesson.id) ? 'lesson-done' : ''}>{completed.includes(lesson.id) ? 'Concluída' : 'Disponível'}</small>
           <button className="soft" onClick={() => setSelectedLesson(lesson)}>Estudar</button>
         </article>)}
@@ -142,6 +149,9 @@ export default function App() {
     if (page === 'Meu perfil') return <section className="card panel"><small>SUA CONTA</small><h2>Meu perfil</h2>{user ? <div className="profile-details"><b>{user.user_metadata.full_name || 'Estudante EPDP'}</b><span>{user.email}</span><small>Conta autenticada</small><button onClick={async () => { await supabase.auth.signOut(); setPage('Início') }}>Sair da conta</button></div> : <div className="empty"><b>Acesse ou crie sua conta</b><span>Entre para salvar seu progresso e acompanhar sua jornada.</span></div>}{!user && <button onClick={() => setLogin(true)}>Entrar ou criar conta</button>}</section>
     return <><section className="hero"><div><small>BEM-VINDO AO EPDP</small><h2>Aprender português abre novos caminhos.</h2><p>Estude no seu ritmo, pratique com atividades e acompanhe sua evolução.</p><button className="white" onClick={() => setPage('Meu curso')}>Explorar o curso →</button></div><div className="book">ABC<br/><span>✎</span></div></section><div className="stats"><article className="card"><small>Progresso do curso</small><strong>{lessons.length ? Math.round(completed.length / lessons.length * 100) : 0}%</strong><div className="bar"><span style={{ width: lessons.length ? (completed.length / lessons.length * 100) + '%' : '0%' }} /></div></article><article className="card"><small>Atividades concluídas</small><strong>{completed.length}</strong><p>Continue sua trilha de aprendizagem</p></article><article className="card"><small>Aulas disponíveis</small><strong>{lessons.length}</strong><p>Conteúdo de português</p></article></div><div className="columns"><section className="card panel"><small>AVALIAÇÕES</small><h2>Descubra o que você já domina.</h2><p>Faça avaliações publicadas, receba correção comentada e acompanhe seu desempenho real.</p><button className="soft" onClick={() => setPage('Avaliações')}>Acessar avaliações</button></section><section className="card panel tip"><small>DICA DE ESTUDO</small><h2>Um pouco por dia faz diferença.</h2><p>Reserve alguns minutos para ler, escrever e revisar. A constância ajuda a transformar conhecimento em confiança.</p><button className="link" onClick={() => setPage('Jogos educativos')}>Conhecer os jogos →</button></section></div></>
   }
+
+  if (authLoading) return <main className="auth-gate-shell"><div className="auth-gate-loading"><span className="auth-gate-mark">E</span><b>EPDP</b><p>Verificando sua sessão segura...</p></div></main>
+  if (!user) return <main className="auth-gate-shell"><div className="auth-gate-brand"><span className="auth-gate-mark">E</span><div><b>EPDP</b><small>ESTUDO PROFUNDO DE PORTUGUÊS</small></div><h1>Seu próximo passo começa pelo conhecimento.</h1><p>Entre na sua conta para acessar aulas, atividades, jogos, avaliações e acompanhar sua evolução.</p><ul><li>Curso organizado por etapas</li><li>Exercícios e avaliações com correção</li><li>Progresso salvo na sua conta</li></ul></div><AuthModal required onClose={() => {}} /></main>
 
   if (page === "Jogos educativos") return <div className="game-mode"><GamesArcade /></div>
 
