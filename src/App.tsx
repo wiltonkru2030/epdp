@@ -19,6 +19,33 @@ const games = [
   ['Monte a frase', 'Organize palavras e construa frases.', 'Gramática'],
 ]
 
+
+function LessonBody({ content }: { content: string }) {
+  const normalized = content.replace(/\\\\n/g, '\n').replace(/\\n/g, '\n').replace(/\\r/g, '')
+  const blocks = normalized.split(/\n\s*\n/).map(block => block.trim()).filter(Boolean)
+  return <div className="lesson-sections">
+    {blocks.map((block, index) => {
+      const lines = block.split('\n').map(line => line.trim()).filter(Boolean)
+      const first = lines[0] ?? ''
+      if (first.startsWith('## ')) {
+        const heading = first.replace(/^##\s+/, '')
+        const rest = lines.slice(1)
+        const isPractice = /pratique|exerc/i.test(heading)
+        return <section className={isPractice ? 'lesson-section practice-section' : 'lesson-section'} key={index}>
+          <div className="section-icon">{isPractice ? '✎' : ['Aa', '◈', '✦', '▤'][index % 4]}</div>
+          <div className="section-copy"><h3>{heading}</h3>
+            {rest.map((line, i) => <p key={i}>{line.replace(/^\d+\.\s*/, '')}</p>)}
+          </div>
+        </section>
+      }
+      if (lines.every(line => /^\d+\.\s/.test(line))) {
+        return <ol className="lesson-steps" key={index}>{lines.map((line, i) => <li key={i}>{line.replace(/^\d+\.\s*/, '')}</li>)}</ol>
+      }
+      return <section className="lesson-note" key={index}>{lines.map((line, i) => <p key={i}>{line}</p>)}</section>
+    })}
+  </div>
+}
+
 export default function App() {
   const [page, setPage] = useState<Page>('Início')
   const { user } = useAuth()
@@ -90,15 +117,16 @@ export default function App() {
   const content = () => {
     if (page === 'Jogos educativos') return <><div className="intro"><small>APRENDER BRINCANDO</small><h2>Jogos educativos</h2><p>Pratique português com atividades leves e desafiadoras.</p></div><div className="games">{games.map(([name, desc, tag]) => <article className="card game" key={name}><span className="symbol">✳</span><small className="tag">{tag}</small><h3>{name}</h3><p>{desc}</p><button className="soft" onClick={() => setPage('Meu curso')}>Começar atividade</button></article>)}</div></>
     if (page === 'Meu curso') return <>
-      {selectedLesson ? <section className="card panel lesson-reader">
-        <button className="link" onClick={() => setSelectedLesson(null)}>← Voltar para as aulas</button>
-        <small>{selectedLesson.level.toUpperCase()} · AULA {selectedLesson.position}</small>
-        <h2>{selectedLesson.title}</h2>
-        <p>{selectedLesson.description}</p>
-        <div className="lesson-content">{selectedLesson.content}</div>
-        <button disabled={savingProgress || completed.includes(selectedLesson.id)} onClick={() => void finishLesson(selectedLesson)}>
-          {savingProgress ? 'Salvando...' : completed.includes(selectedLesson.id) ? 'Aula concluída' : 'Marcar aula como concluída'}
-        </button>
+      {selectedLesson ? <section className="lesson-page">
+        <button className="back-course" onClick={() => setSelectedLesson(null)}>← Voltar para o curso</button>
+        <div className="lesson-cover">
+          <div className="cover-copy"><span className="lesson-kicker">PORTUGUÊS · {selectedLesson.level.toUpperCase()}</span><h2>{selectedLesson.title}</h2><p>{selectedLesson.description}</p><span className="cover-meta">AULA {String(selectedLesson.position).padStart(2, '0')} · LEITURA E PRÁTICA</span></div>
+          <div className="cover-art" aria-hidden="true"><div className="art-circle">Aa</div><span className="art-star star-one">✦</span><span className="art-star star-two">✳</span><span className="art-pencil">✎</span></div>
+        </div>
+        <div className="lesson-layout">
+          <article className="lesson-main"><div className="lesson-welcome"><span>✦</span><div><b>Vamos aprender?</b><small>Leia com calma e avance no seu ritmo.</small></div></div><LessonBody content={selectedLesson.content}/></article>
+          <aside className="lesson-aside"><div className="aside-card"><span className="aside-icon">◷</span><b>Seu momento de estudar</b><p>Não tenha pressa. O importante é compreender cada parte.</p></div><div className="aside-card aside-highlight"><span className="aside-icon">★</span><b>Aprender é praticar</b><p>Ao terminar, marque a aula como concluída para acompanhar sua evolução.</p></div><button className="complete-lesson" disabled={savingProgress || completed.includes(selectedLesson.id)} onClick={() => void finishLesson(selectedLesson)}>{savingProgress ? 'Salvando...' : completed.includes(selectedLesson.id) ? '✓ Aula concluída' : 'Concluir esta aula →'}</button></aside>
+        </div>
       </section> : <>
         <div className="intro"><small>TRILHA DE APRENDIZAGEM</small><h2>Português do básico ao avançado</h2><p>Estude cada conteúdo no seu ritmo. Sua conclusão ficará salva na sua conta.</p></div>
         <div className="course-progress"><b>{completed.length} de {lessons.length} aulas concluídas</b><div className="bar"><span style={{ width: lessons.length ? (completed.length / lessons.length * 100) + '%' : '0%' }} /></div></div>
