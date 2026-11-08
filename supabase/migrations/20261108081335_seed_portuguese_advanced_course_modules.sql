@@ -1,6 +1,8 @@
 do $$
-declare r record; mid uuid;
+declare r record; mid uuid; course_uuid uuid;
 begin
+  select id into course_uuid from public.courses where slug = 'portugues-completo' limit 1;
+  if course_uuid is null then raise exception 'Curso portugues-completo não encontrado.'; end if;
   for r in select * from (values
     (2,'Interpretação de textos','Compreensão, ideia central, inferência e finalidade.','Leitura estratégica: tema, ideia central e inferência','Interpretar textos com apoio em evidências.','## Tema e ideia central
 O tema é o assunto geral; a ideia central é o que o texto afirma sobre esse assunto.
@@ -68,10 +70,10 @@ A troca pode alterar causa, consequência, oposição, condição ou concessão.
 Ativa: “A equipe concluiu o relatório”. Passiva: “O relatório foi concluído pela equipe”.')
   ) as x(stage,module_title,module_description,lesson_title,lesson_description,content)
   loop
-    select id into mid from public.modules where course_id='34ef1733-0895-4c7e-a104-347839e9d1d4'::uuid and stage=r.stage limit 1;
+    select id into mid from public.modules where course_id=course_uuid and stage=r.stage limit 1;
     if mid is null then
       insert into public.modules(course_id,title,description,stage,position,published)
-      values('34ef1733-0895-4c7e-a104-347839e9d1d4'::uuid,r.module_title,r.module_description,r.stage,r.stage,true)
+      values(course_uuid,r.module_title,r.module_description,r.stage,r.stage,true)
       returning id into mid;
     end if;
     if not exists(select 1 from public.lessons where title=r.lesson_title) then
