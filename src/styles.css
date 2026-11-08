@@ -1003,3 +1003,10 @@
  .assessment-topbar{align-items:flex-start}.assessment-timer-wrap{gap:6px}.assessment-timer-wrap strong{font-size:14px;padding:8px}
  .assessment-result strong{font-size:44px}
 }
+
+.course-module-banner{display:grid;gap:6px;padding:17px 19px;margin:14px 0;background:linear-gradient(110deg,#fff,#f4f6ff);border:1px solid #e5eaf5;border-left:4px solid #5269b0;border-radius:12px}
+.course-module-banner small{font-size:9px;letter-spacing:1.2px;font-weight:800;color:#586da9}
+.course-module-banner b{font:700 15px Manrope;color:#29395f}
+.course-module-banner span{font-size:10px;color:#8994aa}
+.recommendation-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+@media(max-width:620px){.course-module-banner{padding:14px}.recommendation-actions{display:grid}.recommendation-actions button{width:100%}}
