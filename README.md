@@ -65,3 +65,15 @@ O projeto possui manifesto web, ícone vetorial e service worker registrados som
 O jogo de acentuação é interativo e calcula a pontuação da rodada no próprio componente. Ainda não grava histórico no banco. Os outros cartões de jogos permanecem identificados como em desenvolvimento. As áreas de avaliação, reforço e administração ainda não estão concluídas.
 
 Antes de produção, validar o build, os fluxos de autenticação, as rotas, as políticas RLS e a instalação PWA em dispositivos reais.
+
+
+## Avaliações e reforço
+
+- As avaliações publicadas são carregadas do Supabase.
+- O envio das respostas é feito pela função PostgreSQL `submit_assessment`; a nota é calculada no banco e o gabarito não é exposto na consulta de alternativas.
+- O retorno inclui a correção comentada e os conceitos de cada questão.
+- A avaliação diagnóstica inicial possui cinco questões autorais.
+- Quando o aproveitamento de um assunto fica abaixo de 70%, a função registra uma recomendação individual na tabela `study_recommendations`.
+- O jogo de acentuação registra a rodada por meio de `record_game_attempt` quando o estudante está autenticado. Visitantes podem jogar, mas não salvam recordes.
+
+As recomendações são criadas a partir de tentativas reais. O catálogo de aulas de reforço e os demais jogos ainda precisam ser ampliados.
