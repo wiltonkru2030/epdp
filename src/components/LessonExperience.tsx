@@ -167,13 +167,14 @@ export default function LessonExperience({ lesson, completed, saving, onFinish, 
   }
 
   function toggleReading() {
-    if (!('speechSynthesis' in window)) { window.alert('A leitura em voz alta não está disponível neste navegador.'); return }
-    if (reading) { window.speechSynthesis.cancel(); setReading(false); return }
+    const speech = window.speechSynthesis as SpeechSynthesis | undefined
+    if (!speech) { window.alert('A leitura em voz alta não está disponível neste navegador.'); return }
+    if (reading) { speech.cancel(); setReading(false); return }
     const text = lesson.title + '. ' + lesson.description + '. ' + lesson.content.replace(/##/g, '').replace(/\n/g, ' ')
     const utterance = new SpeechSynthesisUtterance(text)
     utterance.lang = 'pt-BR'; utterance.rate = 0.92
     utterance.onend = () => setReading(false); utterance.onerror = () => setReading(false)
-    setReading(true); window.speechSynthesis.cancel(); window.speechSynthesis.speak(utterance)
+    setReading(true); speech.cancel(); speech.speak(utterance)
   }
 
   return <section className="lesson-experience">
