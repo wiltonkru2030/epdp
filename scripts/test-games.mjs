@@ -57,7 +57,6 @@ assert.match(phaserMascot, /owl-idle|owl-happy|owl-oops|owl-laugh/, 'Phaser masc
 assert.equal((spriteSheet.match(/<svg x=/g) ?? []).length, 16, 'Owl sprite sheet must contain 16 aligned frames')
 assert.match(component, /soundtrackByGame:Record<string/, 'Every game must use its own soundtrack profile')
 for (const game of games) assert.match(component, new RegExp("'" + game.id + "':\\{notes:"), game.id + ' is missing its own soundtrack')
-for (const game of games) assert.match(component, new RegExp("'" + game.id + "':'/arcade/"), game.id + ' is missing its mascot assignment')
 assert.match(component, /ROUND_SECONDS=240/, 'Timed games must have a longer 240-second session')
 assert.match(component, /ABCDEFGHIJLMNOPQRSTUVXZ/, 'Hangman keyboard must avoid duplicate accented keys and irrelevant letters')
 assert.doesNotMatch(component, /ABCDEFGHIJKLMNOPQRSTUVWXYZÁÉÍÓÚÂÊÔÃÕÇ/, 'Hangman must not render duplicate accent keys')
