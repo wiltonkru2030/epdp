@@ -9,6 +9,7 @@ type Feedback = { question_id: string; subject: string; prompt: string; selected
 type Result = { attempt_id: string; total_questions: number; correct_answers: number; percentage: number; score: number; duration_seconds: number | null; feedback: Feedback[] }
 type Attempt = { id: string; assessment_id: string | null; score: number; total_questions: number; duration_seconds: number | null; created_at: string }
 type Filter = 'all' | 'assessment' | 'mock_exam'
+type Props = { onOpenLesson?: (lessonId: string) => void }
 
 function formatTime(seconds: number) {
   const minutes = Math.floor(seconds / 60)
@@ -16,7 +17,7 @@ function formatTime(seconds: number) {
   return `${String(minutes).padStart(2, '0')}:${String(rest).padStart(2, '0')}`
 }
 
-export default function AssessmentCenter() {
+export default function AssessmentCenter({ onOpenLesson }: Props) {
   const { user } = useAuth()
   const [items, setItems] = useState<Assessment[]>([])
   const [attempts, setAttempts] = useState<Attempt[]>([])
@@ -196,7 +197,7 @@ export default function AssessmentCenter() {
       <small>QUESTÃO {index + 1} · {feedback.subject}</small><h3>{feedback.prompt}</h3>
       <p className={feedback.is_correct ? 'good' : 'bad'}>{feedback.is_correct ? 'Resposta correta.' : feedback.selected_option === 'Não respondida' ? 'Você não respondeu esta questão.' : 'Sua resposta: ' + feedback.selected_option}</p>
       {!feedback.is_correct && <p><b>Resposta correta:</b> {feedback.correct_option}</p>}
-      <p>{feedback.explanation}</p>{feedback.correct_explanation && <p>{feedback.correct_explanation}</p>}
+      <p>{feedback.explanation}</p>{feedback.correct_explanation && <p>{feedback.correct_explanation}</p>}{feedback.review_lesson_id && onOpenLesson && <button className="soft" onClick={() => onOpenLesson(feedback.review_lesson_id!)}>Revisar aula relacionada</button>}
     </article>)}
   </section>
 
