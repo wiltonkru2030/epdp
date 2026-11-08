@@ -591,3 +591,95 @@
 .game-mode .arena-game-stage.scene-pontuacao:before{background-image:radial-gradient(circle,#dce7fb 1.5px,transparent 2px);background-size:22px 22px}
 .game-mode .arena-game-stage.scene-concordancia:before{background-image:linear-gradient(90deg,transparent 49.5%,#dce8e3 49.5% 50.5%,transparent 50.5%),radial-gradient(ellipse at 50% 15%,#dff3e9,transparent 40%),linear-gradient(#fbfffd,#eff8f3)}
 .game-mode .arena-game-stage.scene-batalha-conhecimentos:before{background-image:radial-gradient(circle at 50% 45%,#e6dfff,transparent 34%),radial-gradient(circle at 50% 50%,transparent 0 32%,#dce5fa 32.5% 33%,transparent 33.5%),linear-gradient(145deg,#f7f7ff,#edf0ff)}
+
+
+/* EPDP GAME ARENA — tactile game UI, long-session feedback and reward cinematics */
+.game-mode .arena{min-height:100vh;background:radial-gradient(ellipse at 50% -12%,#263b70 0,#111d3c 42%,#0b132b 100%);color:#f7f9ff;padding:clamp(12px,2vw,28px)}
+.game-mode .arena-session{min-height:calc(100vh - 32px);max-width:1180px;margin:0 auto;padding:clamp(12px,2.4vw,28px);border:1px solid #34466f;border-radius:26px;background:linear-gradient(155deg,#15264b 0%,#101b37 48%,#0c1730 100%);box-shadow:0 28px 80px #02081777;overflow:hidden;position:relative}
+.game-mode .arena-session:before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 10% 8%,#6b8bd31a,transparent 25%),radial-gradient(circle at 92% 18%,#69d5c01a,transparent 22%)}
+.game-mode .arena-session>*{position:relative}
+.game-mode .arena-session-header{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:16px;padding-bottom:16px;border-bottom:1px solid #ffffff16}
+.game-mode .arena-session-header>button,.game-mode .arena-audio-toggle{min-height:44px;border:1px solid #526a9b;border-radius:14px;padding:0 16px;background:linear-gradient(180deg,#344d7e,#233960);color:#f5f8ff;font-size:10px;font-weight:950;letter-spacing:.7px;box-shadow:0 5px 0 #15284d,0 9px 18px #0003;transition:transform .16s,box-shadow .16s,filter .16s}
+.game-mode .arena-session-header>button:active,.game-mode .arena-audio-toggle:active{transform:translateY(4px);box-shadow:0 1px 0 #15284d,0 3px 8px #0003}
+.game-mode .arena-session-header>div:nth-child(2){display:grid;gap:4px}
+.game-mode .arena-session-header>div:nth-child(2)>span{font-size:9px;letter-spacing:1.8px;color:#91a9dd;font-weight:950}
+.game-mode .arena-session-header>div:nth-child(2)>b{font:900 clamp(16px,2.2vw,23px) Manrope;color:#fff}
+.game-mode .arena-session-tools{display:flex;align-items:center;gap:10px}
+.game-mode .arena-clock{min-width:82px;text-align:center;border:1px solid #3d527f;border-radius:13px;padding:11px 13px;background:#0b1732;color:#f5d88e;font:900 17px ui-monospace,monospace;box-shadow:inset 0 2px 8px #0005}
+.game-mode .arena-progress{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:13px;margin:20px 0 10px}
+.game-mode .arena-progress>span,.game-mode .arena-progress>b{font-size:10px;font-weight:950;letter-spacing:1px;color:#a9bee8}
+.game-mode .arena-progress>div{height:12px;border-radius:20px;background:#09152d;border:1px solid #3b4f7a;overflow:hidden;box-shadow:inset 0 2px 5px #0005}
+.game-mode .arena-progress>div>i{display:block;height:100%;border-radius:20px;background:linear-gradient(90deg,#48cbb4,#b7f078,#ffe09a);box-shadow:0 0 16px #7ce6c888;transition:width .55s cubic-bezier(.2,.8,.2,1)}
+.game-mode .arena-coach{max-width:760px;margin:18px auto 12px;padding:9px 18px;border:1px solid #536b9a;border-radius:18px;background:linear-gradient(100deg,#1b315b,#233e6a);box-shadow:0 9px 26px #02081755}
+.game-mode .arena-coach span{color:#f2f6ff;font-size:12px}
+.game-mode .arena-game-stage{min-height:340px;padding:clamp(16px,3vw,32px);border-radius:25px;border:1px solid #d5e0f4;background:#f8fbff;box-shadow:0 18px 40px #030b1e55;animation:arenaStageEnter .45s cubic-bezier(.2,.8,.2,1) both}
+.game-mode .arena-game-stage:after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;background:linear-gradient(135deg,#ffffff66,transparent 35%,#8ba5d00a);z-index:-1}
+.game-mode .arena-game-stage button{border-radius:15px;min-height:48px;font-weight:850;transition:transform .16s cubic-bezier(.2,.8,.2,1),box-shadow .16s,filter .16s}
+.game-mode .arena-game-stage button:not(:disabled):active{transform:translateY(3px) scale(.98);filter:brightness(.96)}
+.game-mode .arena-game-stage button:focus-visible,.game-mode .arena-session button:focus-visible{outline:3px solid #ffcf68;outline-offset:3px}
+.game-mode .arena-options button,.game-mode .arena-category-grid button,.game-mode .arena-tile-options button,.game-mode .arena-match-lines button{box-shadow:0 5px 0 #c7d4e9,0 9px 16px #273e6815}
+.game-mode .arena-options button:active,.game-mode .arena-category-grid button:active,.game-mode .arena-tile-options button:active,.game-mode .arena-match-lines button:active{box-shadow:0 1px 0 #c7d4e9,0 3px 7px #273e6815}
+.game-mode .arena-explanation{margin:15px auto;padding:17px 20px;border-radius:18px;animation:arenaFeedbackPop .32s cubic-bezier(.16,1,.3,1) both;box-shadow:0 10px 26px #02081735}
+.game-mode .arena-explanation.correct{border:1px solid #6bd4a1;background:linear-gradient(110deg,#e4fff1,#f4fff9)}
+.game-mode .arena-explanation.wrong{border:1px solid #ef9c9c;background:linear-gradient(110deg,#fff0ef,#fff9f8)}
+.game-mode .arena-explanation>button,.game-mode .arena-primary,.game-mode .arena-achievement-celebration>button{min-height:54px;border:0;border-radius:17px;padding:0 25px;background:linear-gradient(180deg,#68e0c3,#32b99f);color:#092e34;font-size:12px;font-weight:1000;letter-spacing:.8px;box-shadow:0 6px 0 #167d75,0 13px 24px #0c5d5540;transition:transform .16s,box-shadow .16s,filter .16s}
+.game-mode .arena-explanation>button:active,.game-mode .arena-primary:active,.game-mode .arena-achievement-celebration>button:active{transform:translateY(5px);box-shadow:0 1px 0 #167d75,0 4px 8px #0c5d5540}
+.game-mode .arena-hint{display:block;margin:14px auto 0;min-height:42px;padding:0 18px;border:1px solid #536b9b;border-radius:14px;background:#1c3159;color:#dce8ff;font-weight:800}
+.game-mode .arena-victory{position:relative;min-height:70vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:28px 16px;animation:arenaVictoryEnter .65s cubic-bezier(.16,1,.3,1) both}
+.game-mode .arena-victory:before{content:"";position:absolute;width:min(80vw,540px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#f6d98d27 0 28%,#9b83df12 48%,transparent 70%);animation:arenaHalo 3s ease-in-out infinite}
+.game-mode .arena-victory>*{position:relative}
+.game-mode .arena-victory-mascot{width:clamp(125px,21vw,210px);height:clamp(125px,21vw,210px);animation:arenaChampion .8s ease-in-out infinite alternate;filter:drop-shadow(0 14px 22px #02081777)}
+.game-mode .arena-victory .arena-trophy{width:78px;height:78px;display:grid;place-items:center;margin:-10px 0 10px;border-radius:26px;background:linear-gradient(145deg,#fff0b5,#d99d3c);color:#704716;font-size:42px;box-shadow:0 9px 0 #966523,0 18px 30px #0004;animation:arenaTrophy 1.4s ease-in-out infinite}
+.game-mode .arena-victory>span{font-size:11px;letter-spacing:3px;color:#f4d68e;font-weight:1000}
+.game-mode .arena-victory h2{font:950 clamp(25px,5vw,42px) Manrope;color:#fff;margin:10px 0}
+.game-mode .arena-victory .arena-score{font:1000 clamp(48px,9vw,76px) Manrope;color:#85ebce;text-shadow:0 0 26px #4ad5b355}
+.game-mode .arena-victory .arena-score small{font-size:23px;color:#a9bde4}
+.game-mode .arena-victory p{color:#bac9e8;font-size:13px}
+.game-mode .arena-victory .arena-stars i{font-size:34px;color:#3a4d75;font-style:normal;margin:0 5px}
+.game-mode .arena-victory .arena-stars i.active{color:#ffd77d;text-shadow:0 0 20px #ffd77d99;animation:arenaStarPop .5s both}
+.game-mode .arena-victory .arena-primary,.game-mode .arena-victory .arena-secondary{width:min(100%,340px);margin:7px auto}
+.game-mode .arena-victory .arena-secondary{min-height:48px;border:1px solid #526b9c;border-radius:15px;background:#1c3158;color:#e8efff;font-weight:900}
+.game-mode .arena-achievement-celebration{position:fixed;z-index:1000;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:26px;background:radial-gradient(ellipse at center,#243b6b 0,#0b1329 76%);animation:achievementOverlayIn .35s ease-out both;overflow:hidden}
+.game-mode .arena-achievement-celebration:before{content:"";position:absolute;width:min(92vw,650px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#ffdc8b33 0 20%,#8c78dc1d 43%,transparent 70%);animation:arenaHalo 2s ease-in-out infinite}
+.game-mode .arena-achievement-celebration>*{position:relative}
+.game-mode .achievement-burst{width:clamp(112px,23vw,176px);height:clamp(112px,23vw,176px);display:grid;place-items:center;border-radius:42px;background:linear-gradient(145deg,#fff0ad,#e7ae4d 55%,#b8782e);border:5px solid #fff0c2;color:#704619;font-size:clamp(58px,12vw,90px);box-shadow:0 0 0 12px #f8d78d20,0 20px 55px #0008;animation:achievementBadgeIn .8s cubic-bezier(.16,1,.3,1) both,arenaTrophy 1.8s 1s ease-in-out infinite}
+.game-mode .arena-achievement-celebration>span{margin-top:28px;color:#ffdf94;font-size:11px;font-weight:1000;letter-spacing:3px}
+.game-mode .arena-achievement-celebration h2{margin:12px 0 5px;color:#fff;font:950 clamp(27px,5vw,44px) Manrope}
+.game-mode .arena-achievement-celebration p{max-width:420px;color:#c4d1ed;font-size:14px;line-height:1.6}
+.game-mode .achievement-reward{display:flex;align-items:center;gap:14px;margin:18px 0 28px;padding:13px 20px;border:1px solid #7d91bb;border-radius:16px;background:#1b2d52;color:#ffe3a2;font-weight:950}
+.game-mode .achievement-reward i{width:5px;height:5px;border-radius:50%;background:#6ce0c3}
+.game-mode .achievement-confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.game-mode .achievement-confetti i{position:absolute;left:calc((var(--i) * 5.3%) + 1%);top:-18px;width:9px;height:16px;border-radius:3px;background:#f7d37f;transform:rotate(calc(var(--i) * 29deg));animation:achievementConfetti 2.8s calc(var(--i) * -.13s) ease-in infinite}
+.game-mode .achievement-confetti i:nth-child(3n){background:#64dfc1}
+.game-mode .achievement-confetti i:nth-child(3n + 1){background:#a8b8ff}
+.game-mode .achievement-confetti i:nth-child(4n){width:7px;height:7px;border-radius:50%}
+.game-mode .arena-session-tools{display:flex;align-items:center;gap:10px}
+@keyframes arenaStageEnter{from{opacity:0;transform:translateY(18px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes arenaFeedbackPop{from{opacity:0;transform:translateY(12px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes arenaVictoryEnter{from{opacity:0;transform:scale(.92) translateY(18px)}to{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes arenaChampion{from{transform:translateY(0) rotate(-4deg)}to{transform:translateY(-12px) rotate(4deg)}}
+@keyframes arenaHalo{0%,100%{transform:scale(.94);opacity:.65}50%{transform:scale(1.08);opacity:1}}
+@keyframes arenaTrophy{0%,100%{transform:rotate(-3deg) scale(1)}50%{transform:rotate(3deg) scale(1.07)}}
+@keyframes arenaStarPop{from{transform:scale(.4) rotate(-35deg);opacity:0}to{transform:scale(1) rotate(0);opacity:1}}
+@keyframes achievementOverlayIn{from{opacity:0}to{opacity:1}}
+@keyframes achievementBadgeIn{0%{transform:scale(.2) rotate(-35deg);opacity:0}70%{transform:scale(1.12) rotate(8deg)}100%{transform:scale(1) rotate(0);opacity:1}}
+@keyframes achievementConfetti{0%{transform:translateY(-5vh) rotate(0);opacity:0}10%{opacity:1}100%{transform:translateY(110vh) rotate(720deg);opacity:.9}}
+@media(max-width:700px){
+ .game-mode .arena{padding:0}
+ .game-mode .arena-session{min-height:100dvh;border:0;border-radius:0;padding:12px 12px 24px}
+ .game-mode .arena-session-header{grid-template-columns:1fr auto;gap:9px}
+ .game-mode .arena-session-header>button{grid-column:1/-1;justify-self:start;min-height:39px}
+ .game-mode .arena-session-header>div:nth-child(2){grid-column:1;grid-row:2}
+ .game-mode .arena-session-tools{grid-column:2;grid-row:2;gap:6px}
+ .game-mode .arena-audio-toggle{min-height:42px;padding:0 10px;font-size:9px}
+ .game-mode .arena-clock{min-width:66px;padding:10px 7px;font-size:14px}
+ .game-mode .arena-progress{grid-template-columns:auto 1fr auto;gap:7px;margin:15px 0 9px}
+ .game-mode .arena-progress>span,.game-mode .arena-progress>b{font-size:8px;letter-spacing:.5px}
+ .game-mode .arena-game-stage{min-height:360px;padding:15px 12px;border-radius:20px}
+ .game-mode .arena-game-stage button{min-height:48px}
+ .game-mode .arena-coach{margin:12px auto 10px}
+ .game-mode .arena-victory{min-height:75dvh}
+}
+@media(prefers-reduced-motion:reduce){
+ .game-mode .arena-game-stage,.game-mode .arena-victory-mascot,.game-mode .arena-victory:before,.game-mode .arena-victory .arena-trophy,.game-mode .achievement-burst,.game-mode .achievement-confetti i{animation:none!important}
+}
