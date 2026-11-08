@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { supabase } from '../lib/supabase'
 
-type Props = { onClose: () => void; required?: boolean }
+type Props = { onClose: () => void; required?: boolean; initialMode?: 'login' | 'signup' }
 type Mode = 'login' | 'signup' | 'reset'
 
 export default function AuthModal({ onClose, required = false }: Props) {
