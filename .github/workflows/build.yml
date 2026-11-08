@@ -20,5 +20,7 @@ jobs:
         run: npm install
       - name: Testar os 20 jogos e as 160 fases
         run: npm run test:games
+      - name: Testar acesso, curso e avaliações
+        run: npm run test:learning
       - name: Verificar TypeScript e gerar build
         run: npm run build
