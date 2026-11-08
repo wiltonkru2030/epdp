@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type CSSProperties } from 'react'
 import { supabase } from '../lib/supabase'
 import { games, gridLetters, gridPaths, normalize, shuffle } from '../content/games'
 
-type GameAchievement = { code:string; title:string; description:string; icon:string; unlocked_at?:string }
+type GameAchievement = { code:string; title:string; description:string; icon:string; xp_reward?:number; coin_reward?:number; unlocked_at?:string }
 type GameProfile = { xp:number; coins:number; total_games:number; total_correct:number; best_score:number; achievements:GameAchievement[]; recent_games:{game_slug:string;score:number;correct_count:number;total_count:number;created_at:string}[] }
 const emptyProfile:GameProfile={xp:0,coins:0,total_games:0,total_correct:0,best_score:0,achievements:[],recent_games:[]}
 
