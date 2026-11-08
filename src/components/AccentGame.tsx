@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { supabase } from '../lib/supabase'
 
 type Question = {
   prompt: string
@@ -20,7 +21,32 @@ export default function AccentGame() {
   const [score, setScore] = useState(0)
   const [answered, setAnswered] = useState(false)
   const [finished, setFinished] = useState(false)
+  const [startedAt, setStartedAt] = useState(Date.now())
+  const [saveStatus, setSaveStatus] = useState('')
   const question = questions[index]
+
+  useEffect(() => {
+    if (!finished) return
+    let active = true
+    async function saveResult() {
+      const { data } = await supabase.auth.getUser()
+      if (!active) return
+      if (!data.user) {
+        setSaveStatus('Entre na sua conta para salvar seu recorde e consultar seu histórico.')
+        return
+      }
+      const duration = Math.max(0, Math.floor((Date.now() - startedAt) / 1000))
+      const { error } = await supabase.rpc('record_game_attempt', {
+        p_game_slug: 'acentuacao',
+        p_correct_count: score,
+        p_total_count: questions.length,
+        p_duration_seconds: duration,
+      })
+      if (active) setSaveStatus(error ? 'Não foi possível salvar esta rodada. Você ainda pode jogar novamente.' : 'Resultado salvo no seu histórico.')
+    }
+    void saveResult()
+    return () => { active = false }
+  }, [finished, score, startedAt])
 
   function checkAnswer() {
     if (!selected || answered) return
@@ -36,7 +62,7 @@ export default function AccentGame() {
     }
   }
   function restart() {
-    setIndex(0); setSelected(''); setScore(0); setAnswered(false); setFinished(false)
+    setIndex(0); setSelected(''); setScore(0); setAnswered(false); setFinished(false); setStartedAt(Date.now()); setSaveStatus('')
   }
 
   return <section className="accent-game card">
@@ -45,6 +71,7 @@ export default function AccentGame() {
       <div className="game-score">{score}<small>/{questions.length}</small></div>
       <h3>{score === questions.length ? 'Excelente domínio!' : score >= 3 ? 'Bom trabalho. Continue praticando.' : 'Vamos reforçar esse conteúdo.'}</h3>
       <p>Você acertou {score} de {questions.length} questões nesta rodada.</p>
+      {saveStatus && <p className="game-save-status" role="status">{saveStatus}</p>}
       <button className="soft" onClick={restart}>Jogar novamente</button>
     </div> : <>
       <div className="game-progress"><span style={{width: `${((index + 1) / questions.length) * 100}%`}} /></div>
