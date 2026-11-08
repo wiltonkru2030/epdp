@@ -62,7 +62,7 @@ O projeto possui manifesto web, ícone vetorial e service worker registrados som
 
 ## Estado de implementação
 
-A central de jogos possui quatro modalidades jogáveis: forca de palavras, complete a palavra, monte a frase e desafio de acentuação. As partidas incluem teclado interativo na forca, seleção/ordenação de palavras, feedback explicado, cronômetro de 90 segundos e pontuação. Para usuários autenticados, os resultados são enviados à função `record_game_attempt` e ficam no histórico de `game_attempts`. O catálogo solicitado de 20 jogos ainda não está completo; caça-palavras, jogos de classes gramaticais, verbos, pontuação, concordância e batalha de conhecimentos ainda precisam ser implementados.
+A central de jogos possui cinco modalidades jogáveis: caça-palavras, forca de palavras, complete a palavra, monte a frase e desafio de acentuação. As partidas incluem teclado interativo na forca, seleção/ordenação de palavras, feedback explicado, cronômetro de 90 segundos e pontuação. Para usuários autenticados, os resultados são enviados à função `record_game_attempt` e ficam no histórico de `game_attempts`. O catálogo solicitado de 20 jogos ainda não está completo; jogos de classes gramaticais, verbos, pontuação, concordância, figuras de linguagem, interpretação e batalha de conhecimentos ainda precisam ser implementados.
 
 Antes de produção, validar o build, os fluxos de autenticação, as rotas, as políticas RLS e a instalação PWA em dispositivos reais.
 
@@ -74,6 +74,6 @@ Antes de produção, validar o build, os fluxos de autenticação, as rotas, as 
 - O retorno inclui a correção comentada e os conceitos de cada questão.
 - A avaliação diagnóstica inicial possui cinco questões autorais.
 - Quando o aproveitamento de um assunto fica abaixo de 70%, a função registra uma recomendação individual na tabela `study_recommendations`.
-- As quatro modalidades atuais registram as rodadas por meio de `record_game_attempt` quando o estudante está autenticado. Visitantes podem jogar, mas não salvam recordes.
+- As cinco modalidades atuais registram as rodadas por meio de `record_game_attempt` quando o estudante está autenticado. Visitantes podem jogar, mas não salvam recordes.
 
 As recomendações são criadas a partir de tentativas reais. O catálogo de aulas de reforço e os demais jogos ainda precisam ser ampliados.
