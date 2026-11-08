@@ -63,7 +63,6 @@ export default function App() {
   const grouped = useMemo(() => courseModules.map(module => ({ ...module, lessons: lessons.filter(lesson => lesson.module_id === module.id) })).filter(module => module.lessons.length), [courseModules, lessons])
   const totalDone = completed.length
   const progressPercent = lessons.length ? Math.round(totalDone / lessons.length * 100) : 0
-  const firstPending = lessons.find(lesson => !completed.includes(lesson.id)) ?? lessons[0] ?? null
 
   const content = () => {
     if (page === 'Jogos educativos') return <GamesArcade />
