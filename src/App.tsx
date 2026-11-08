@@ -17,7 +17,6 @@ type Lesson = {
   learning_objective?: string
   estimated_minutes?: number
   module_id?: string | null
-  module?: { title: string; stage: number } | null
 }
 const pages: Page[] = ['Início', 'Meu curso', 'Testes e avaliações', 'Jogos educativos', 'Reforço', 'Meu perfil']
 
@@ -53,6 +52,7 @@ export default function App() {
   const [menu, setMenu] = useState(false)
   const [login, setLogin] = useState(false)
   const [lessons, setLessons] = useState<Lesson[]>([])
+  const [courseModule, setCourseModule] = useState<{ title: string; stage: number } | null>(null)
   const [completed, setCompleted] = useState<string[]>([])
   const [lessonsLoading, setLessonsLoading] = useState(false)
   const [lessonError, setLessonError] = useState('')
@@ -63,16 +63,15 @@ export default function App() {
     let active = true
     async function loadCourse() {
       if (!user) {
-        setLessons([]); setCompleted([]); setLessonsLoading(false); setLessonError('')
+        setLessons([]); setCourseModule(null); setCompleted([]); setLessonsLoading(false); setLessonError('')
         return
       }
       setLessonsLoading(true)
       setLessonError('')
-      const { data, error } = await supabase
-        .from('lessons')
-        .select('id,title,description,content,level,position,learning_objective,estimated_minutes,module_id,module:modules(title,stage)')
-        .eq('published', true)
-        .order('position')
+      const [{ data, error }, { data: moduleData }] = await Promise.all([
+        supabase.from('lessons').select('id,title,description,content,level,position,learning_objective,estimated_minutes,module_id').eq('published', true).order('position'),
+        supabase.from('modules').select('title,stage').eq('published', true).order('stage').limit(1).maybeSingle(),
+      ])
       if (!active) return
       if (error) {
         setLessonError('Não foi possível carregar as aulas. Entre na sua conta e tente novamente.')
@@ -80,6 +79,7 @@ export default function App() {
       } else {
         setLessons((data ?? []) as Lesson[])
       }
+      setCourseModule(moduleData ?? null)
       if (user) {
         const { data: progress } = await supabase
           .from('user_progress')
@@ -123,7 +123,7 @@ export default function App() {
       {selectedLesson ? <section className="lesson-page">
         <button className="back-course" onClick={() => setSelectedLesson(null)}>← Voltar para o curso</button>
         <div className="lesson-cover">
-          <div className="cover-copy"><span className="lesson-kicker">ETAPA {selectedLesson.module?.stage ?? 1} · {selectedLesson.level.toUpperCase()}</span><h2>{selectedLesson.title}</h2><p>{selectedLesson.description}</p><span className="cover-meta">AULA {String(selectedLesson.position).padStart(2, '0')} · {selectedLesson.estimated_minutes ?? 15} MIN DE ESTUDO</span></div>
+          <div className="cover-copy"><span className="lesson-kicker">ETAPA {courseModule?.stage ?? 1} · {selectedLesson.level.toUpperCase()}</span><h2>{selectedLesson.title}</h2><p>{selectedLesson.description}</p><span className="cover-meta">AULA {String(selectedLesson.position).padStart(2, '0')} · {selectedLesson.estimated_minutes ?? 15} MIN DE ESTUDO</span></div>
           <div className="cover-art" aria-hidden="true"><div className="art-circle">Aa</div><span className="art-star star-one">✦</span><span className="art-star star-two">✳</span><span className="art-pencil">✎</span></div>
         </div>
         <div className="lesson-layout">
@@ -132,7 +132,7 @@ export default function App() {
         </div>
       </section> : <>
         <div className="intro"><small>TRILHA DE APRENDIZAGEM</small><h2>Português — sua trilha de aprendizagem</h2><p>Comece pelos fundamentos, avance com aulas organizadas e acompanhe seu progresso. Novas etapas serão liberadas conforme forem publicadas.</p></div>
-        {lessons[0]?.module && <div className="course-module-banner"><small>ETAPA {lessons[0].module.stage}</small><b>{lessons[0].module.title}</b><span>Módulo de aprendizagem · {lessons.length} aulas publicadas</span></div>}
+        {courseModule && <div className="course-module-banner"><small>ETAPA {courseModule.stage}</small><b>{courseModule.title}</b><span>Módulo de aprendizagem · {lessons.length} aulas publicadas</span></div>}
         <div className="course-progress"><b>{completed.length} de {lessons.length} aulas concluídas</b><div className="bar"><span style={{ width: lessons.length ? (completed.length / lessons.length * 100) + '%' : '0%' }} /></div></div>
         {lessonsLoading && <div className="card panel">Carregando aulas...</div>}
         {lessonError && <div className="card panel auth-error">{lessonError}</div>}
