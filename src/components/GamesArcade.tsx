@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { supabase } from '../lib/supabase'
 
-type Mode = 'hangman' | 'complete' | 'sentence' | 'accent'
+type Mode = 'hangman' | 'wordsearch' | 'complete' | 'sentence' | 'accent'
 type Challenge = { prompt: string; answer: string; options?: string[]; hint: string; explanation: string; category: string }
 
 const pools: Record<Exclude<Mode, 'hangman'>, Challenge[]> = {
@@ -26,6 +26,9 @@ const pools: Record<Exclude<Mode, 'hangman'>, Challenge[]> = {
   ],
 }
 
+const wordSearchGrid = ['A','P','O','R','T','E','C','L','I','V','R','O','E','T','S','A','D','N','M','G','R','A','M','A','P','A','L','A','V','R','S','O','N','E','T','A']
+const wordSearchPath = [7, 8, 9, 10, 11]
+
 const words = [
   { word: 'COERÊNCIA', hint: 'Qualidade de um texto cujas ideias fazem sentido entre si.', category: 'Texto' },
   { word: 'SUBSTANTIVO', hint: 'Classe de palavras que nomeia seres, objetos, lugares e sentimentos.', category: 'Gramática' },
@@ -36,6 +39,7 @@ const words = [
 
 const modes: { id: Mode; name: string; subtitle: string; icon: string; color: string; tag: string }[] = [
   { id: 'hangman', name: 'Forca de palavras', subtitle: 'Descubra o termo usando as pistas.', icon: 'A _', color: 'violet', tag: 'VOCABULÁRIO' },
+  { id: 'wordsearch', name: 'Caça-palavras', subtitle: 'Encontre a palavra escondida no tabuleiro.', icon: '▦', color: 'green', tag: 'VOCABULÁRIO' },
   { id: 'complete', name: 'Complete a palavra', subtitle: 'Escolha a letra que completa a escrita.', icon: 'Aa', color: 'blue', tag: 'ORTOGRAFIA' },
   { id: 'sentence', name: 'Monte a frase', subtitle: 'Coloque as palavras na ordem correta.', icon: '≡', color: 'green', tag: 'SINTAXE' },
   { id: 'accent', name: 'Desafio de acentuação', subtitle: 'Escolha a grafia correta e entenda a regra.', icon: 'Á', color: 'amber', tag: 'ACENTUAÇÃO' },
@@ -58,8 +62,10 @@ export default function GamesArcade() {
   const [saveMessage, setSaveMessage] = useState('')
   const [sentenceOrder, setSentenceOrder] = useState<string[]>([])
   const [wordIndex, setWordIndex] = useState(0)
+  const [selectedCells, setSelectedCells] = useState<number[]>([])
+  const [gridHint, setGridHint] = useState('Encontre a palavra relacionada à leitura.')
 
-  const challenge = mode && mode !== 'hangman' ? pools[mode][round % pools[mode].length] : null
+  const challenge = mode && mode !== 'hangman' && mode !== 'wordsearch' ? pools[mode][round % pools[mode].length] : null
   const hangmanWord = words[wordIndex % words.length]
   const letters = useMemo(() => 'ABCDEFGHIJKLMNOPQRSTUVWXYZÁÉÍÓÚÂÊÔÃÕÇ'.split(''), [])
   const revealed = hangmanWord.word.split('').map(letter => letter === ' ' || guessed.includes(letter) ? letter : '')
@@ -76,6 +82,7 @@ export default function GamesArcade() {
     if (seconds === 0 && mode && !finished) {
       setFinished(true)
       if (mode === 'hangman') { setScore(hangmanWon ? 1 : 0); void saveGame('forca-palavras', hangmanWon ? 1 : 0, 1) }
+      else if (mode === 'wordsearch') void saveGame('caca-palavras', score, 1)
       else void saveGame(mode === 'accent' ? 'acentuacao' : mode === 'complete' ? 'complete-word' : 'build-sentence', score, 5)
     }
   }, [seconds, mode, finished])
@@ -101,7 +108,7 @@ export default function GamesArcade() {
 
   function start(next: Mode) {
     setMode(next); setRound(0); setScore(0); setChoice(''); setChecked(false); setFinished(false)
-    setSeconds(90); setGuessed([]); setMistakes(0); setSaveMessage(''); setWordIndex(Math.floor(Math.random() * words.length))
+    setSeconds(90); setGuessed([]); setMistakes(0); setSaveMessage(''); setWordIndex(Math.floor(Math.random() * words.length)); setSelectedCells([]); setGridHint('Encontre a palavra relacionada à leitura.')
     if (next === 'sentence') setSentenceOrder(shuffle(pools.sentence[0].options ?? []))
   }
 
@@ -119,6 +126,18 @@ export default function GamesArcade() {
       return
     }
     setRound(value => value + 1); setChoice(''); setChecked(false)
+  }
+
+  function selectGridCell(index: number) {
+    if (selectedCells.includes(index) || finished) return
+    const expected = wordSearchPath[selectedCells.length]
+    if (index !== expected) { setGridHint('Essa letra não faz parte da sequência. Procure a palavra na horizontal.'); return }
+    const nextCells = [...selectedCells, index]
+    setSelectedCells(nextCells)
+    setGridHint(nextCells.length === wordSearchPath.length ? 'Palavra encontrada: LIVRO.' : 'Muito bem. Continue selecionando as letras na ordem.')
+    if (nextCells.length === wordSearchPath.length) {
+      setScore(1); setFinished(true); void saveGame('caca-palavras', 1, 1)
+    }
   }
 
   function guess(letter: string) {
@@ -140,15 +159,20 @@ export default function GamesArcade() {
   return <section className="arcade">
     {!mode ? <>
       <div className="arcade-banner">
-        <div><span className="arcade-eyebrow">CENTRAL DE JOGOS EPDP</span><h2>Aprenda jogando.<br/><em>Conquiste conhecimento.</em></h2><p>Desafios rápidos de português, com explicações e evolução registrada na sua conta.</p><div className="arcade-banner-meta"><span>04 modalidades jogáveis</span><i /> <span>Partidas de até 90 segundos</span></div></div>
+        <div><span className="arcade-eyebrow">CENTRAL DE JOGOS EPDP</span><h2>Aprenda jogando.<br/><em>Conquiste conhecimento.</em></h2><p>Desafios rápidos de português, com explicações e evolução registrada na sua conta.</p><div className="arcade-banner-meta"><span>05 modalidades jogáveis</span><i /> <span>Partidas de até 90 segundos</span></div></div>
         <div className="arcade-orbit" aria-hidden="true"><div className="orbit-book">Aa</div><span className="orbit-letter">Ç</span><span className="orbit-dot" /></div>
       </div>
-      <div className="arcade-section-head"><div><small>ESCOLHA SEU DESAFIO</small><h3>Qual jogo vamos jogar?</h3></div><span>04 JOGOS</span></div>
+      <div className="arcade-section-head"><div><small>ESCOLHA SEU DESAFIO</small><h3>Qual jogo vamos jogar?</h3></div><span>05 JOGOS</span></div>
       <div className="arcade-grid">{modes.map((item, index) => <button className="arcade-card" key={item.id} onClick={() => start(item.id)}><div className={'arcade-card-art ' + item.color}><span>{item.icon}</span><small>NÍVEL {index === 0 ? '1' : '1–3'}</small></div><div className="arcade-card-copy"><small>{item.tag}</small><h3>{item.name}</h3><p>{item.subtitle}</p><span className="arcade-play">JOGAR AGORA <b>→</b></span></div></button>)}</div>
       <div className="arcade-note"><b>Seu progresso importa.</b><span>Ao entrar na sua conta, as rodadas concluídas são registradas no seu histórico de jogos.</span></div>
     </> : <div className="arcade-play-screen">
       <div className="arcade-game-header"><button onClick={resetHome}>← Todos os jogos</button><span>{modes.find(item => item.id === mode)?.tag}</span><div className="arcade-timer">00:{String(seconds).padStart(2, '0')}</div></div>
-      {finished ? <div className="arcade-finish"><div className="arcade-finish-mark">✓</div><small>PARTIDA FINALIZADA</small><h2>{seconds === 0 ? 'Tempo encerrado!' : 'Desafio concluído!'}</h2><strong>{score}<small> / {mode === 'hangman' ? '1' : '5'}</small></strong><p>Você acertou {score} de {mode === 'hangman' ? '1 palavra' : '5 desafios'} nesta partida.</p>{saveMessage && <span role="status">{saveMessage}</span>}<button onClick={() => start(mode)}>Jogar novamente</button><button className="arcade-secondary" onClick={resetHome}>Escolher outro jogo</button></div> : mode === 'hangman' ? <div className="hangman-game">
+      {finished ? <div className="arcade-finish"><div className="arcade-finish-mark">✓</div><small>PARTIDA FINALIZADA</small><h2>{seconds === 0 ? 'Tempo encerrado!' : 'Desafio concluído!'}</h2><strong>{score}<small> / {mode === 'hangman' || mode === 'wordsearch' ? '1' : '5'}</small></strong><p>Você acertou {score} de {mode === 'hangman' ? '1 palavra' : mode === 'wordsearch' ? '1 palavra' : '5 desafios'} nesta partida.</p>{saveMessage && <span role="status">{saveMessage}</span>}<button onClick={() => start(mode)}>Jogar novamente</button><button className="arcade-secondary" onClick={resetHome}>Escolher outro jogo</button></div> : mode === 'wordsearch' ? <div className="hangman-game wordsearch-game">
+        <div className="arcade-roundline"><span>CAÇA-PALAVRAS</span><b>1 palavra escondida</b></div>
+        <div className="wordsearch-instruction"><small>MISSÃO</small><h2>Encontre a palavra LIVRO</h2><p>{gridHint}</p></div>
+        <div className="wordsearch-grid">{wordSearchGrid.map((letter, index) => <button key={index} disabled={selectedCells.includes(index) || finished} className={selectedCells.includes(index) ? 'found' : ''} onClick={() => selectGridCell(index)}>{letter}</button>)}</div>
+        <div className="hangman-hint"><small>DICA · LEITURA</small><p>Objeto que reúne páginas com textos, histórias e informações. Selecione as letras na sequência correta.</p></div>
+      </div> : mode === 'hangman' ? <div className="hangman-game">
         <div className="arcade-roundline"><span>DESCUBRA A PALAVRA</span><b>{Math.max(0, 6 - mistakes)} tentativas restantes</b></div>
         <div className="hangman-stage"><div className="hangman-scaffold"><span className="scaffold-top"/><span className="scaffold-side"/><span className="scaffold-base"/><span className="scaffold-rope"/>{mistakes > 0 && <i className="hangman-head"/>}{mistakes > 1 && <i className="hangman-body"/>}{mistakes > 2 && <i className="hangman-arm left"/>}{mistakes > 3 && <i className="hangman-arm right"/>}{mistakes > 4 && <i className="hangman-leg left"/>}{mistakes > 5 && <i className="hangman-leg right"/>}</div><div className="hangman-word">{revealed.map((letter, i) => <span key={i}>{letter || '_'}</span>)}</div></div>
         <div className="hangman-hint"><small>PISTA · {hangmanWord.category.toUpperCase()}</small><p>{hangmanWord.hint}</p></div>
