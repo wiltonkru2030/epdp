@@ -10,6 +10,7 @@ import ProfileCenter from './components/ProfileCenter'
 import LessonExperience from './components/LessonExperience'
 
 type Page = 'Início' | 'Meu curso' | 'Testes e avaliações' | 'Jogos educativos' | 'Reforço' | 'Meu perfil'
+type CourseModule = { id: string; title: string; stage: number; description: string }
 type Lesson = {
   id: string
   title: string
@@ -23,39 +24,13 @@ type Lesson = {
 }
 const pages: Page[] = ['Início', 'Meu curso', 'Testes e avaliações', 'Jogos educativos', 'Reforço', 'Meu perfil']
 
-function LessonBody({ content }: { content: string }) {
-  const normalized = content.replace(/\\\\n/g, '\n').replace(/\\n/g, '\n').replace(/\\r/g, '')
-  const blocks = normalized.split(/\n\s*\n/).map(block => block.trim()).filter(Boolean)
-  return <div className="lesson-sections">
-    {blocks.map((block, index) => {
-      const lines = block.split('\n').map(line => line.trim()).filter(Boolean)
-      const first = lines[0] ?? ''
-      if (first.startsWith('## ')) {
-        const heading = first.replace(/^##\s+/, '')
-        const rest = lines.slice(1)
-        const isPractice = /pratique|exerc/i.test(heading)
-        return <section className={isPractice ? 'lesson-section practice-section' : 'lesson-section'} key={index}>
-          <div className="section-icon">{isPractice ? '✎' : ['Aa', '◈', '✦', '▤'][index % 4]}</div>
-          <div className="section-copy"><h3>{heading}</h3>
-            {rest.map((line, i) => <p key={i}>{line.replace(/^\d+\.\s*/, '')}</p>)}
-          </div>
-        </section>
-      }
-      if (lines.every(line => /^\d+\.\s/.test(line))) {
-        return <ol className="lesson-steps" key={index}>{lines.map((line, i) => <li key={i}>{line.replace(/^\d+\.\s*/, '')}</li>)}</ol>
-      }
-      return <section className="lesson-note" key={index}>{lines.map((line, i) => <p key={i}>{line}</p>)}</section>
-    })}
-  </div>
-}
-
 export default function App() {
   const [page, setPage] = useState<Page>('Início')
   const { user, loading: authLoading } = useAuth()
   const [menu, setMenu] = useState(false)
   const [login, setLogin] = useState(false)
   const [lessons, setLessons] = useState<Lesson[]>([])
-  const [courseModule, setCourseModule] = useState<{ title: string; stage: number } | null>(null)
+  const [courseModules, setCourseModules] = useState<CourseModule[]>([])
   const [completed, setCompleted] = useState<string[]>([])
   const [lessonsLoading, setLessonsLoading] = useState(false)
   const [lessonError, setLessonError] = useState('')
@@ -66,14 +41,14 @@ export default function App() {
     let active = true
     async function loadCourse() {
       if (!user) {
-        setLessons([]); setCourseModule(null); setCompleted([]); setLessonsLoading(false); setLessonError('')
+        setLessons([]); setCourseModules([]); setCompleted([]); setLessonsLoading(false); setLessonError('')
         return
       }
       setLessonsLoading(true)
       setLessonError('')
       const [{ data, error }, { data: moduleData }] = await Promise.all([
         supabase.from('lessons').select('id,title,description,content,level,position,learning_objective,estimated_minutes,module_id').eq('published', true).order('position'),
-        supabase.from('modules').select('title,stage').eq('published', true).order('stage').limit(1).maybeSingle(),
+        supabase.from('modules').select('id,title,stage,description').eq('published', true).order('stage'),
       ])
       if (!active) return
       if (error) {
@@ -82,7 +57,7 @@ export default function App() {
       } else {
         setLessons((data ?? []) as Lesson[])
       }
-      setCourseModule(moduleData ?? null)
+      setCourseModules((moduleData ?? []) as CourseModule[])
       if (user) {
         const { data: progress } = await supabase
           .from('user_progress')
@@ -126,17 +101,25 @@ export default function App() {
     if (page === 'Meu curso') return <>
       {selectedLesson ? <LessonExperience lesson={selectedLesson} completed={completed.includes(selectedLesson.id)} saving={savingProgress} onBack={() => setSelectedLesson(null)} onFinish={(score) => void finishLesson(selectedLesson, score)} /> : <>
         <div className="intro"><small>TRILHA DE APRENDIZAGEM</small><h2>Português — sua trilha de aprendizagem</h2><p>Comece pelos fundamentos, avance com aulas organizadas e acompanhe seu progresso. Novas etapas serão liberadas conforme forem publicadas.</p></div>
-        {courseModule && <div className="course-module-banner"><small>ETAPA {courseModule.stage}</small><b>{courseModule.title}</b><span>Módulo de aprendizagem · {lessons.length} aulas publicadas</span></div>}
+        
         <div className="course-progress"><b>{completed.length} de {lessons.length} aulas concluídas</b><div className="bar"><span style={{ width: lessons.length ? (completed.length / lessons.length * 100) + '%' : '0%' }} /></div></div>
         {lessonsLoading && <div className="card panel">Carregando aulas...</div>}
         {lessonError && <div className="card panel auth-error">{lessonError}</div>}
         {!lessonsLoading && lessons.length === 0 && <div className="card panel">Nenhuma aula publicada foi encontrada.</div>}
-        {lessons.map(lesson => <article className="card lesson" key={lesson.id}>
-          <b>{String(lesson.position).padStart(2, '0')}</b>
-          <div><h3>{lesson.title}</h3><p>{lesson.description}</p><small className="lesson-meta">{lesson.estimated_minutes ?? 15} min de estudo · {lesson.level}</small></div>
-          <small className={completed.includes(lesson.id) ? 'lesson-done' : ''}>{completed.includes(lesson.id) ? 'Concluída' : 'Disponível'}</small>
-          <button className="soft" onClick={() => setSelectedLesson(lesson)}>Estudar</button>
-        </article>)}
+        {courseModules.map(module => {
+          const moduleLessons = lessons.filter(lesson => lesson.module_id === module.id)
+          if (!moduleLessons.length) return null
+          const moduleCompleted = moduleLessons.filter(lesson => completed.includes(lesson.id)).length
+          return <section className="course-module-group" key={module.id}>
+            <div className="course-module-banner"><small>ETAPA {String(module.stage).padStart(2, '0')}</small><b>{module.title}</b><span>{moduleLessons.length} aula(s) · {moduleCompleted} concluída(s)</span><p>{module.description}</p></div>
+            {moduleLessons.map(lesson => <article className="card lesson" key={lesson.id}>
+              <b>{String(lesson.position).padStart(2, '0')}</b>
+              <div><h3>{lesson.title}</h3><p>{lesson.description}</p><small className="lesson-meta">{lesson.estimated_minutes ?? 15} min de estudo · {lesson.level}</small></div>
+              <small className={completed.includes(lesson.id) ? 'lesson-done' : ''}>{completed.includes(lesson.id) ? 'Concluída' : 'Disponível'}</small>
+              <button className="soft" onClick={() => setSelectedLesson(lesson)}>Estudar</button>
+            </article>)}
+          </section>
+        })}
         {!user && <p className="course-login-note">Você pode ler as aulas. Entre na sua conta para salvar seu progresso.</p>}
       </>}
     </>
