@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { supabase } from '../lib/supabase'
 
+type Props = { onOpenLesson?: (lessonId: string) => void }
 type Recommendation = { id: string; subject: string; reason: string; recommendation_type: string; status: string; created_at: string; lesson_id: string | null }
 
-export default function ReinforcementCenter() {
+export default function ReinforcementCenter({ onOpenLesson }: Props) {
   const [items, setItems] = useState<Recommendation[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -33,7 +34,7 @@ export default function ReinforcementCenter() {
       items.map(item => <article className="card recommendation-card" key={item.id}>
         <small>{item.recommendation_type === 'lesson' ? 'AULA RECOMENDADA' : item.recommendation_type === 'review' ? 'REVISÃO' : 'PRÁTICA EXTRA'}</small>
         <h3>{item.subject}</h3><p>{item.reason}</p>
-        <button className="soft" onClick={() => void complete(item.id)}>Marcar como revisada</button>
+        <div className="recommendation-actions">{item.lesson_id && onOpenLesson && <button className="soft" onClick={() => onOpenLesson(item.lesson_id!)}>Estudar aula recomendada</button>}<button className="soft" onClick={() => void complete(item.id)}>Marcar como revisada</button></div>
       </article>)}
   </section>
 }
