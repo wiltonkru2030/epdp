@@ -145,6 +145,43 @@ boss:[
 }
 games.forEach(game=>{const additions=extraByKind[game.kind]??[];game.challenges.push(...additions)})
 
+
+const focusedBonusByGame:Record<string,Challenge[]> = {
+'acentuacao':[
+{prompt:'Qual forma verbal indica passado em “Ontem ele ___ sair cedo”?',answer:'pôde',options:['pode','pôde','pôdeu'],hint:'Diferencie o passado do presente pela acentuação.',explanation:'Pôde, com circunflexo, é a forma do pretérito perfeito; pode é presente.',category:'Acentuação'},
+{prompt:'Qual palavra está corretamente acentuada?',answer:'órgão',options:['orgão','órgão','órgâo'],hint:'É uma paroxítona terminada em ão.',explanation:'Órgão recebe acento por ser paroxítona terminada em ditongo.',category:'Acentuação'},
+{prompt:'Complete: “Eles ___ muitos livros.”',answer:'têm',options:['tem','têm','tém'],hint:'O sujeito está na terceira pessoa do plural.',explanation:'Têm recebe acento diferencial para marcar a terceira pessoa do plural.',category:'Acentuação'}],
+'desafio-pronomes':[
+{prompt:'Qual pronome interrogativo completa “___ chegou primeiro?”',answer:'Quem',options:['Quem','Nosso','Aquele'],hint:'É usado para perguntar sobre pessoas.',explanation:'Quem é pronome interrogativo usado para perguntar sobre pessoas.',category:'Pronomes'},
+{prompt:'Em “Meu caderno sumiu”, “meu” é pronome…',answer:'Possessivo',options:['Demonstrativo','Possessivo','Indefinido'],hint:'Indica a quem pertence o caderno.',explanation:'Meu é pronome possessivo e indica posse relacionada à primeira pessoa.',category:'Pronomes'},
+{prompt:'Complete: “Entreguei o material a eles.” Substitua “a eles” por…',answer:'Lhes',options:['Os','Lhes','Nos'],hint:'O complemento é indireto e está na terceira pessoa do plural.',explanation:'Lhes é pronome oblíquo usado como objeto indireto plural.',category:'Pronomes'}],
+'identifique-adjetivos':[
+{prompt:'Na frase “A estrela brilhante iluminou o céu”, identifique o adjetivo.',answer:'Brilhante',options:['Estrela','Brilhante','Iluminou'],hint:'É a palavra que caracteriza a estrela.',explanation:'Brilhante é adjetivo e caracteriza estrela.',category:'Adjetivos'},
+{prompt:'Em “O tecido macio é confortável”, qual é o adjetivo?',answer:'Macio',options:['Tecido','Macio','Confortável'],hint:'A palavra atribui uma característica ao tecido.',explanation:'Macio é adjetivo; confortável também é uma característica, mas a pergunta destaca o tecido.',category:'Adjetivos'},
+{prompt:'Qual palavra caracteriza a pessoa em “A vizinha generosa ajudou”?',answer:'Generosa',options:['Vizinha','Generosa','Ajudou'],hint:'Procure a qualidade atribuída à vizinha.',explanation:'Generosa é adjetivo que caracteriza vizinha.',category:'Adjetivos'}],
+'sinonimos-antonimos':[
+{prompt:'Qual é o sinônimo de “ágil”?',answer:'Veloz',options:['Lento','Veloz','Pesado'],hint:'Procure uma palavra com sentido semelhante a rápido.',explanation:'Veloz pode funcionar como sinônimo de ágil.',category:'Sinônimos'},
+{prompt:'Qual é o antônimo de “amplo”?',answer:'Restrito',options:['Extenso','Espaçoso','Restrito'],hint:'Procure o sentido de limitado.',explanation:'Restrito é antônimo de amplo.',category:'Antônimos'},
+{prompt:'Qual palavra é sinônimo de “iniciar”?',answer:'Começar',options:['Encerrar','Começar','Adiar'],hint:'É o ato de dar início.',explanation:'Começar e iniciar apresentam sentidos equivalentes.',category:'Sinônimos'}],
+'homonimos-paronimos':[
+{prompt:'“A ___ do jornal publicou a reportagem.” Qual palavra indica divisão ou setor?',answer:'Seção',options:['Sessão','Seção','Cessão'],hint:'Seção é parte ou divisão; sessão é reunião ou período.',explanation:'Seção significa divisão, departamento ou setor.',category:'Parônimos'},
+{prompt:'“A ___ do local foi detalhada no relatório.”',answer:'Descrição',options:['Discrição','Descrição','Prescrição'],hint:'É o ato de apresentar características de algo.',explanation:'Descrição é o ato de descrever; discrição é reserva ou prudência.',category:'Parônimos'},
+{prompt:'“O ___ da sala é de oito metros.”',answer:'Comprimento',options:['Cumprimento','Comprimento','Conserto'],hint:'A palavra indica medida de extensão.',explanation:'Comprimento indica extensão; cumprimento pode ser saudação ou ato de cumprir.',category:'Parônimos'}],
+'figuras-linguagem':[
+{prompt:'“Era um silêncio ensurdecedor.” Qual figura aproxima ideias opostas?',answer:'Antítese',options:['Metáfora','Antítese','Hipérbole'],hint:'Observe a oposição entre silêncio e ensurdecedor.',explanation:'Antítese aproxima palavras ou ideias de sentidos opostos.',category:'Figuras de linguagem'},
+{prompt:'“Ele partiu desta para melhor.” Qual figura suaviza uma ideia?',answer:'Eufemismo',options:['Eufemismo','Ironia','Onomatopeia'],hint:'A expressão evita dizer diretamente que alguém morreu.',explanation:'Eufemismo suaviza uma informação considerada desagradável.',category:'Figuras de linguagem'},
+{prompt:'“Ela é forte como uma rocha.” Qual figura usa o conectivo como?',answer:'Comparação',options:['Metáfora','Comparação','Personificação'],hint:'A aproximação é explícita.',explanation:'Comparação estabelece relação explícita entre elementos, geralmente com como.',category:'Figuras de linguagem'}],
+'pontuacao':[
+{prompt:'Qual sinal introduz uma explicação ou enumeração?',answer:':',options:[',',':',';'],hint:'É usado antes de uma lista ou esclarecimento.',explanation:'Os dois-pontos introduzem explicação, esclarecimento, fala ou enumeração.',category:'Pontuação'},
+{prompt:'Qual sinal pode marcar uma interrupção ou comentário no meio da frase?',answer:'—',options:['.','—','?'],hint:'É um traço mais longo que o hífen.',explanation:'O travessão pode marcar fala, intercalação ou destaque de um comentário.',category:'Pontuação'},
+{prompt:'Qual sinal indica suspensão ou continuidade de uma ideia?',answer:'...',options:['!','...',';'],hint:'São três pontos consecutivos.',explanation:'As reticências indicam interrupção, suspensão ou continuidade do pensamento.',category:'Pontuação'}],
+'concordancia':[
+{prompt:'Complete corretamente: “Os atletas ___ cedo.”',answer:'chegaram',options:['chegou','chegaram','chegastes'],hint:'O sujeito está no plural.',explanation:'Chegaram concorda com o sujeito plural “Os atletas”.',category:'Concordância verbal'},
+{prompt:'Complete: “Seguem ___ as fotografias.”',answer:'anexas',options:['anexo','anexas','anexos'],hint:'O adjetivo concorda com fotografias.',explanation:'Anexas concorda com fotografias, feminino plural.',category:'Concordância nominal'},
+{prompt:'Complete: “As crianças estavam ___ cansadas.”',answer:'meio',options:['meias','meio','meios'],hint:'Aqui a palavra intensifica o adjetivo.',explanation:'Meio, com sentido de um pouco, é advérbio invariável.',category:'Concordância nominal'}]
+}
+games.forEach(game=>{const focused=focusedBonusByGame[game.id];if(focused)game.challenges.splice(3,3,...focused)})
+
 export const gridLetters=['L','I','V','R','O','X','V','E','R','B','O','X','T','E','X','T','O','X','C','A','S','A','X','X','M','E','S','A','X','X','E','S','C','O','L','A']
 export const gridPaths:Record<string,number[]>={LIVRO:[0,1,2,3,4],VERBO:[6,7,8,9,10],TEXTO:[12,13,14,15,16],CASA:[18,19,20,21],MESA:[24,25,26,27],ESCOLA:[30,31,32,33,34,35]}
 export const shuffle=<T,>(items:T[])=>[...items].sort(()=>Math.random()-.5)
