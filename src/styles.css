@@ -471,3 +471,23 @@
 .game-mode{display:block!important;min-height:100vh;background:#080f25}
 .game-mode>.sidebar{display:none!important}
 .game-mode>main{width:100%;min-height:100vh;margin:0}
+
+
+/* Mascotes e cenário ilustrado original — EPDP Game Arena */
+.game-mode .arena-hero{isolation:isolate;position:relative}
+.arcade-world-art{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.28;mix-blend-mode:screen;z-index:-1;pointer-events:none}
+.game-mode .arena-hero>div:first-of-type{z-index:2}
+.game-mode .arena-hero-emblem{width:250px;height:235px;z-index:2}
+.arcade-owl-mascot{width:220px;height:245px;object-fit:contain;filter:drop-shadow(0 16px 17px #07132b77);animation:arcadeOwlFloat 3.2s ease-in-out infinite}
+.game-mode .arena-hero-emblem:before,.game-mode .arena-hero-emblem:after{border-color:#d9e6ff45}
+.game-mode .arena-hero-emblem span,.game-mode .arena-hero-emblem i{background:#17264dcc;border:1px solid #ffffff40;border-radius:12px;padding:7px 10px;font-size:20px;box-shadow:0 6px 14px #07132b55}
+.game-mode .arena-hero-emblem span{right:0;top:20px}
+.game-mode .arena-hero-emblem i{left:0;bottom:18px}
+.arcade-friends{position:absolute;right:34px;bottom:10px;display:flex;align-items:end;gap:5px;z-index:3;pointer-events:none}
+.arcade-friends img{width:66px;height:70px;object-fit:contain;filter:drop-shadow(0 7px 8px #07132b55);animation:arcadeFriendBounce 2.8s ease-in-out infinite}
+.arcade-friends img:nth-child(2){width:78px;height:62px;animation-delay:.45s}
+@keyframes arcadeOwlFloat{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-12px) rotate(2deg)}}
+@keyframes arcadeFriendBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+.game-mode .arena-hero:after{z-index:-1}
+@media(max-width:760px){.game-mode .arena-hero-emblem{width:145px;height:175px;transform:none;margin-right:-12px}.arcade-owl-mascot{width:150px;height:175px}.arcade-friends{right:15px;bottom:5px}.arcade-friends img{width:46px;height:50px}.arcade-friends img:nth-child(2){width:55px;height:45px}.arcade-world-art{opacity:.2}}
+@media(max-width:430px){.game-mode .arena-hero-emblem{width:100px;height:145px;opacity:1}.arcade-owl-mascot{width:120px;height:140px}.arcade-friends{right:7px}.arcade-friends img{width:36px;height:40px}.arcade-friends img:nth-child(2){width:43px;height:36px}}
