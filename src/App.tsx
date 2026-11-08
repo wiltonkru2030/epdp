@@ -18,7 +18,7 @@ type Lesson = {
   estimated_minutes?: number
   module_id?: string | null
 }
-const pages: Page[] = ['Início', 'Meu curso', 'Avaliações', 'Jogos educativos', 'Reforço', 'Meu perfil']
+const pages: Page[] = ['Início', 'Meu curso', 'Testes e avaliações', 'Jogos educativos', 'Reforço', 'Meu perfil']
 
 function LessonBody({ content }: { content: string }) {
   const normalized = content.replace(/\\\\n/g, '\n').replace(/\\n/g, '\n').replace(/\\r/g, '')
