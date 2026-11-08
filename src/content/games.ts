@@ -15,8 +15,8 @@ export const games:Game[] = [
 {prompt:'Complete: privilé__io',answer:'G',options:['J','G','GU'],hint:'Significa benefício ou vantagem especial.',explanation:'Privilégio é escrito com g.',category:'Ortografia'},
 {prompt:'Complete: empeci__ho',answer:'LH',options:['L','U','LH'],hint:'Significa obstáculo ou dificuldade.',explanation:'Empecilho é escrito com lh.',category:'Ortografia'}]},
 {id:'acentuacao',title:'Acentuação',subtitle:'Escolha a grafia certa e domine as regras.',tag:'ORTOGRAFIA',art:'Á',color:'amber',kind:'choice',challenges:[
-{prompt:'Qual palavra está escrita corretamente?',answer:'saúde',options:['saude','saúde','saùde'],hint:'Observe o hiato.',explanation:'Saúde recebe acento porque o u tônico forma hiato e fica sozinho na sílaba.',category:'Acentuação'},
-{prompt:'Qual é a forma correta segundo a ortografia atual?',answer:'ideia',options:['idéia','ideia','idéía'],hint:'O acordo ortográfico retirou o acento do ditongo aberto ei em paroxítonas.',explanation:'Ideia é paroxítona e não recebe acento no ditongo ei.',category:'Acentuação'},
+{prompt:'Qual palavra está escrita corretamente?',answer:'saúde',options:['saude','saúde','saudade'],hint:'Observe o hiato.',explanation:'Saúde recebe acento porque o u tônico forma hiato e fica sozinho na sílaba.',category:'Acentuação'},
+{prompt:'Qual é a forma correta segundo a ortografia atual?',answer:'ideia',options:['idéia','ideia','herói'],hint:'O acordo ortográfico retirou o acento do ditongo aberto ei em paroxítonas.',explanation:'Ideia é paroxítona e não recebe acento no ditongo ei.',category:'Acentuação'},
 {prompt:'Assinale a proparoxítona corretamente acentuada.',answer:'lâmpada',options:['lampada','lâmpada','lâmpâda'],hint:'Toda proparoxítona é acentuada.',explanation:'Lâmpada tem a antepenúltima sílaba tônica.',category:'Acentuação'}]},
 {id:'separacao-silabica',title:'Separação silábica',subtitle:'Separe as sílabas e monte palavras.',tag:'FONÉTICA',art:'SÍ',color:'blue',kind:'syllables',challenges:[
 {prompt:'Organize as sílabas para formar JANELA.',answer:'JA-NE-LA',options:['NE','LA','JA'],hint:'Comece pela sílaba inicial.',explanation:'Janela se separa em ja-ne-la: três sílabas.',category:'Separação silábica'},
@@ -93,7 +93,7 @@ grid:[
 hangman:[
 {prompt:'Classe gramatical que indica ação, estado ou fenômeno.',answer:'VERBO',options:[],hint:'Exemplo: correr, ser, chover.',explanation:'Verbo é a classe que expressa ação, estado ou fenômeno da natureza.',category:'Gramática'},
 {prompt:'Sinal gráfico usado para marcar a sílaba tônica em algumas palavras.',answer:'ACENTO',options:[],hint:'Pode ser agudo ou circunflexo.',explanation:'O acento gráfico indica a tonicidade ou timbre em determinadas palavras.',category:'Ortografia'},
-{prompt:'Relação de sentido oposto entre palavras.',answer:'ANTONIMO',options:[],hint:'O contrário de sinônimo.',explanation:'Antônimos são palavras que apresentam sentidos opostos.',category:'Semântica'}],
+{prompt:'Relação de sentido oposto entre palavras.',answer:'ANTÔNIMO',options:[],hint:'O contrário de sinônimo.',explanation:'Antônimos são palavras que apresentam sentidos opostos.',category:'Semântica'}],
 tiles:[
 {prompt:'Complete: exce__ente',answer:'L',options:['L','U','R'],hint:'A palavra significa muito bom.',explanation:'Excelente é escrito com l.',category:'Ortografia'},
 {prompt:'Complete: pa__agem',answer:'SS',options:['S','SS','Ç'],hint:'É o ato ou efeito de passar.',explanation:'Passagem é escrita com ss.',category:'Ortografia'},
@@ -117,7 +117,7 @@ match:[
 machine:[
 {prompt:'Conjugue “partir” para eu no presente do indicativo.',answer:'Eu parto',options:['Eu parto','Eu partirei','Eu partia'],hint:'A ação acontece agora.',explanation:'Parto é a forma da primeira pessoa do singular no presente.',category:'Verbos'},
 {prompt:'Identifique o modo verbal em “Talvez ele estude”.',answer:'Subjuntivo',options:['Indicativo','Subjuntivo','Imperativo'],hint:'A frase expressa possibilidade.',explanation:'Estude está no presente do subjuntivo.',category:'Modos verbais'},
-{prompt:'Qual é o plural correto de “cidadão”?',answer:'Cidadãos',options:['Cidadões','Cidadães','Cidadãos'],hint:'É a forma consagrada no uso padrão.',explanation:'O plural de cidadão é cidadãos.',category:'Morfologia'}],
+{prompt:'Qual é o plural correto de “cidadão”?',answer:'Cidadãos',options:['Cidadãos','cidadania','cidadão'],hint:'É a forma consagrada no uso padrão.',explanation:'O plural de cidadão é cidadãos.',category:'Morfologia'}],
 race:[
 {prompt:'“Nós viajaremos amanhã” está em qual tempo?',answer:'Futuro do presente',options:['Presente','Pretérito perfeito','Futuro do presente'],hint:'A ação ainda vai acontecer.',explanation:'Viajaremos está no futuro do presente do indicativo.',category:'Tempos verbais'},
 {prompt:'Qual conectivo indica conclusão?',answer:'Portanto',options:['Embora','Porém','Portanto'],hint:'Pode ser substituído por “logo”.',explanation:'Portanto é conectivo conclusivo.',category:'Coesão'},
@@ -182,7 +182,72 @@ const focusedBonusByGame:Record<string,Challenge[]> = {
 }
 games.forEach(game=>{const focused=focusedBonusByGame[game.id];if(focused)game.challenges.splice(3,3,...focused)})
 
-export const gridLetters=['L','I','V','R','O','X','V','E','R','B','O','X','T','E','X','T','O','X','C','A','S','A','X','X','M','E','S','A','X','X','E','S','C','O','L','A']
-export const gridPaths:Record<string,number[]>={LIVRO:[0,1,2,3,4],VERBO:[6,7,8,9,10],TEXTO:[12,13,14,15,16],CASA:[18,19,20,21],MESA:[24,25,26,27],ESCOLA:[30,31,32,33,34,35]}
+const finalRoundsByGame:Record<string,Challenge[]> = {
+'caca-palavras':[
+{prompt:'Encontre LEITURA no tabuleiro.',answer:'LEITURA',options:[],hint:'Atividade que amplia vocabulário.',explanation:'A leitura constrói sentidos e amplia conhecimentos.',category:'Leitura'},
+{prompt:'Encontre FRASE no tabuleiro.',answer:'FRASE',options:[],hint:'Enunciado que comunica uma ideia.',explanation:'Frase é um enunciado com sentido em um contexto.',category:'Sintaxe'}],
+'forca-palavras':[
+{prompt:'Idioma oficial do Brasil.',answer:'PORTUGUÊS',options:[],hint:'É a língua deste desafio.',explanation:'Português é o idioma oficial do Brasil.',category:'Língua portuguesa'},
+{prompt:'Parte da gramática que estuda as relações entre termos da oração.',answer:'SINTAXE',options:[],hint:'Estuda sujeito, predicado e complementos.',explanation:'Sintaxe estuda as funções e relações entre os termos da oração.',category:'Sintaxe'}],
+'complete-word':[
+{prompt:'Complete: transi__ão',answer:'Ç',options:['S','Ç','SS'],hint:'Significa mudança ou passagem.',explanation:'Transição é escrita com ç.',category:'Ortografia'},
+{prompt:'Complete: pa__eio',answer:'SS',options:['S','SS','Ç'],hint:'Atividade agradável ao ar livre.',explanation:'Passeio é escrito com ss.',category:'Ortografia'}],
+'acentuacao':[
+{prompt:'Qual palavra é uma oxítona acentuada?',answer:'sofá',options:['sofá','mesa','caderno'],hint:'Termina em a e tem a última sílaba tônica.',explanation:'Sofá é oxítona terminada em a e recebe acento.',category:'Acentuação'},
+{prompt:'Complete: “Eles ___ muitos compromissos.”',answer:'têm',options:['tem','têm','têem'],hint:'O sujeito está na terceira pessoa do plural.',explanation:'Têm é a forma plural do presente do verbo ter.',category:'Acentuação'}],
+'separacao-silabica':[
+{prompt:'Organize as sílabas para formar ABACAXI.',answer:'A-BA-CA-XI',options:['CA','XI','A','BA'],hint:'É uma fruta tropical.',explanation:'Abacaxi separa-se em a-ba-ca-xi.',category:'Separação silábica'},
+{prompt:'Organize as sílabas para formar FAMÍLIA.',answer:'FA-MÍ-LIA',options:['LIA','FA','MÍ'],hint:'Grupo de pessoas com laços de parentesco ou afeto.',explanation:'Família separa-se em fa-mí-lia.',category:'Separação silábica'}],
+'classificacao-substantivos':[
+{prompt:'Classifique “beleza”.',answer:'Abstrato',options:['Abstrato','Próprio','Coletivo'],hint:'Nomeia uma qualidade.',explanation:'Beleza é substantivo abstrato.',category:'Substantivos'},
+{prompt:'Classifique “frota”.',answer:'Coletivo',options:['Comum','Coletivo','Próprio'],hint:'Conjunto de veículos.',explanation:'Frota é substantivo coletivo.',category:'Substantivos'}],
+'identifique-adjetivos':[
+{prompt:'Em “O jardim florido atraiu as crianças”, identifique o adjetivo.',answer:'Florido',options:['Jardim','Florido','Atraiu'],hint:'Caracteriza o jardim.',explanation:'Florido é adjetivo e caracteriza jardim.',category:'Adjetivos'},
+{prompt:'Em “A resposta precisa ajudou a turma”, identifique o adjetivo.',answer:'Precisa',options:['Resposta','Precisa','Ajudou'],hint:'Caracteriza a resposta.',explanation:'Precisa é adjetivo.',category:'Adjetivos'}],
+'desafio-pronomes':[
+{prompt:'Em “Este caderno é novo”, “este” é pronome…',answer:'Demonstrativo',options:['Pessoal','Demonstrativo','Possessivo'],hint:'Indica posição em relação a quem fala.',explanation:'Este é pronome demonstrativo.',category:'Pronomes'},
+{prompt:'Em “Alguém chamou por você”, “alguém” é pronome…',answer:'Indefinido',options:['Indefinido','Possessivo','Relativo'],hint:'Refere-se a uma pessoa não identificada.',explanation:'Alguém é pronome indefinido.',category:'Pronomes'}],
+'conjugacao-verbos':[
+{prompt:'Complete no pretérito perfeito: “Nós ___ a tarefa ontem.” (fazer)',answer:'fizemos',options:['fazemos','fizemos','faremos'],hint:'A ação foi concluída no passado.',explanation:'Fizemos é a primeira pessoa do plural do pretérito perfeito de fazer.',category:'Verbos'},
+{prompt:'Complete no futuro do subjuntivo: “Se eu ___ cedo, avisarei.” (chegar)',answer:'chegar',options:['chego','chegasse','chegar'],hint:'A oração apresenta uma condição futura.',explanation:'Chegar é a forma do futuro do subjuntivo.',category:'Modos verbais'}],
+'corrida-tempos-verbais':[
+{prompt:'“Nós tínhamos estudado” está em qual tempo?',answer:'Pretérito mais-que-perfeito composto',options:['Pretérito perfeito','Pretérito mais-que-perfeito composto','Futuro do presente'],hint:'Indica ação anterior a outra ação passada.',explanation:'Tínhamos estudado é pretérito mais-que-perfeito composto.',category:'Tempos verbais'},
+{prompt:'“Quando eles vierem, começaremos.” O verbo vierem está em qual tempo?',answer:'Futuro do subjuntivo',options:['Presente do indicativo','Pretérito imperfeito','Futuro do subjuntivo'],hint:'A ação depende de uma condição futura.',explanation:'V vierem está no futuro do subjuntivo.',category:'Modos verbais'}],
+'monte-frase':[
+{prompt:'Organize as palavras para formar uma frase correta.',answer:'A escrita clara facilita a comunicação.',options:['comunicação.','A','facilita','clara','escrita','a'],hint:'Comece pelo sujeito.',explanation:'A escrita clara é o sujeito; facilita a comunicação é o predicado.',category:'Sintaxe'},
+{prompt:'Organize as palavras para formar uma frase correta.',answer:'Os bons leitores interpretam melhor os textos.',options:['textos.','interpretam','Os','melhor','leitores','bons','os'],hint:'Comece pelo sujeito.',explanation:'Os bons leitores é o sujeito da oração.',category:'Sintaxe'}],
+'organize-palavras':[
+{prompt:'Organize: “A revisão melhora a escrita.”',answer:'A revisão melhora a escrita.',options:['escrita.','A','melhora','revisão','a'],hint:'O sujeito é “A revisão”.',explanation:'A revisão é o sujeito; melhora a escrita é o predicado.',category:'Organização textual'},
+{prompt:'Organize: “O diálogo aproxima diferentes ideias.”',answer:'O diálogo aproxima diferentes ideias.',options:['ideias.','O','aproxima','diferentes','diálogo'],hint:'Comece pelo sujeito.',explanation:'O diálogo é o sujeito da oração.',category:'Sintaxe'}],
+'encontre-erro':[
+{prompt:'Na frase “Existe muitas oportunidades”, toque no verbo inadequado.',answer:'Existe',options:['Existe','muitas','oportunidades'],hint:'O sujeito está no plural.',explanation:'O correto é “Existem muitas oportunidades”.',category:'Concordância verbal'},
+{prompt:'Na frase “Os livro chegaram”, toque na palavra que precisa ser corrigida.',answer:'livro',options:['Os','livro','chegaram'],hint:'O artigo está no plural.',explanation:'O correto é “Os livros chegaram”.',category:'Concordância nominal'}],
+'sinonimos-antonimos':[
+{prompt:'Qual é o antônimo de “generoso”?',answer:'Egoísta',options:['Solidário','Egoísta','Bondoso'],hint:'É o oposto de quem gosta de compartilhar.',explanation:'Egoísta é antônimo de generoso.',category:'Antônimos'},
+{prompt:'Qual palavra é sinônimo de “cauteloso”?',answer:'Prudente',options:['Apressado','Prudente','Descuidado'],hint:'É alguém que age com cuidado.',explanation:'Prudente pode ser sinônimo de cauteloso.',category:'Sinônimos'}],
+'homonimos-paronimos':[
+{prompt:'“O documento foi ratificado.” Ratificar significa…',answer:'Confirmar',options:['Corrigir','Confirmar','Apagar'],hint:'Ratificar é validar; retificar é corrigir.',explanation:'Ratificar significa confirmar ou validar.',category:'Parônimos'},
+{prompt:'“O perigo era iminente.” Iminente significa…',answer:'Prestes a acontecer',options:['Muito importante','Prestes a acontecer','Distante'],hint:'Indica algo que está para ocorrer.',explanation:'Iminente é aquilo que está prestes a acontecer.',category:'Parônimos'}],
+'interpretacao':[
+{prompt:'Qual conclusão pode ser retirada do texto?',answer:'A revisão ajuda a identificar e corrigir problemas.',options:['A revisão ajuda a identificar e corrigir problemas.','A primeira versão nunca precisa mudar.','Revisar impede a criatividade.'],hint:'Considere o papel da releitura.',explanation:'A releitura permite perceber problemas e aprimorar a clareza.',category:'Inferência',passage:'Depois de escrever, Marina releu seu texto. Percebeu frases confusas, reorganizou as ideias e substituiu palavras repetidas. A nova versão ficou mais clara.'},
+{prompt:'Por que Marina reorganizou algumas ideias?',answer:'Para deixar o texto mais claro.',options:['Para aumentar o número de páginas.','Para deixar o texto mais claro.','Para retirar todas as informações.'],hint:'Observe o resultado descrito no final.',explanation:'Marina reorganizou as ideias para melhorar a clareza.',category:'Compreensão',passage:'Depois de escrever, Marina releu seu texto. Percebeu frases confusas, reorganizou as ideias e substituiu palavras repetidas. A nova versão ficou mais clara.'}],
+'figuras-linguagem':[
+{prompt:'“O relógio gritava no silêncio da sala.” Qual figura aparece?',answer:'Personificação',options:['Personificação','Eufemismo','Antítese'],hint:'Um objeto recebe uma ação humana.',explanation:'Personificação atribui ao relógio a ação humana de gritar.',category:'Figuras de linguagem'},
+{prompt:'“Chorei um oceano de lágrimas.” Qual figura aparece?',answer:'Hipérbole',options:['Metonímia','Hipérbole','Comparação'],hint:'Há exagero intencional.',explanation:'Hipérbole é o exagero expressivo de uma ideia.',category:'Figuras de linguagem'}],
+'pontuacao':[
+{prompt:'Complete: “A professora explicou___ a prova será na sexta-feira.”',answer:':',options:[',',':','?'],hint:'O segundo trecho esclarece o primeiro.',explanation:'Os dois-pontos introduzem um esclarecimento.',category:'Pontuação'},
+{prompt:'Qual sinal inicia a fala de uma personagem em um diálogo?',answer:'—',options:[';','—',':'],hint:'É um traço longo usado para marcar a fala.',explanation:'O travessão pode introduzir a fala de uma personagem.',category:'Pontuação'}],
+'concordancia':[
+{prompt:'Complete: “Mais de um candidato ___ aprovado.”',answer:'foi',options:['foram','foi','serão'],hint:'A expressão “mais de um” normalmente leva o verbo ao singular.',explanation:'Na construção “mais de um”, o verbo normalmente fica no singular.',category:'Concordância verbal'},
+{prompt:'Complete: “As próprias alunas organizaram a sala ___.”',answer:'sozinhas',options:['sozinho','sozinhas','sozinha'],hint:'A palavra concorda com “alunas”.',explanation:'Sozinhas concorda com o substantivo feminino plural alunas.',category:'Concordância nominal'}],
+'batalha-conhecimentos':[
+{prompt:'Qual oração apresenta predicado nominal?',answer:'A sala estava silenciosa.',options:['Os alunos chegaram.','A sala estava silenciosa.','Choveu durante a noite.'],hint:'Procure verbo de ligação e característica do sujeito.',explanation:'Estava é verbo de ligação e silenciosa é predicativo do sujeito.',category:'Sintaxe'},
+{prompt:'Qual alternativa apresenta uso correto da crase?',answer:'Cheguei à escola cedo.',options:['Cheguei à escola cedo.','Entreguei o livro à ele.','Começou à chover.'],hint:'A crase ocorre na fusão da preposição a com o artigo a.',explanation:'Chegar a + a escola = chegar à escola.',category:'Crase'}]
+};
+games.forEach(game=>{const rounds=finalRoundsByGame[game.id];if(rounds)game.challenges.push(...rounds)});
+
+
+export const gridLetters=['L','I','V','R','O','X','X','X','V','E','R','B','O','X','X','X','T','E','X','T','O','X','X','X','C','A','S','A','X','X','X','X','M','E','S','A','X','X','X','X','E','S','C','O','L','A','X','X','L','E','I','T','U','R','A','X','F','R','A','S','E','X','X','X']
+export const gridPaths:Record<string,number[]>={LIVRO:[0,1,2,3,4],VERBO:[8,9,10,11,12],TEXTO:[16,17,18,19,20],CASA:[24,25,26,27],MESA:[32,33,34,35],ESCOLA:[40,41,42,43,44,45],LEITURA:[48,49,50,51,52,53,54],FRASE:[56,57,58,59,60]}
 export const shuffle=<T,>(items:T[])=>[...items].sort(()=>Math.random()-.5)
 export const normalize=(value:string)=>value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase()
