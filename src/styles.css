@@ -105,3 +105,29 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* Avaliações reais e reforço personalizado */
+.assessment-panel,.assessment-list,.reinforcement-center{max-width:900px}
+.assessment-card,.recommendation-card{padding:20px;margin:12px 0;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.assessment-card h3,.recommendation-card h3{margin:6px 0;color:#293968}
+.assessment-card p,.recommendation-card p{font-size:12px;color:#7d879e;margin:5px 0}
+.assessment-card small,.recommendation-card small,.assessment-question>small,.assessment-review>small{font-size:9px;letter-spacing:1px;color:#7886a6;font-weight:800}
+.assessment-progress{height:6px;background:#edf0f6;border-radius:9px;margin:16px 0 5px;overflow:hidden}
+.assessment-progress span{display:block;height:100%;background:#5269b5;transition:width .2s}
+.assessment-count{font-size:11px;color:#7d879e}
+.assessment-question,.assessment-review{padding:18px 0;border-bottom:1px solid #edf0f5}
+.assessment-question h3,.assessment-review h3{font-size:15px;color:#293968;line-height:1.6;margin:10px 0}
+.assessment-question blockquote{margin:12px 0;padding:14px;border-left:3px solid #8092ca;background:#f5f7fc;color:#586786;font-size:13px;line-height:1.7}
+.assessment-options{display:grid;gap:8px}
+.assessment-options button{display:flex;align-items:flex-start;gap:12px;text-align:left;padding:12px;border:1px solid #e1e6f0;border-radius:10px;background:#fff;color:#53617e}
+.assessment-options button.chosen{border-color:#5269b5;background:#f1f4ff}
+.assessment-options button b{color:#344c96}
+.assessment-options button span{font-size:12px;line-height:1.5}
+.assessment-result{text-align:center;padding:28px 12px}
+.assessment-result small{font-size:10px;letter-spacing:1px;color:#7d89a8;font-weight:800}
+.assessment-result strong{display:block;font-size:48px;color:#2d438d;margin:10px}
+.assessment-result h2{font-size:20px;color:#293968;margin:0}
+.assessment-result p{font-size:12px;color:#7d879e}
+.assessment-review p{font-size:12px;line-height:1.7;color:#64718c}
+@media(max-width:620px){.assessment-card,.recommendation-card{align-items:flex-start;flex-direction:column}.assessment-options button{padding:10px}}
