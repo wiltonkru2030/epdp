@@ -103,9 +103,9 @@ const lostHangman=mistakes>=6
 
 useEffect(()=>{if(!gameId||finished||game?.kind==='grid'||game?.kind==='hangman')return;const timer=window.setInterval(()=>setSeconds(value=>Math.max(0,value-1)),1000);return()=>window.clearInterval(timer)},[gameId,finished,game?.kind])
 useEffect(()=>{if(seconds===0&&gameId&&!finished)finishGame(score)},[seconds,gameId,finished])
-useEffect(()=>{if(game?.kind==='order'||game?.kind==='sequence'||game?.kind==='syllables')setOrder(shuffle(challenge?.options??[]));else setOrder([]);setSelected('');setFeedback('');setHintVisible(false);setSelectedGrid([]);setGuessed([]);setMistakes(0)},[gameId,round])
+useEffect(()=>{if(game?.kind==='order'||game?.kind==='syllables')setOrder(shuffle(challenge?.options??[]));else setOrder([]);setSelected('');setFeedback('');setHintVisible(false);setSelectedGrid([]);setGuessed([]);setMistakes(0)},[gameId,round])
 
-function start(id:string){const next=games.find(item=>item.id===id);setGameId(id);setRound(0);setScore(0);setSelected('');setSeconds(75);setFinished(false);setFeedback('');setSavedMessage('');setXp(0);setOrder(next&&(next.kind==='order'||next.kind==='sequence'||next.kind==='syllables')?shuffle(next.challenges[0].options):[]);setSelectedGrid([]);setGuessed([]);setMistakes(0)}
+function start(id:string){const next=games.find(item=>item.id===id);setGameId(id);setRound(0);setScore(0);setSelected('');setSeconds(75);setFinished(false);setFeedback('');setSavedMessage('');setXp(0);setOrder(next&&(next.kind==='order'||next.kind==='syllables')?shuffle(next.challenges[0].options):[]);setSelectedGrid([]);setGuessed([]);setMistakes(0)}
 async function saveResult(correct:number,total:number,duration:number){const {data}=await supabase.auth.getUser();if(!data.user){setSavedMessage('Entre na sua conta para guardar este resultado.');return}const {error}=await supabase.rpc('record_game_attempt',{p_game_slug:gameId,p_correct_count:correct,p_total_count:total,p_duration_seconds:duration});setSavedMessage(error?'Não foi possível salvar. Tente novamente mais tarde.':'Resultado salvo no seu histórico.')}
 function finishGame(finalScore:number){if(finished||!game)return;setFinished(true);void saveResult(finalScore,game.challenges.length,75-seconds)}
 function award(correct:boolean){if(correct){setScore(value=>value+1);setXp(value=>value+20)}}
