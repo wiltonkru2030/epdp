@@ -1185,3 +1185,28 @@ img{filter:none;image-rendering:auto}.arcade-world-art{opacity:.68!important;mix
 .game-mode .arena-game-copy{color:#34415a}.game-mode .arena-game-copy h3,.game-mode .arena-game-copy p{color:#34415a!important}
 .game-mode .arena-game-copy p{font-size:13px!important;line-height:1.7!important}
 @media(max-width:620px){body{font-size:15px}.content{padding:22px 16px 30px}.heading{align-items:flex-start;margin-bottom:18px}.heading h1{font-size:25px}.hero{padding:24px 22px;min-height:210px}.panel{padding:18px}.panel p,.intro p,.game p,.lesson p{font-size:14px!important}.lesson{padding:14px;gap:11px}.lesson h3{font-size:15px}.assessment-question h3,.assessment-review h3{font-size:17px}.assessment-options button span{font-size:14px}.game-mode .arena-game-card{min-width:0}}
+
+
+/* Arena: ícones vetoriais, etapas e transparência das recompensas. */
+.arena-game-card-icon{display:grid;place-items:center;color:currentColor}
+.arena-game-card-icon svg,.arena-wallet small svg,.arena-sound-toggle svg,.arena-session-header button svg,.arena-session-tools button svg{display:inline-block;vertical-align:middle;flex:none}
+.arena-wallet small{display:flex;align-items:center;gap:6px}
+.arena-reward-guide{margin:18px 0;padding:18px;border:1px solid #dbe4f0;border-radius:20px;background:linear-gradient(135deg,#fff 0%,#f5f8ff 100%);color:#243047;box-shadow:0 8px 24px rgba(32,54,92,.06)}
+.arena-reward-guide-heading{display:flex;align-items:center;gap:12px;color:#4f46e5}
+.arena-reward-guide-heading>div{display:grid;gap:3px}
+.arena-reward-guide-heading b{font-size:15px;color:#17233b}
+.arena-reward-guide-heading span{font-size:12px;color:#64748b}
+.arena-reward-rules{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:15px 0}
+.arena-reward-rules>div{display:grid;gap:3px;padding:12px;border:1px solid #e2e8f0;border-radius:14px;background:#fff}
+.arena-reward-rules strong{font-size:22px;line-height:1;color:#b7791f}
+.arena-reward-rules span{font-size:11px;line-height:1.4;color:#475569}
+.arena-reward-guide p{font-size:12px;line-height:1.65;color:#475569;margin:0 0 8px}
+.arena-reward-guide small{display:block;font-size:11px;line-height:1.5;color:#64748b}
+.arena-phase-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:10px 0 14px}
+.arena-phase-steps span{display:flex;align-items:center;gap:7px;min-width:0;padding:8px 9px;border:1px solid #dbe3ef;border-radius:12px;background:#f8fafc;color:#64748b}
+.arena-phase-steps span>i{display:grid;place-items:center;width:22px;height:22px;flex:none;border-radius:50%;background:#e2e8f0;font-size:11px;font-style:normal;font-weight:800}
+.arena-phase-steps span>b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px}
+.arena-phase-steps span.active{border-color:#818cf8;background:#eef2ff;color:#4338ca}
+.arena-phase-steps span.active>i,.arena-phase-steps span.complete>i{background:#4f46e5;color:white}
+.arena-phase-steps span.complete{border-color:#a7f3d0;background:#ecfdf5;color:#047857}
+@media(max-width:560px){.arena-reward-guide{padding:14px}.arena-reward-rules{gap:6px}.arena-reward-rules>div{padding:9px}.arena-reward-rules span{font-size:10px}.arena-phase-steps span{padding:7px 5px;gap:4px}.arena-phase-steps span>b{font-size:9px}}
