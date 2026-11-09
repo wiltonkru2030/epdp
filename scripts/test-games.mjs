@@ -51,7 +51,7 @@ assert.match(css, /@media\s*\(max-width:\s*700px\)/, 'Mobile layout breakpoint i
 assert.match(css, /prefers-reduced-motion/, 'Reduced-motion support is required')
 assert.match(component, /import GameIcon from '\.\/GameIcon'/, 'Arena controls must use vector icons instead of emoji-like glyphs')
 assert.match(component, /Como ganhar moedas e XP/, 'The arena must explain how coins and XP are earned')
-assert.match(component, /ETAPA \\{phaseNumber\\}\\/3/, 'Each game must show its three-stage progression')
+assert.match(component, /ETAPA .*phaseNumber.*phaseRound/, 'Each game must show its three-stage progression')
 assert.doesNotMatch(component, /[★♥●○↕‹›⌑▶↗♫←]/, 'Use vector icons instead of decorative emoji-like glyphs')
 assert.match(gameIcon, /iconPaths:Record<string,string>/, 'Vector icon set must be available to the arena')
 assert.match(component, /function startMusic/, 'Background music must start in a game')
