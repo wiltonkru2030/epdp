@@ -247,7 +247,72 @@ const finalRoundsByGame:Record<string,Challenge[]> = {
 games.forEach(game=>{const rounds=finalRoundsByGame[game.id];if(rounds)game.challenges.push(...rounds)});
 
 
-export const gridLetters=['L','I','V','R','O','X','X','X','V','E','R','B','O','X','X','X','T','E','X','T','O','X','X','X','C','A','S','A','X','X','X','X','M','E','S','A','X','X','X','X','E','S','C','O','L','A','X','X','L','E','I','T','U','R','A','X','F','R','A','S','E','X','X','X']
-export const gridPaths:Record<string,number[]>={LIVRO:[0,1,2,3,4],VERBO:[8,9,10,11,12],TEXTO:[16,17,18,19,20],CASA:[24,25,26,27],MESA:[32,33,34,35],ESCOLA:[40,41,42,43,44,45],LEITURA:[48,49,50,51,52,53,54],FRASE:[56,57,58,59,60]}
+
+const advancedRoundsByGame:Record<string,Challenge[]> = {
+'caca-palavras':[
+{prompt:'Encontre NORMA no tabuleiro.',answer:'NORMA',options:[],hint:'Conjunto de regras que orienta o uso da língua.',explanation:'Norma é um conjunto de princípios ou regras; na língua, a norma-padrão orienta usos formais.',category:'Língua portuguesa'},
+{prompt:'Encontre LETRA no tabuleiro.',answer:'LETRA',options:[],hint:'Sinal gráfico usado na escrita.',explanation:'Letra é um sinal gráfico que representa, em conjunto com outras, os sons da língua.',category:'Ortografia'}],
+'forca-palavras':[
+{prompt:'Classe de palavras que modifica o verbo, o adjetivo ou outro advérbio.',answer:'ADVÉRBIO',options:[],hint:'Exemplos: ontem, muito, bem e aqui.',explanation:'Advérbio modifica verbo, adjetivo ou outro advérbio, acrescentando circunstâncias ou intensidade.',category:'Classes gramaticais'},
+{prompt:'Classe de palavras que acompanha o substantivo e o determina.',answer:'ARTIGO',options:[],hint:'Pode ser definido ou indefinido.',explanation:'Artigo acompanha o substantivo e indica se ele é determinado ou indeterminado.',category:'Classes gramaticais'}],
+'complete-word':[
+{prompt:'Complete: en__ergar',answer:'X',options:['CH','X','S'],hint:'Verbo que significa perceber com os olhos.',explanation:'Enxergar é escrito com x.',category:'Ortografia'},
+{prompt:'Complete: pa__agem',answer:'SS',options:['S','SS','Ç'],hint:'Nomeia o ato ou resultado de passar.',explanation:'Passagem é escrita com ss.',category:'Ortografia'}],
+'acentuacao':[
+{prompt:'Qual palavra é proparoxítona?',answer:'Lógico',options:['Café','Lógico','Papel'],hint:'A sílaba tônica é a antepenúltima.',explanation:'Lógico é proparoxítona: ló-gi-co. Todas as proparoxítonas são acentuadas.',category:'Acentuação'},
+{prompt:'Qual forma indica a terceira pessoa do plural do verbo ter?',answer:'Têm',options:['Tem','Têm','Temos'],hint:'O sujeito é “eles” ou “elas”.',explanation:'Têm, com acento circunflexo, é a forma da terceira pessoa do plural do presente do indicativo.',category:'Acentuação'}],
+'separacao-silabica':[
+{prompt:'Organize as sílabas para formar BORBOLETA.',answer:'BOR-BO-LE-TA',options:['LE','BOR','TA','BO'],hint:'Inseto de asas coloridas.',explanation:'Borboleta separa-se em bor-bo-le-ta.',category:'Separação silábica'},
+{prompt:'Organize as sílabas para formar COMPUTADOR.',answer:'COM-PU-TA-DOR',options:['TA','COM','DOR','PU'],hint:'Equipamento usado para processar informações.',explanation:'Computador separa-se em com-pu-ta-dor.',category:'Separação silábica'}],
+'classificacao-substantivos':[
+{prompt:'Classifique o substantivo “rebanho”.',answer:'Coletivo',options:['Próprio','Coletivo','Abstrato'],hint:'Nomeia um conjunto de animais.',explanation:'Rebanho é substantivo coletivo, pois designa um conjunto de animais.',category:'Substantivos'},
+{prompt:'Classifique o substantivo “Lisboa”.',answer:'Próprio',options:['Comum','Abstrato','Próprio'],hint:'É o nome específico de uma cidade.',explanation:'Lisboa é substantivo próprio porque nomeia especificamente uma cidade.',category:'Substantivos'}],
+'identifique-adjetivos':[
+{prompt:'Em “A estrada longa atravessa a serra”, identifique o adjetivo.',answer:'Longa',options:['Estrada','Longa','Atravessa'],hint:'É a palavra que caracteriza a estrada.',explanation:'Longa é adjetivo e atribui uma característica ao substantivo estrada.',category:'Adjetivos'},
+{prompt:'Em “O céu nublado anunciou chuva”, identifique o adjetivo.',answer:'Nublado',options:['Céu','Anunciou','Nublado'],hint:'É a palavra que caracteriza o céu.',explanation:'Nublado é adjetivo e caracteriza o substantivo céu.',category:'Adjetivos'}],
+'desafio-pronomes':[
+{prompt:'Em “Nosso material está organizado”, “nosso” é pronome…',answer:'Possessivo',options:['Pessoal','Possessivo','Demonstrativo'],hint:'Indica posse ou relação de pertencimento.',explanation:'Nosso é pronome possessivo e indica relação com a primeira pessoa do plural.',category:'Pronomes'},
+{prompt:'Em “Quem chegou primeiro?”, “quem” é pronome…',answer:'Interrogativo',options:['Relativo','Interrogativo','Possessivo'],hint:'É usado para formular uma pergunta.',explanation:'Quem é pronome interrogativo nessa frase, pois introduz uma pergunta direta.',category:'Pronomes'}],
+'conjugacao-verbos':[
+{prompt:'Complete no pretérito perfeito: “Eu ___ a carta ontem.” (escrever)',answer:'Eu escrevi',options:['Eu escrevo','Eu escrevi','Eu escreverei'],hint:'A ação foi concluída no passado.',explanation:'Escrevi é a primeira pessoa do singular do pretérito perfeito de escrever.',category:'Verbos'},
+{prompt:'Complete no futuro do presente: “Nós ___ amanhã.” (partir)',answer:'partiremos',options:['partimos','partiremos','partíamos'],hint:'A ação acontecerá depois do momento da fala.',explanation:'Partiremos é a primeira pessoa do plural do futuro do presente do indicativo.',category:'Tempos verbais'}],
+'corrida-tempos-verbais':[
+{prompt:'Na oração “Se eu pudesse, viajaria”, pudesse está em qual modo?',answer:'Subjuntivo',options:['Indicativo','Subjuntivo','Imperativo'],hint:'Expressa hipótese ou possibilidade.',explanation:'Pudesse é forma do pretérito imperfeito do subjuntivo.',category:'Modos verbais'},
+{prompt:'“Eles correrão amanhã.” O verbo está em qual tempo?',answer:'Futuro do presente',options:['Pretérito perfeito','Presente','Futuro do presente'],hint:'A ação ainda vai acontecer.',explanation:'Correrão está no futuro do presente do indicativo.',category:'Tempos verbais'}],
+'monte-frase':[
+{prompt:'Organize as palavras para formar uma frase correta.',answer:'Os estudantes revisaram o conteúdo.',options:['conteúdo.','Os','revisaram','o','estudantes'],hint:'Comece pelo sujeito plural.',explanation:'Os estudantes é o sujeito; revisaram o conteúdo é o predicado.',category:'Sintaxe'},
+{prompt:'Organize as palavras para formar uma frase correta.',answer:'A professora corrigiu as atividades.',options:['atividades.','corrigiu','A','as','professora'],hint:'Comece por quem realizou a ação.',explanation:'A professora é o sujeito; corrigiu as atividades é o predicado.',category:'Sintaxe'}],
+'organize-palavras':[
+{prompt:'Organize: “A prática fortalece a aprendizagem.”',answer:'A prática fortalece a aprendizagem.',options:['aprendizagem.','fortalece','A','a','prática'],hint:'Comece pelo sujeito da oração.',explanation:'A prática é o sujeito; fortalece a aprendizagem é o predicado.',category:'Organização textual'},
+{prompt:'Organize: “O estudo exige constância.”',answer:'O estudo exige constância.',options:['constância.','O','exige','estudo'],hint:'O sujeito é “O estudo”.',explanation:'O estudo é o sujeito; exige constância é o predicado.',category:'Sintaxe'}],
+'encontre-erro':[
+{prompt:'Identifique o verbo inadequado: “Fazem dois anos que estudo.”',answer:'Fazem',options:['Fazem','dois','estudo'],hint:'O verbo fazer indicando tempo decorrido é impessoal.',explanation:'O correto é “Faz dois anos que estudo”. Nesse sentido, fazer permanece na terceira pessoa do singular.',category:'Concordância verbal'},
+{prompt:'Identifique o verbo inadequado: “Houveram dúvidas na reunião.”',answer:'Houveram',options:['Houveram','dúvidas','reunião'],hint:'Haver com sentido de existir é impessoal.',explanation:'O correto é “Houve dúvidas na reunião”. Haver com sentido de existir fica no singular.',category:'Concordância verbal'}],
+'sinonimos-antonimos':[
+{prompt:'Qual é o sinônimo de “sereno”?',answer:'Tranquilo',options:['Agitado','Tranquilo','Hostil'],hint:'Procure uma palavra que indique calma.',explanation:'Tranquilo pode ser sinônimo de sereno, conforme o contexto.',category:'Sinônimos'},
+{prompt:'Qual é o sinônimo de “ampliar”?',answer:'Expandir',options:['Reduzir','Expandir','Ocultar'],hint:'É tornar maior ou mais abrangente.',explanation:'Expandir e ampliar podem ter sentidos equivalentes.',category:'Sinônimos'}],
+'homonimos-paronimos':[
+{prompt:'“O tráfego estava intenso.” Nessa frase, tráfego significa…',answer:'Circulação',options:['Circulação','Comércio ilegal','Silêncio'],hint:'A frase fala de movimento nas vias.',explanation:'Tráfego é circulação ou movimento de veículos e pessoas; tráfico pode indicar comércio ilegal.',category:'Parônimos'},
+{prompt:'No contexto de uma decisão, ratificar significa…',answer:'Confirmar',options:['Corrigir','Confirmar','Anular'],hint:'Não confunda ratificar com retificar.',explanation:'Ratificar significa confirmar ou validar; retificar significa corrigir.',category:'Parônimos'}],
+'interpretacao':[
+{prompt:'Qual foi o principal efeito da organização da biblioteca?',answer:'Facilitou a localização dos livros.',options:['Facilitou a localização dos livros.','Reduziu o interesse pela leitura.','Impediu o acesso dos estudantes.'],hint:'Observe o resultado da mudança descrita.',explanation:'A organização por assuntos tornou a busca pelos livros mais simples.',category:'Compreensão',passage:'A escola reorganizou a biblioteca e separou os livros por assunto. Depois da mudança, os estudantes passaram a encontrar com mais facilidade as obras necessárias para suas pesquisas.'},
+{prompt:'O texto permite concluir que a organização por assunto…',answer:'Tornou a pesquisa mais prática.',options:['Tornou a pesquisa mais prática.','Eliminou a necessidade de ler.','Diminuiu o acervo da escola.'],hint:'Relacione a mudança ao resultado para os estudantes.',explanation:'A divisão por assunto facilitou a localização das obras e tornou a pesquisa mais prática.',category:'Inferência',passage:'A escola reorganizou a biblioteca e separou os livros por assunto. Depois da mudança, os estudantes passaram a encontrar com mais facilidade as obras necessárias para suas pesquisas.'}],
+'figuras-linguagem':[
+{prompt:'Em “Li Machado de Assis durante as férias”, ocorre…',answer:'Metonímia',options:['Metáfora','Metonímia','Hipérbole'],hint:'O autor aparece no lugar da obra.',explanation:'Metonímia ocorre pela substituição de um termo por outro com o qual mantém relação de proximidade; o autor representa sua obra.',category:'Figuras de linguagem'},
+{prompt:'A expressão “tic-tac” representa qual figura?',answer:'Onomatopeia',options:['Ironia','Onomatopeia','Eufemismo'],hint:'A palavra imita um som.',explanation:'Onomatopeia é a representação escrita de sons ou ruídos.',category:'Figuras de linguagem'}],
+'pontuacao':[
+{prompt:'Complete: “Pedro___ venha até aqui.”',answer:',',options:['.',',','?'],hint:'O nome é um vocativo.',explanation:'A vírgula isola o vocativo Pedro.',category:'Pontuação'},
+{prompt:'Complete: “Ele estudou bastante___ portanto, foi aprovado.”',answer:';',options:[',',';','.'],hint:'O sinal separa orações coordenadas relacionadas.',explanation:'O ponto e vírgula pode separar orações coordenadas extensas ou que já possuem vírgulas.',category:'Pontuação'}],
+'concordancia':[
+{prompt:'Complete: “A maioria dos alunos ___ cedo.”',answer:'chegou',options:['chegaram','chegou','chegaremos'],hint:'O núcleo do sujeito é “maioria”.',explanation:'Na concordância com a expressão partitiva “a maioria de”, o verbo pode concordar com o núcleo singular; “chegou” é uma forma adequada.',category:'Concordância verbal'},
+{prompt:'Complete: “Fui eu que ___ o relatório.”',answer:'fiz',options:['fez','fiz','fizeram'],hint:'O verbo concorda com o pronome relativo que retoma “eu”.',explanation:'Na construção “fui eu que fiz”, o verbo da oração relativa concorda com o antecedente eu.',category:'Concordância verbal'}],
+'batalha-conhecimentos':[
+{prompt:'Qual oração apresenta uma oração subordinada adverbial causal?',answer:'Ficamos em casa porque choveu.',options:['Ficamos em casa porque choveu.','Quando a aula terminou, saímos.','Embora estivesse cansado, estudou.'],hint:'Procure a oração que apresenta a causa do fato.',explanation:'Porque choveu apresenta a causa de termos ficado em casa.',category:'Sintaxe'},
+{prompt:'Assinale a frase em que a crase está corretamente empregada.',answer:'Entreguei o documento à diretora.',options:['Entreguei o documento à diretora.','Comecei à estudar cedo.','Enviei a mensagem à ele.'],hint:'A crase ocorre antes de palavra feminina quando há preposição a + artigo a.',explanation:'Entregar algo a alguém + a diretora resulta em à diretora. Não há crase antes de verbo ou pronome pessoal masculino.',category:'Crase'}]
+};
+games.forEach(game=>{const rounds=advancedRoundsByGame[game.id];if(rounds)game.challenges.push(...rounds)});
+
+export const gridLetters=['L','I','V','R','O','X','N','L','V','E','R','B','O','X','O','E','T','E','X','T','O','X','R','T','C','A','S','A','X','X','M','R','M','E','S','A','X','X','A','A','E','S','C','O','L','A','X','X','L','E','I','T','U','R','A','X','F','R','A','S','E','X','X','X']
+export const gridPaths:Record<string,number[]>={LIVRO:[0,1,2,3,4],VERBO:[8,9,10,11,12],TEXTO:[16,17,18,19,20],CASA:[24,25,26,27],MESA:[32,33,34,35],ESCOLA:[40,41,42,43,44,45],LEITURA:[48,49,50,51,52,53,54],FRASE:[56,57,58,59,60],NORMA:[6,14,22,30,38],LETRA:[7,15,23,31,39]}
 export const shuffle=<T,>(items:T[])=>{const copy=[...items];for(let i=copy.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[copy[i],copy[j]]=[copy[j],copy[i]]}return copy}
 export const normalize=(value:string)=>value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase()

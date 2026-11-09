@@ -12,7 +12,7 @@ assert.equal(new Set(games.map(game => game.id)).size, 20, 'Game IDs must be uni
 
 let totalChallenges = 0
 for (const game of games) {
-  assert.equal(game.challenges.length, 8, game.id + ' must have six rounds')
+  assert.equal(game.challenges.length, 10, game.id + ' must have ten rounds')
   totalChallenges += game.challenges.length
   for (const [index, challenge] of game.challenges.entries()) {
     const label = game.id + ' round ' + (index + 1)
@@ -30,7 +30,7 @@ for (const game of games) {
     }
   }
 }
-assert.equal(totalChallenges, 160, 'All games together must provide 160 rounds')
+assert.equal(totalChallenges, 200, 'All games together must provide 200 rounds')
 
 assert.equal(gridLetters.length, 64, 'Word-search board must be an 8x8 grid')
 const gridGame = games.find(game => game.kind === 'grid')
