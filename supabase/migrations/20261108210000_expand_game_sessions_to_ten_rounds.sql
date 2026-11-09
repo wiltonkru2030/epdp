@@ -28,10 +28,13 @@ do $migration$
 declare v_definition text;
 begin
  select pg_get_functiondef('private.record_game_attempt(text,jsonb,integer)'::regprocedure) into v_definition;
- if position('v_total integer := 8;' in v_definition)=0 then raise exception 'A função não está na versão esperada de oito rodadas.'; end if;
- v_definition:=replace(v_definition,'v_total integer := 8;','v_total integer := 10;');
- v_definition:=replace(v_definition,'Envie as oito respostas da partida.','Envie as dez respostas da partida.');
- execute v_definition;
+ if position('v_total integer := 8;' in v_definition)>0 then
+  v_definition:=replace(v_definition,'v_total integer := 8;','v_total integer := 10;');
+  v_definition:=replace(v_definition,'Envie as oito respostas da partida.','Envie as dez respostas da partida.');
+  execute v_definition;
+ elsif position('v_total integer := 10;' in v_definition)=0 then
+  raise exception 'A função de pontuação não está na versão esperada de oito ou dez rodadas.';
+ end if;
 end;
 $migration$;
 commit;
